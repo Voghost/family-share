@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="edu.dgut.network_engine.HomeFragment"
+        android:label="首页"
+        tools:layout="@layout/home_fragment" />
+    <fragment
+        android:id="@+id/shareFragment"
+        android:name="edu.dgut.network_engine.ShareFragment"
+        android:label="分享"
+        tools:layout="@layout/share_fragment" />
+    <fragment
+        android:id="@+id/memorandumFragment"
+        android:name="edu.dgut.network_engine.MemorandumFragment"
+        android:label="备忘录"
+        tools:layout="@layout/memorandum_fragment" />
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="edu.dgut.network_engine.WalletFragment"
+        android:label="账本"
+        tools:layout="@layout/wallet_fragment" />
+    <fragment
+        android:id="@+id/personFragment"
+        android:name="edu.dgut.network_engine.PersonFragment"
+        android:label="个人中心"
+        tools:layout="@layout/person_fragment" />
+</navigation>
