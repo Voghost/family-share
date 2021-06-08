@@ -1,6 +1,7 @@
 package edu.dgut.network_engine.view_model
 
 import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,14 +10,18 @@ import edu.dgut.network_engine.database.entity.User
 import edu.dgut.network_engine.database.room_db.UserDatabase
 import kotlinx.coroutines.launch
 
-class UserViewModel : ViewModel {
+class UserViewModel : AndroidViewModel {
     private var userDao: UserDao? = null
     private lateinit var allUserList: LiveData<List<User>>
 
-    constructor(application: Application) : super() {
+    constructor(application: Application) : super(application) {
         val userDatabase: UserDatabase = UserDatabase.getInstance(application)
         userDao = userDatabase.getUserDao()
         allUserList = userDao!!.getAll()
+    }
+
+    fun getAllUserList(): LiveData<List<User>> {
+        return allUserList
     }
 
     /**

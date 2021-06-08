@@ -10,4 +10,10 @@
         android:layout_height="match_parent"
         android:text="Hello" />
 
+    <Button
+        android:id="@+id/btTest"
+        android:layout_width="100sp"
+        android:layout_height="100sp" />
+
+
 </FrameLayout>

@@ -8,6 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import edu.dgut.network_engine.database.dao.UserDao
 import edu.dgut.network_engine.database.entity.User
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -56,6 +57,8 @@ abstract class UserDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: UserDatabase? = null
+        val applicationScope = CoroutineScope(SupervisorJob())
+
 
         fun getInstance(context: Context): UserDatabase = INSTANCE ?: synchronized(this) {
             INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
@@ -66,7 +69,7 @@ abstract class UserDatabase : RoomDatabase() {
                 context.applicationContext,
                 UserDatabase::class.java,
                 "cal_date_db"
-            ).build()
+            ).addCallback(UserDatabaseCallback(applicationScope)).build()
     }
 
 }
