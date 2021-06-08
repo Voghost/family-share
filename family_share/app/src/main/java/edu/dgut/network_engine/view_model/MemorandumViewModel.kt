@@ -1,4 +1,4 @@
-package edu.dgut.network_engine
+package edu.dgut.network_engine.view_model
 
 import androidx.lifecycle.ViewModel
 

@@ -7,27 +7,27 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="edu.dgut.network_engine.HomeFragment"
+        android:name="edu.dgut.network_engine.fragment.HomeFragment"
         android:label="首页"
         tools:layout="@layout/home_fragment" />
     <fragment
         android:id="@+id/shareFragment"
-        android:name="edu.dgut.network_engine.ShareFragment"
+        android:name="edu.dgut.network_engine.fragment.ShareFragment"
         android:label="分享"
         tools:layout="@layout/share_fragment" />
     <fragment
         android:id="@+id/memorandumFragment"
-        android:name="edu.dgut.network_engine.MemorandumFragment"
+        android:name="edu.dgut.network_engine.fragment.MemorandumFragment"
         android:label="备忘录"
         tools:layout="@layout/memorandum_fragment" />
     <fragment
         android:id="@+id/walletFragment"
-        android:name="edu.dgut.network_engine.WalletFragment"
+        android:name="edu.dgut.network_engine.fragment.WalletFragment"
         android:label="账本"
         tools:layout="@layout/wallet_fragment" />
     <fragment
         android:id="@+id/personFragment"
-        android:name="edu.dgut.network_engine.PersonFragment"
+        android:name="edu.dgut.network_engine.fragment.PersonFragment"
         android:label="个人中心"
         tools:layout="@layout/person_fragment" />
 </navigation>
