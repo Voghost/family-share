@@ -33,7 +33,7 @@ interface UserDao {
      * 通过家庭主成员
      * 获取一个家庭所有的成员
      */
-    @Transaction    // 原子操作(要查询数据库两次)
+    @Transaction    // 原子操作(需要查询数据库两次)
     @Query("SELECT * FROM user_table WHERE userId = :id")
     suspend fun getUsersWithUserListByUserId(id: Long): List<UserWithUserList>
 

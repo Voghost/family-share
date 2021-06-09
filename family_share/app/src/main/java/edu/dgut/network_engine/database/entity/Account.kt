@@ -9,7 +9,8 @@ import java.util.*
 
 /**
  * @author Edgar Liu
- * 帐单类型
+ *
+ * 帐单明细
  */
 @Entity(tableName = "account_table")
 @TypeConverters(Converters::class)  //类型转化

@@ -20,6 +20,9 @@ class UserViewModel : AndroidViewModel {
         allUserList = userDao!!.getAll()
     }
 
+    /**
+     * 获取所有用户, LiveData 无需再开辟新线程
+     */
     fun getAllUserList(): LiveData<List<User>> {
         return allUserList
     }

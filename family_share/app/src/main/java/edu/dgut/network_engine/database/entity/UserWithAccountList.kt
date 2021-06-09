@@ -2,18 +2,17 @@ package edu.dgut.network_engine.database.entity
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import java.lang.reflect.Constructor
 
 /**
  * @author Edgar Liu
- * user 关联表  一个主用户有多个子用户
+ *
+ * 中间表 (一个用户有多个account)
  */
-data class UserWithUserList(
+data class UserWithAccountList(
     @Embedded val user: User?,
     @Relation(
         parentColumn = "userId",
-        entityColumn = "primaryUser"
+        entityColumn = "userId"
     )
-    val userList: List<User>?
+    val accountList: List<Account>
 )
-

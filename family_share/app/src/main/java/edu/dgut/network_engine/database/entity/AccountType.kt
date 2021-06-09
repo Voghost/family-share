@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 
 /**
  * @author Edgar Liu
+ *
  * 帐目类型 (如: 交通、伙食、教育等)
  */
 @Entity(
@@ -14,6 +15,6 @@ import androidx.room.PrimaryKey
 )
 data class AccountType(
     @PrimaryKey(autoGenerate = true)
-    var accountTypeId: Long,
-    var accountName: String
+    var accountTypeId: Long,    // id
+    var accountName: String     // 描述
 )
