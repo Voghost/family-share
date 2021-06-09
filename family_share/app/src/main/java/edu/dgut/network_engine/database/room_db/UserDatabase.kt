@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import edu.dgut.network_engine.database.dao.UserDao
+import edu.dgut.network_engine.database.entity.Account
 import edu.dgut.network_engine.database.entity.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -18,7 +19,7 @@ import java.util.*
  * 数据库创建类
  * 单例模式， 保证内存中只有一个实例
  */
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class, Account::class], version = 1)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao
 

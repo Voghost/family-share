@@ -9,10 +9,10 @@ import androidx.room.Relation
  * 中间表 (一个用户有多个account)
  */
 data class UserWithAccountList(
-    @Embedded val user: User?,
+    @Embedded var user: User?,
     @Relation(
         parentColumn = "userId",
-        entityColumn = "userId"
+        entityColumn = "user"
     )
-    val accountList: List<Account>
+    var accountList: List<Account>?
 )

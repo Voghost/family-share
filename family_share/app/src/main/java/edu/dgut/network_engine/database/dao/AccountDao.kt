@@ -26,7 +26,7 @@ interface AccountDao {
     /**
      *通过id删除一条数据
      */
-    @Query("DELETE FROM account_table WHERE userId = :id")
+    @Query("DELETE FROM account_table WHERE  accountId = :id")
     suspend fun deleteById(id: Long)
 
     /**

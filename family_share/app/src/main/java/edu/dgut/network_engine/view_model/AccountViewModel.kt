@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class AccountViewModel : AndroidViewModel {
     private var accountDao: AccountDao? = null
-    private lateinit var allAccountList: LiveData<List<Account>>
+    private var allAccountList: LiveData<List<Account>>
 
     constructor(application: Application) : super(application) {
         val accountDatabase: AccountDatabase = AccountDatabase.getInstance(application)

@@ -3,6 +3,7 @@ package edu.dgut.network_engine.database.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import edu.dgut.network_engine.database.entity.User
+import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.database.entity.UserWithUserList
 
 /**
@@ -35,7 +36,15 @@ interface UserDao {
      */
     @Transaction    // 原子操作(需要查询数据库两次)
     @Query("SELECT * FROM user_table WHERE userId = :id")
-    suspend fun getUsersWithUserListByUserId(id: Long): List<UserWithUserList>
+    suspend fun getUsersWithUserListByUserId(id: Long): UserWithUserList
+
+    /**
+     * 通过用户id
+     * 查询用户的所有account数据
+     */
+    @Transaction
+    @Query("SELECT * FROM user_table WHERE userId = :id")
+    suspend fun getUsersWithAccountListByUserId(id: Long): UserWithAccountList
 
     /**
      * 更新数据

@@ -9,11 +9,11 @@ import java.lang.reflect.Constructor
  * user 关联表  一个主用户有多个子用户
  */
 data class UserWithUserList(
-    @Embedded val user: User?,
+    @Embedded var user: User?,
     @Relation(
         parentColumn = "userId",
         entityColumn = "primaryUser"
     )
-    val userList: List<User>?
+    var userList: List<User>?
 )
 
