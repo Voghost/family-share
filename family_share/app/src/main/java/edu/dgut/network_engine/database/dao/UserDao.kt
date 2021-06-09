@@ -33,4 +33,16 @@ interface UserDao {
      */
     @Update
     suspend fun update(user: User)
+
+    /**
+     * 查询用户个数
+     */
+    @Query("SELECT COUNT(*) FROM user_table")
+    suspend fun getAllCount(): Long
+
+    /**
+     * 删除所有用户
+     */
+    @Query("DELETE FROM user_table")
+    suspend fun deleteAll()
 }

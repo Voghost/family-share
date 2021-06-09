@@ -33,6 +33,8 @@ abstract class UserDatabase : RoomDatabase() {
             INSTANCE?.let { database ->
                 scope.launch {
                     var userDao = database.getUserDao()
+                    // 先删除所有用户
+                    userDao.deleteAll()
 
                     // 初始化 用户id为1
                     var user = User(
@@ -43,6 +45,7 @@ abstract class UserDatabase : RoomDatabase() {
                         null,
                         Date().time,
                         Date().time,
+                        null,
                         true
                     )
                     userDao.insert(user)

@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.liveData
 import edu.dgut.network_engine.view_model.HomeViewModel
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.entity.User
 import edu.dgut.network_engine.view_model.UserViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 class HomeFragment : Fragment() {
 
@@ -36,16 +39,19 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
+
         buttonTest = requireView().findViewById(R.id.btTest)
         buttonTest.setOnClickListener {
-            var allList = userViewModel.getAllUserList()
-                .observe(viewLifecycleOwner, { userList: List<User> ->
-                    println(userList.toString())
-                })
+//            var allList = userViewModel.getAllUserList()
+//                .observe(viewLifecycleOwner, { userList: List<User> ->
+//                    println(userList.toString())
+//                })
+            // 后台使用线程， 前台同步
+            lifecycleScope.async {
+                println(userViewModel.getAllCount())
+                buttonTest.text = userViewModel.getAllCount().toString()
+            }
 
         }
-
-
     }
-
 }

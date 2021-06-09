@@ -17,7 +17,8 @@ data class User(
     var nickname: String?,   // 用户昵称
     var phone: String?,      // 用户电话
     var primaryUser: Long?,  // 主用户 (外键- User->userId)
-    var createTime: Long,   // 创建时间
-    var updateTime: Long,   // 更新时间
-    var isMe: Boolean       // 是否为当前用户
+    var createTime: Long,    // 创建时间
+    var updateTime: Long,    // 更新时间
+    var avatarUrl: String?,    // 头像URL
+    var isMe: Boolean        // 是否为当前用户
 )
