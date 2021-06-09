@@ -42,11 +42,14 @@ class HomeFragment : Fragment() {
 
         buttonTest = requireView().findViewById(R.id.btTest)
         buttonTest.setOnClickListener {
-//            var allList = userViewModel.getAllUserList()
-//                .observe(viewLifecycleOwner, { userList: List<User> ->
-//                    println(userList.toString())
-//                })
-            // 后台使用线程， 前台同步
+/*
+            // 测试一: 获取所有用户列表 测试 done
+            var allList = userViewModel.getAllUserList()
+                .observe(viewLifecycleOwner, { userList: List<User> ->
+                    println(userList.toString())
+                })
+*/
+            // 测试二: 后台使用线程， 前台同步  done
             lifecycleScope.async {
                 println(userViewModel.getAllCount())
                 buttonTest.text = userViewModel.getAllCount().toString()

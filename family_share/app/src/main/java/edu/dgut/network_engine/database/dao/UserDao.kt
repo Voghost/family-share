@@ -35,7 +35,7 @@ interface UserDao {
      */
     @Transaction    // 原子操作(要查询数据库两次)
     @Query("SELECT * FROM user_table WHERE userId = :id")
-    suspend fun getUsersAndLibraries(id: Long): List<UserWithUserList>
+    suspend fun getUsersWithUserListByUserId(id: Long): List<UserWithUserList>
 
     /**
      * 更新数据

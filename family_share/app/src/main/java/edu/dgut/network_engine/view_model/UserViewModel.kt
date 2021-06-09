@@ -46,10 +46,18 @@ class UserViewModel : AndroidViewModel {
     }
 
     /**
+     * 通过id获取某个主用户的所有用户成员
+     */
+    fun getUserWithUserListByUserId(id: Long) = viewModelScope.launch {
+        userDao?.getUsersWithUserListByUserId(id)
+    }
+
+    /**
      * 获取数据条数
      */
     suspend fun getAllCount() = withContext(viewModelScope.coroutineContext) {
         userDao?.getAllCount()
     }
+
 
 }
