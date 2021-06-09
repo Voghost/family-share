@@ -71,8 +71,9 @@ abstract class UserDatabase : RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 UserDatabase::class.java,
-                "cal_date_db"
-            ).addCallback(UserDatabaseCallback(applicationScope)).build()
+                "user_db"
+            ).addCallback(UserDatabaseCallback(applicationScope)) // 加入callback
+                .build()
     }
 
 }
