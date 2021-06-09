@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/schemas/edu.dgut.network_engine.database.room_db.UserDatabase/1.json
