@@ -3,6 +3,7 @@ package edu.dgut.network_engine.database.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import edu.dgut.network_engine.database.entity.User
+import edu.dgut.network_engine.database.entity.UserWithUserList
 
 /**
  * @author Edgar Liu
@@ -27,6 +28,14 @@ interface UserDao {
      */
     @Query("SELECT * FROM user_table")
     fun getAll(): LiveData<List<User>>
+
+    /**
+     * 通过家庭主成员
+     * 获取一个家庭所有的成员
+     */
+    @Transaction    // 原子操作(要查询数据库两次)
+    @Query("SELECT * FROM user_table WHERE userId = :id")
+    suspend fun getUsersAndLibraries(id: Long): List<UserWithUserList>
 
     /**
      * 更新数据

@@ -29,4 +29,10 @@ interface AccountDao {
     @Query("DELETE FROM account_table WHERE userId = :id")
     suspend fun deleteById(id: Long)
 
+    /**
+     * 更新数据
+     */
+    @Update
+    suspend fun update(account: Account)
+
 }
