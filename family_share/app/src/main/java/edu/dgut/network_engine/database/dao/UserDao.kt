@@ -44,7 +44,14 @@ interface UserDao {
      */
     @Transaction
     @Query("SELECT * FROM user_table WHERE userId = :id")
-    suspend fun getUsersWithAccountListByUserId(id: Long): UserWithAccountList
+    fun getUsersWithAccountListByUserId(id: Long): LiveData<UserWithAccountList>
+
+    /**
+     * 查询所有用户的所有account数据
+     */
+    @Transaction
+    @Query("SELECT * FROM user_table")
+    fun getAllUserWithAccountList() : LiveData<List<UserWithAccountList>>
 
     /**
      * 更新数据

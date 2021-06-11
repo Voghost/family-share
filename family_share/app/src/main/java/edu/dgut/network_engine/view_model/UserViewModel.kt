@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import edu.dgut.network_engine.database.dao.UserDao
 import edu.dgut.network_engine.database.entity.User
+import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.database.room_db.UserDatabase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -53,6 +54,20 @@ class UserViewModel : AndroidViewModel {
      */
     fun getUserWithUserListByUserId(id: Long) = viewModelScope.launch {
         userDao?.getUsersWithUserListByUserId(id)
+    }
+
+    /**
+     * 获取所有用户的所有账单信息
+     */
+    fun getAllUserWithUserList() : LiveData<List<UserWithAccountList>>?{
+        return userDao?.getAllUserWithAccountList()
+    }
+
+    /**
+     * 通过id获取某个用户的所有账单信息
+     */
+    fun getUserWithAccountListByUserId(id: Long): LiveData<UserWithAccountList>? {
+        return userDao?.getUsersWithAccountListByUserId(id)
     }
 
     /**

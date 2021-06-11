@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="8dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/text_view_1"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_toEndOf="@+id/image_view"
+            android:text="line 1"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/text_view_2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/text_view_1"
+            android:textSize="18sp"
+            android:text="line 2"
+            android:layout_toEndOf="@id/image_view"
+            />
+
+        <TextView
+            android:id="@+id/text_view_3"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:textSize="18sp"
+            android:text="line 3"
+            android:layout_toEndOf="@id/text_view_1"
+            />
+
+        <TextView
+            android:id="@+id/text_view_4"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:textSize="18sp"
+            android:text="line 4"
+            android:layout_toEndOf="@id/text_view_3"
+            />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
