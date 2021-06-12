@@ -23,9 +23,9 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
-    private lateinit var viewModel: HomeViewModel
+  /*  private lateinit var viewModel: HomeViewModel
     private lateinit var userViewModel: UserViewModel
-    private lateinit var buttonTest: Button
+    private lateinit var buttonTest: Button*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,26 +35,26 @@ class HomeFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+       super.onActivityCreated(savedInstanceState)
+       /* viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
 
         buttonTest = requireView().findViewById(R.id.btTest)
         buttonTest.setOnClickListener {
-/*
+*//*
             // 测试一: 获取所有用户列表 测试 done
             var allList = userViewModel.getAllUserList()
                 .observe(viewLifecycleOwner, { userList: List<User> ->
                     println(userList.toString())
                 })
-*/
+*//*
             // 测试二: 后台使用线程， 前台同步  done
             lifecycleScope.async {
                 println(userViewModel.getAllCount())
                 buttonTest.text = userViewModel.getAllCount().toString()
             }
 
-        }
+        }*/
     }
 }

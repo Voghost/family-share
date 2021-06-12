@@ -1,19 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.HomeFragment">
+    tools:context=".fragment.HomeFragment"
+    android:orientation="vertical">
 
-    <TextView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="322dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/listview_round_corner_bg" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        >
 
-    <Button
-        android:id="@+id/btTest"
-        android:layout_width="100sp"
-        android:layout_height="100sp" />
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:text="家庭支出"
+            android:textColor="@color/black"
+            android:textSize="35dp"
+            android:gravity="center"
 
+            android:layout_marginLeft="10dp"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:text="1000"
+            android:textColor="@color/purple_200"
+            android:textSize="35dp"
+            android:gravity="center"
+            android:layout_marginRight="10dp"
+            />
+    </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

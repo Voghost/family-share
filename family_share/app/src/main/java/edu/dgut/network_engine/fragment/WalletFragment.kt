@@ -1,24 +1,24 @@
 package edu.dgut.network_engine.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import edu.dgut.network_engine.R
+import edu.dgut.network_engine.addMemberActivity
 import edu.dgut.network_engine.database.adapter.MemberAdapter
-import edu.dgut.network_engine.database.entity.Account
-import edu.dgut.network_engine.database.entity.User
 import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.view_model.UserViewModel
 import edu.dgut.network_engine.view_model.WalletViewModel
-import kotlinx.coroutines.async
 
 
 class WalletFragment : Fragment() {
@@ -26,22 +26,31 @@ class WalletFragment : Fragment() {
     companion object {
         fun newInstance() = WalletFragment()
     }
-
     private lateinit var viewModel: WalletViewModel
     private lateinit var userViewModel: UserViewModel
     private lateinit var recyclerView: RecyclerView
+    private lateinit var btn: FloatingActionButton
+
+
 //    private lateinit var memberlist: List<MemberItem>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.wallet_fragment, container, false)
+
+        var root=inflater.inflate(R.layout.wallet_fragment, container, false)
+        btn=root.findViewById(R.id.fab)
+        btn.setOnClickListener {
+            Log.v("tag", "test");
+            var intent= Intent("android.intent.action.addMemberActivity")
+            startActivity(intent)
+        }
+        return root
     }
 
-    fun test(view : View){
-        Log.v("你添加了","一名用户")
-    }
+
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -80,7 +89,13 @@ class WalletFragment : Fragment() {
 
 //        recyclerView.adapter = MemberAdapter(memberlist)
 //        recyclerView.layoutManager = LinearLayoutManager(this.activity)
+
+
+
 }
+
+
+
 
 //private fun getMemberName(allList: UserWithAccountList): List<MemberItem> {
 //    val list = ArrayList<MemberItem>()
@@ -98,4 +113,5 @@ class WalletFragment : Fragment() {
 //
 //    return list
 //}
+
 
