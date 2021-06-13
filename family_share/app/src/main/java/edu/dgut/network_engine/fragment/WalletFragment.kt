@@ -6,20 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import edu.dgut.network_engine.R
-import edu.dgut.network_engine.addMemberActivity
 import edu.dgut.network_engine.database.adapter.MemberAdapter
 import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.view_model.UserViewModel
 import edu.dgut.network_engine.view_model.WalletViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class WalletFragment : Fragment() {
