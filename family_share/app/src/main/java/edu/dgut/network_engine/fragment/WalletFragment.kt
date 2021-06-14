@@ -1,5 +1,6 @@
 package edu.dgut.network_engine.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -28,8 +29,6 @@ class WalletFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var btn: FloatingActionButton
-
-
 //    private lateinit var memberlist: List<MemberItem>
 
     override fun onCreateView(
@@ -62,6 +61,7 @@ class WalletFragment : Fragment() {
                     recyclerView.layoutManager = LinearLayoutManager(activity)
                 })
     }
+
 }
 
 

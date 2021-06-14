@@ -1,7 +1,10 @@
 package edu.dgut.network_engine.database.adapter
 
 import android.app.AlertDialog
+import android.app.Application
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -22,8 +25,10 @@ import edu.dgut.network_engine.AddMemberActivity
 import edu.dgut.network_engine.MainActivity
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.entity.UserWithAccountList
+import edu.dgut.network_engine.fragment.WalletFragment
 import edu.dgut.network_engine.memberDetailActivity
 import edu.dgut.network_engine.view_model.UserViewModel
+import edu.dgut.network_engine.view_model.WalletViewModel
 import kotlinx.android.synthetic.main.member_item.view.*
 import java.text.SimpleDateFormat
 import java.time.ZoneId
@@ -117,15 +122,21 @@ class MemberAdapter(
             false
         }
         holder.itemView.setOnLongClickListener {
-            var activity:AddMemberActivity= AddMemberActivity()
-            var builder:AlertDialog.Builder=AlertDialog.Builder(activity)
+            var builder:AlertDialog.Builder=AlertDialog.Builder(context)
             builder.setMessage("确定删除?")
             builder.setTitle("提示")
-            var temp = currentItem.user?.userName
-            userViewModel.deleteUser(exampleList[position].user!!.userId)
+            builder.setPositiveButton("确定"
+            ) { dialog, which ->
+                var temp = currentItem.user?.userName
+                userViewModel.deleteUser(exampleList[position].user!!.userId)
 //            exampleList -= exampleList[position]
-            notifyItemRemoved(position)
-            Log.v("长按了", temp.toString())
+                notifyItemRemoved(position)
+                Log.v("长按了", temp.toString())
+                 }
+            builder.setNegativeButton("取消"
+            ) { dialog, which ->
+            }
+            builder.create().show()
             false
         }
 
