@@ -70,10 +70,10 @@ class MemberAdapter(
         if (currentItem.accountList != null && currentItem.accountList!!.isNotEmpty()) {
             var cost = 0.0
             var income = 0.0
-            for(i in 0..currentItem.accountList!!.size-1){
-                if(currentItem.accountList!![i].price!!.signum() == 1){
+            for (i in 0..currentItem.accountList!!.size - 1) {
+                if (currentItem.accountList!![i].price!!.signum() == 1) {
                     cost += currentItem.accountList!![i].price!!.toDouble()
-                }else{
+                } else {
                     income += currentItem.accountList!![i].price!!.abs().toDouble()
                 }
             }
@@ -84,10 +84,10 @@ class MemberAdapter(
 //            holder.textView2.text
 //                .format(currentItem.accountList!![0].createTime)
             holder.textView2.text = "最近一次账单录入时间:" +
-                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.accountList!![currentItem.accountList!!.size-1].createTime + 8 * 60 * 60 * 1000)
-                    .toString()
-            holder.textView3.text = "总支出:"+cost.toString()
-            holder.textView4.text = "总收入:"+income.toString()
+                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.accountList!![currentItem.accountList!!.size - 1].createTime!! + 8 * 60 * 60 * 1000)
+                        .toString()
+            holder.textView3.text = "总支出:" + cost.toString()
+            holder.textView4.text = "总收入:" + income.toString()
         } else {
             holder.imageView.setImageResource(R.mipmap.ic_launcher)
             holder.textView1.text = currentItem.user?.username
@@ -108,18 +108,20 @@ class MemberAdapter(
             false
         }
         holder.itemView.setOnLongClickListener {
-            var builder:AlertDialog.Builder=AlertDialog.Builder(context)
+            var builder: AlertDialog.Builder = AlertDialog.Builder(context)
             builder.setMessage("确定删除?")
             builder.setTitle("提示")
-            builder.setPositiveButton("确定"
+            builder.setPositiveButton(
+                "确定"
             ) { dialog, which ->
                 var temp = currentItem.user?.username
                 exampleList[position].user!!.userId?.let { it1 -> userViewModel.deleteUser(it1) }
 //            exampleList -= exampleList[position]
                 notifyItemRemoved(position)
                 Log.v("长按了", temp.toString())
-                 }
-            builder.setNegativeButton("取消"
+            }
+            builder.setNegativeButton(
+                "取消"
             ) { dialog, which ->
             }
             builder.create().show()

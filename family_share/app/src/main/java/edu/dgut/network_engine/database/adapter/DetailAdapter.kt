@@ -49,13 +49,14 @@ class DetailAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
 
-        if(exampleList.accountList!!.size == 0){
-            val emptyView = LayoutInflater.from(parent.context).inflate(R.layout.empty_item,parent,false)
-            Log.v("测试","执行了为空判断")
+        if (exampleList.accountList!!.size == 0) {
+            val emptyView =
+                LayoutInflater.from(parent.context).inflate(R.layout.empty_item, parent, false)
+            Log.v("测试", "执行了为空判断")
             return DetailViewHolder(emptyView)
         }
 
-        Log.v("Adapter里测试",viewType.toString())
+        Log.v("Adapter里测试", viewType.toString())
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.detail_item, parent, false)
 
@@ -73,25 +74,25 @@ class DetailAdapter(
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: DetailViewHolder, position: Int) {
         val currentItem = exampleList.accountList?.get(position)
-        Log.v("测试","执行了onBindViewHolder")
+        Log.v("测试", "执行了onBindViewHolder")
         if (currentItem != null) {
-            holder.textView1.text = (position+1).toString()
+            holder.textView1.text = (position + 1).toString()
 //            var time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 //            time.timeZone =
 //            holder.textView2.text
 //                .format(currentItem.accountList!![0].createTime)
-            if(currentItem.price!!.signum() == 1){
+            if (currentItem.price!!.signum() == 1) {
                 holder.textView2.text = "支出:" + currentItem.price!!.toString()
-            }else if(currentItem.price!!.signum() == -1){
+            } else if (currentItem.price!!.signum() == -1) {
                 holder.textView2.text = "收入:" + currentItem.price!!.abs().toString()
             }
             holder.textView3.text = currentItem.reason
             holder.textView4.text =
-                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.createTime + 8 * 60 * 60 * 1000)
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.createTime!! + 8 * 60 * 60 * 1000)
                     .toString()
         }
         holder.itemView.setOnClickListener {
-            Log.v("测试点击事件",exampleList.user!!.userId.toString())
+            Log.v("测试点击事件", exampleList.user!!.userId.toString())
 //            val bundle = Bundle()
 //            bundle.putLong("userId", exampleList.user!!.userId)
 //            val intent = Intent("android.intent.action.AddAccountActivity")
@@ -121,7 +122,7 @@ class DetailAdapter(
     }
 
     override fun getItemCount(): Int {
-        if(exampleList.accountList!!.size == 0){
+        if (exampleList.accountList!!.size == 0) {
             return 1
         }
         return exampleList.accountList!!.size
@@ -129,8 +130,8 @@ class DetailAdapter(
 
 
     override fun getItemViewType(position: Int): Int {
-        Log.v("测试","执行了getItemViewType")
-        if(exampleList.accountList!!.isEmpty()){
+        Log.v("测试", "执行了getItemViewType")
+        if (exampleList.accountList!!.isEmpty()) {
             return VIEW_TYPE_EMPTY
         }
         return VIEW_TYPE_ITEM

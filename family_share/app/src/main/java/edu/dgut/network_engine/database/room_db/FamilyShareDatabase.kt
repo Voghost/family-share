@@ -36,7 +36,10 @@ abstract class FamilyShareDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    var userDao = database.getUserDao()
+                    /**
+                     * 数据库初始化操作
+                     */
+                  /*  var userDao = database.getUserDao()
                     // 先删除所有用户
                     userDao.deleteAll()
 
@@ -53,7 +56,7 @@ abstract class FamilyShareDatabase : RoomDatabase() {
                         true,
                         1
                     )
-                    userDao.insert(user)
+                    userDao.insert(user)*/
                 }
             }
         }
