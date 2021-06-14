@@ -1,23 +1,21 @@
 package edu.dgut.network_engine.web_request.api
 
-import android.media.session.MediaSession
-import edu.dgut.network_engine.web_request.BaseResponse
-import edu.dgut.network_engine.web_request.tdo.Token
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.http.*
+import edu.dgut.network_engine.web_request.service.UserService
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-interface UserApi {
-    @POST("user/login")
-    @FormUrlEncoded
-    fun post(
-        @Field("username") userName: String,
-        @Field("password") pwd: String
-    ): BaseResponse<Token>
+object UserApi {
+    private val api by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.123.45:8020/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient.Builder().build())
+            .build()
+        retrofit.create(UserService::class.java)
+    }
 
-    @GET("get")
-    fun get(
-        @Query("username") username: String,
-        @Query("password") pwd: String
-    ): Call<ResponseBody>
+    fun get(): UserService {
+        return api
+    }
 }

@@ -16,7 +16,7 @@ import java.util.*
 @TypeConverters(value = [BigDecimalConverters::class])  //类型转化
 data class Account(
     @PrimaryKey(autoGenerate = true)
-    var accountId: Long,        // 用户id
+    var accountId: Long?,        // 用户id
     var typeId: Long,           // 帐目类型 外键->商品类型
     var price: BigDecimal?,     // 帐目价格
     var createTime: Long,       // 创建时间

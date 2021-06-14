@@ -1,7 +1,7 @@
 package edu.dgut.network_engine.web_request
 
 // 基本类型
-class BaseResponse<T> {
+class BaseResponse<T>(code: Int? = null, message: String? = null) {
     var code: Int? = null
 
     var data: T? = null

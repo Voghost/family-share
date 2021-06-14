@@ -10,6 +10,7 @@ import edu.dgut.network_engine.database.entity.Account
 @Dao
 interface AccountDao {
 
+
     /**
      * 获取所有数据的列表
      * @return LiveData  实时数据 不用在新的线程执行

@@ -20,28 +20,28 @@ class AccountViewModel : AndroidViewModel {
     }
 
     /**
-     * 获取所有用户
+     * 获取所有帐目
      */
     fun getAll(): LiveData<List<Account>> {
         return this.allAccountList;
     }
 
     /**
-     * 插入用户
+     * 插入帐目
      */
     fun insert(account: Account) = viewModelScope.launch {
         accountDao?.insert(account)
     }
 
     /**
-     * 通过id删除用户u
+     * 通过id删除帐目
      */
     fun delete(id: Long) = viewModelScope.launch {
         accountDao?.deleteById(id)
     }
 
     /**
-     * 更新用户
+     * 更新帐目
      */
     fun update(account: Account) = viewModelScope.launch {
         accountDao?.update(account)
