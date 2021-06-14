@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Switch
-
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -132,7 +131,7 @@ class memberDetailActivity : AppCompatActivity() {
                         }
                         textView13.text = "支出:" + cost.toString()
                         textView14.text = "收入:" + income.toString()
-                        recyclerView.adapter = DetailAdapter(userList, userViewModel)
+                        recyclerView.adapter = DetailAdapter(this,userList, userViewModel)
                     }
                     recyclerView.layoutManager = LinearLayoutManager(this)
                 })

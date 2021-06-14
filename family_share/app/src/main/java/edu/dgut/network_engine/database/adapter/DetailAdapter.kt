@@ -1,15 +1,20 @@
 package edu.dgut.network_engine.database.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.entity.UserWithAccountList
+import edu.dgut.network_engine.memberDetailActivity
 import edu.dgut.network_engine.view_model.UserViewModel
 import kotlinx.android.synthetic.main.detail_item.view.*
 import java.text.SimpleDateFormat
@@ -18,6 +23,7 @@ import java.text.SimpleDateFormat
 //data class MemberItem(val imageResuorce: Int, val text1: String, val text2: String,val text3: String,val text4: String)
 
 class DetailAdapter(
+    private var context: Context,
     private var exampleList: UserWithAccountList,
     private var userViewModel: UserViewModel
 ) :
@@ -86,15 +92,11 @@ class DetailAdapter(
 
         }
         holder.itemView.setOnClickListener {
-            var temp = currentItem?.accountId
-
-//            val bundle = Bundle()
-//            bundle.putLong("userId", currentItem.user!!.userId)
-//            val intent = Intent(context, memberDetailActivity::class.java)
-//            intent.putExtras(bundle)
-//            context.startActivity(intent)
-
-            Log.v("点击了", temp.toString())
+            val bundle = Bundle()
+            bundle.putLong("userId", exampleList.user!!.userId)
+            val intent = Intent("android.intent.action.AddAccountActivity")
+            intent.putExtras(bundle)
+            startActivity(context,intent,bundle)
             false
         }
         holder.itemView.setOnLongClickListener {

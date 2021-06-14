@@ -13,14 +13,14 @@
         android:text="账单内容:"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@+id/inputintroduce"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.726" />
 
     <EditText
-        android:id="@+id/textView4"
+        android:id="@+id/inputintroduce"
         android:layout_width="180dp"
         android:layout_height="37dp"
         android:hint="简述此账单信息"
@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.726" />
 
     <EditText
-        android:id="@+id/textView3"
+        android:id="@+id/inputprice"
         android:layout_width="180dp"
         android:layout_height="37dp"
         android:hint="请输入金额"
@@ -53,7 +53,7 @@
         android:text="金额:"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintEnd_toStartOf="@+id/inputprice"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -67,7 +67,7 @@
         app:layout_constraintGuide_percent="0.33" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
