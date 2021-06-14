@@ -1,6 +1,7 @@
 package edu.dgut.network_engine
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import edu.dgut.network_engine.fragment.WalletFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this,navController,configuration)
         NavigationUI.setupWithNavController(bottomNavigationView,navController)
 
-
-
     }
+
 }
