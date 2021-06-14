@@ -75,23 +75,32 @@ class MemberAdapter(
     override fun onBindViewHolder(holder: MemberViewHolder, position: Int) {
         val currentItem = exampleList[position]
         if (currentItem.accountList != null && currentItem.accountList!!.isNotEmpty()) {
+            var cost = 0.0
+            var income = 0.0
+            for(i in 0..currentItem.accountList!!.size-1){
+                if(currentItem.accountList!![i].price!!.signum() == 1){
+                    cost += currentItem.accountList!![i].price!!.toDouble()
+                }else{
+                    income += currentItem.accountList!![i].price!!.abs().toDouble()
+                }
+            }
             holder.imageView.setImageResource(R.mipmap.ic_launcher)
             holder.textView1.text = currentItem.user?.userName
 //            var time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 //            time.timeZone =
 //            holder.textView2.text
 //                .format(currentItem.accountList!![0].createTime)
-            holder.textView2.text =
-                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.accountList!![0].createTime + 8 * 60 * 60 * 1000)
+            holder.textView2.text = "最近一次账单录入时间:" +
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.accountList!![currentItem.accountList!!.size-1].createTime + 8 * 60 * 60 * 1000)
                     .toString()
-            holder.textView3.text = currentItem.accountList!![0].price.toString()
-            holder.textView4.text = currentItem.accountList!![0].price.toString()
+            holder.textView3.text = "总支出:"+cost.toString()
+            holder.textView4.text = "总收入:"+income.toString()
         } else {
             holder.imageView.setImageResource(R.mipmap.ic_launcher)
             holder.textView1.text = currentItem.user?.userName
-            holder.textView2.text = "lastCostTime"
-            holder.textView3.text = "Cost"
-            holder.textView4.text = "Income"
+            holder.textView2.text = "暂无数据"
+            holder.textView3.text = "暂无数据"
+            holder.textView4.text = "暂无数据"
         }
         holder.itemView.setOnClickListener {
             var temp = currentItem.user?.userName

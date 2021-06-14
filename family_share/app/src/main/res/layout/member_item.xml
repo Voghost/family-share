@@ -29,10 +29,11 @@
 
         <TextView
             android:id="@+id/text_view_2"
-            android:layout_width="wrap_content"
+            android:layout_width="400dp"
             android:layout_height="40dp"
             android:layout_below="@id/text_view_1"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
             android:text="line 2"
             android:layout_toEndOf="@id/image_view"
             />
@@ -41,7 +42,8 @@
             android:id="@+id/text_view_3"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:textSize="18sp"
+            android:textSize="10sp"
+            android:gravity="center_vertical"
             android:text="line 3"
             android:layout_toEndOf="@id/text_view_1"
             />
@@ -50,7 +52,8 @@
             android:id="@+id/text_view_4"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:textSize="18sp"
+            android:textSize="10sp"
+            android:gravity="center_vertical"
             android:text="line 4"
             android:layout_toEndOf="@id/text_view_3"
             />

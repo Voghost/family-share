@@ -27,6 +27,7 @@ class WalletFragment : Fragment() {
     companion object {
         fun newInstance() = WalletFragment()
     }
+
     private lateinit var viewModel: WalletViewModel
     private lateinit var userViewModel: UserViewModel
     private lateinit var recyclerView: RecyclerView
@@ -40,17 +41,15 @@ class WalletFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var root=inflater.inflate(R.layout.wallet_fragment, container, false)
-        btn=root.findViewById(R.id.addMemberFragment)
+        var root = inflater.inflate(R.layout.wallet_fragment, container, false)
+        btn = root.findViewById(R.id.addMemberFragment)
         btn.setOnClickListener {
             Log.v("tag", "test");
-            var intent= Intent("android.intent.action.addMemberActivity")
+            var intent = Intent("android.intent.action.addMemberActivity")
             startActivity(intent)
         }
         return root
     }
-
-
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -60,8 +59,10 @@ class WalletFragment : Fragment() {
         // TODO: Use the ViewModel
         recyclerView = requireView().findViewById(R.id.recycler_view)
         val allList =
-            userViewModel.getAllUserWithUserList()?.observe(viewLifecycleOwner, { userList: List<UserWithAccountList> ->
-                    recyclerView.adapter = MemberAdapter(this.requireContext(),userList,userViewModel)
+            userViewModel.getAllUserWithUserList()
+                ?.observe(viewLifecycleOwner, { userList: List<UserWithAccountList> ->
+                    recyclerView.adapter =
+                        MemberAdapter(this.requireContext(), userList, userViewModel)
                     recyclerView.layoutManager = LinearLayoutManager(activity)
                 })
     }

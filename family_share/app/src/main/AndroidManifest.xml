@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Family_share">
+        <activity android:name=".activity_add_account"></activity>
         <activity android:name=".addMemberActivity">
             <intent-filter>
                 <action android:name="android.intent.action.addMemberActivity" />
@@ -26,6 +27,13 @@
         <activity android:name=".memberDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.memberDetailActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AddAccountActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.AddAccountActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
