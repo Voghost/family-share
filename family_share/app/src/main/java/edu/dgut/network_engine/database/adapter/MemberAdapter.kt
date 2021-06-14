@@ -99,7 +99,7 @@ class MemberAdapter(
             var temp = currentItem.user?.username
 
             val bundle = Bundle()
-            bundle.putLong("userId", currentItem.user!!.userId)
+            currentItem.user!!.userId?.let { it1 -> bundle.putLong("userId", it1) }
             val intent = Intent(context, memberDetailActivity::class.java)
             intent.putExtras(bundle)
             context.startActivity(intent)
@@ -114,7 +114,7 @@ class MemberAdapter(
             builder.setPositiveButton("确定"
             ) { dialog, which ->
                 var temp = currentItem.user?.username
-                userViewModel.deleteUser(exampleList[position].user!!.userId)
+                exampleList[position].user!!.userId?.let { it1 -> userViewModel.deleteUser(it1) }
 //            exampleList -= exampleList[position]
                 notifyItemRemoved(position)
                 Log.v("长按了", temp.toString())

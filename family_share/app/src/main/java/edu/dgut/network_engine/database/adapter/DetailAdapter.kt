@@ -98,7 +98,7 @@ class DetailAdapter(
 //            intent.putExtras(bundle)
 //            startActivity(context,intent,bundle)
             val bundle = Bundle()
-            bundle.putLong("userId", exampleList.user!!.userId)
+            exampleList.user!!.userId?.let { it1 -> bundle.putLong("userId", it1) }
             val intent = Intent(context, AddAccountActivity::class.java)
             intent.putExtras(bundle)
             context.startActivity(intent)

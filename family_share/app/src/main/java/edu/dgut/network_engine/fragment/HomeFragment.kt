@@ -7,13 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import edu.dgut.network_engine.R
+import edu.dgut.network_engine.database.entity.User
 import edu.dgut.network_engine.view_model.UserViewModel
 import edu.dgut.network_engine.web_request.BaseResponse
+import edu.dgut.network_engine.web_request.tdo.NewUser
 import edu.dgut.network_engine.web_request.tdo.Token
 import kotlinx.coroutines.launch
 
@@ -60,14 +61,21 @@ class HomeFragment : Fragment() {
         var act = this.activity
         buttonTest.setOnClickListener {
             var a = lifecycleScope.launch {
-                res = userViewModel.login("test", "admin7788")
+                var newUser: NewUser = NewUser()
+                newUser.username = "sss"
+                newUser.nickname = "nick"
+                newUser.password = "admin7788"
 
-                // 保存token 到sharedPreferences
-                val sharedPreferences: SharedPreferences =
-                    act!!.getSharedPreferences("data", Context.MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-                editor.putString("token", res?.data?.token)
-                editor.apply()
+                userViewModel.register(newUser)
+
+//                res = userViewModel.login("test", "admin7788")
+//
+//                // 保存token 到sharedPreferences
+//                val sharedPreferences: SharedPreferences =
+//                    act!!.getSharedPreferences("data", Context.MODE_PRIVATE)
+//                val editor = sharedPreferences.edit()
+//                editor.putString("token", res?.data?.token)
+//                editor.apply()
             }
 
 //            val sharedPreferences: SharedPreferences =

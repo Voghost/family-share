@@ -8,10 +8,11 @@ import androidx.lifecycle.viewModelScope
 import edu.dgut.network_engine.database.dao.UserDao
 import edu.dgut.network_engine.database.entity.User
 import edu.dgut.network_engine.database.entity.UserWithAccountList
-import edu.dgut.network_engine.database.room_db.UserDatabase
+import edu.dgut.network_engine.database.room_db.FamilyShareDatabase
 import edu.dgut.network_engine.web_request.BaseResponse
 import edu.dgut.network_engine.web_request.api.UserApi
 import edu.dgut.network_engine.web_request.apiCall
+import edu.dgut.network_engine.web_request.tdo.NewUser
 import edu.dgut.network_engine.web_request.tdo.Token
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,8 +22,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var allUserList: LiveData<List<User>>
 
     init {
-        val userDatabase: UserDatabase = UserDatabase.getInstance(application)
-        userDao = userDatabase.getUserDao()
+        val familyShareDatabase: FamilyShareDatabase = FamilyShareDatabase.getInstance(application)
+        userDao = familyShareDatabase.getUserDao()
         allUserList = userDao!!.getAll()
     }
 
@@ -100,11 +101,21 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 注册
      */
-    suspend fun register(user: User): Boolean {
-        val res = apiCall { UserApi.get().register(user) }
-        return if (res.code != 200 || res.data == null) {
-            // 在数据库中插入数据
-            res.data?.let { insertUser(it) }
+    suspend fun register(newUser: NewUser): Boolean {
+        val res = apiCall { UserApi.get().register(newUser) }
+        return if (res.code == 200 && res.data != null) {
+            var user: User = User()
+            user.userId = res.data?.userId
+            user.username = res.data?.username
+            user.nickname = res.data?.nickname
+            user.phone = res.data?.phone
+            user.primaryUser = res.data?.primaryUser
+            user.createTime = res.data?.createTime
+            user.updateTime = res.data?.updateTime
+            user.avatarUrl = res.data?.avatarUrl
+            user.familyCode = res.data?.familyCode
+            println(res)
+            insertUser(user)
             true;
         } else {
             false
