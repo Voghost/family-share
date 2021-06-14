@@ -19,7 +19,7 @@ class AddMemberActivity : AppCompatActivity() {
 
     private lateinit var userViewModel: UserViewModel
     private var userid by Delegates.notNull<Long>()
-    private lateinit var username : String
+    private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,16 +27,14 @@ class AddMemberActivity : AppCompatActivity() {
         title = "添加成员"
 
         button.setOnClickListener {
-            if(textView3.text.isEmpty()||textView4.text.isEmpty())
-            {
+            if (textView3.text.isEmpty() || textView4.text.isEmpty()) {
                 finish()
-            }
-            else
-            {
+            } else {
                 userid = textView4.text.toString().toLong()
                 username = textView3.text.toString()
                 userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-                var user = User(userid,username,null,null,null,4124124124,51251255,null,false)
+                var user =
+                    User(userid, username, null, null, null, 4124124124, 51251255, null, false, 1)
                 userViewModel.insertUser(user)
                 finish()
             }
