@@ -9,15 +9,17 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import edu.dgut.network_engine.database.entity.Account
 import edu.dgut.network_engine.view_model.AccountViewModel
+import edu.dgut.network_engine.view_model.UserViewModel
+import edu.dgut.network_engine.view_model.WalletViewModel
 import kotlinx.android.synthetic.main.activity_add_account.*
 import java.math.BigDecimal
 import kotlin.properties.Delegates
 
 class AddAccountActivity : AppCompatActivity() {
 
-    private lateinit var accountViewModel: AccountViewModel
+    private lateinit var walletViewModel: WalletViewModel
     private var accountId by Delegates.notNull<Long>()
-    private var userid by Delegates.notNull<Long>()
+    private var userId by Delegates.notNull<Long>()
     private lateinit var username : String
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -26,7 +28,8 @@ class AddAccountActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_account)
 
         var bundle = this.intent.extras
-        var userId = bundle?.get("userId")
+        var userid = bundle?.get("userId")
+        Log.v("测试",userid.toString())
 
         title = "添加账单"
         //checkbox单选
@@ -55,12 +58,13 @@ class AddAccountActivity : AppCompatActivity() {
                 price = price.multiply(BigDecimal(-1))
             }
             var introduce = inputintroduce.text.toString()
-            accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
+            walletViewModel = ViewModelProvider(this).get(WalletViewModel::class.java)
             Log.v("测试测试测试",price.toString())
             var account = Account(
-                null,1,price,System.currentTimeMillis(),System.currentTimeMillis(),userid,introduce,false
+                null,1,price,System.currentTimeMillis(),System.currentTimeMillis(), userid as Long,introduce,false
             )
-            accountViewModel.insert(account)
+            walletViewModel.insertAccount(account)
+            finish()
         }
     }
 }

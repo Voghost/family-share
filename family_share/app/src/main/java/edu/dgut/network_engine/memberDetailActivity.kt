@@ -32,6 +32,7 @@ class memberDetailActivity : AppCompatActivity() {
         title = "个人账单详情"
 
         var bundle = this.intent.extras
+        var userid = bundle?.get("userId")
         textView13.text = "你已成功跳转到账单详情,当前界面用户Id:" + bundle?.get("userId").toString()
         textView14.text = ""
 
@@ -137,7 +138,10 @@ class memberDetailActivity : AppCompatActivity() {
                 })
 
         button4.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putLong("userId", userid.toString().toLong())
             var intent = Intent("android.intent.action.AddAccountActivity")
+            intent.putExtras(bundle)
             startActivity(intent)
         }
     }

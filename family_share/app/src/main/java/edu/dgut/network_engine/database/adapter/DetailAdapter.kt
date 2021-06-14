@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import edu.dgut.network_engine.AddAccountActivity
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.memberDetailActivity
@@ -88,15 +89,19 @@ class DetailAdapter(
             holder.textView4.text =
                 SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.createTime + 8 * 60 * 60 * 1000)
                     .toString()
-        } else {
-
         }
         holder.itemView.setOnClickListener {
+            Log.v("测试点击事件",exampleList.user!!.userId.toString())
+//            val bundle = Bundle()
+//            bundle.putLong("userId", exampleList.user!!.userId)
+//            val intent = Intent("android.intent.action.AddAccountActivity")
+//            intent.putExtras(bundle)
+//            startActivity(context,intent,bundle)
             val bundle = Bundle()
             bundle.putLong("userId", exampleList.user!!.userId)
-            val intent = Intent("android.intent.action.AddAccountActivity")
+            val intent = Intent(context, AddAccountActivity::class.java)
             intent.putExtras(bundle)
-            startActivity(context,intent,bundle)
+            context.startActivity(intent)
             false
         }
         holder.itemView.setOnLongClickListener {
