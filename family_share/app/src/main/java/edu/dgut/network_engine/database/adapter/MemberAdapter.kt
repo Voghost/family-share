@@ -1,5 +1,6 @@
 package edu.dgut.network_engine.database.adapter
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -17,6 +18,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import edu.dgut.network_engine.AddMemberActivity
 import edu.dgut.network_engine.MainActivity
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.entity.UserWithAccountList
@@ -115,14 +117,14 @@ class MemberAdapter(
             false
         }
         holder.itemView.setOnLongClickListener {
+            var activity:AddMemberActivity= AddMemberActivity()
+            var builder:AlertDialog.Builder=AlertDialog.Builder(activity)
+            builder.setMessage("确定删除?")
+            builder.setTitle("提示")
             var temp = currentItem.user?.userName
-
             userViewModel.deleteUser(exampleList[position].user!!.userId)
-
 //            exampleList -= exampleList[position]
-
             notifyItemRemoved(position)
-
             Log.v("长按了", temp.toString())
             false
         }

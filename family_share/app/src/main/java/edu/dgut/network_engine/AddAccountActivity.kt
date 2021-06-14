@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.CompoundButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import edu.dgut.network_engine.database.entity.User
@@ -26,6 +29,20 @@ class AddAccountActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_account)
         title = "添加账单"
-
+        //checkbox单选
+        var checkBoxA:CheckBox=findViewById(R.id.checkBoxA)
+        var checkBoxB:CheckBox=findViewById(R.id.checkBoxB)
+        checkBoxA.setOnCheckedChangeListener { buttonView, isChecked ->
+           if(isChecked) {
+               checkBoxB.isChecked=false
+               //数据处理
+           }
+        }
+        checkBoxB.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked) {
+                checkBoxA.isChecked=false
+                //数据处理
+            }
+        }
     }
 }

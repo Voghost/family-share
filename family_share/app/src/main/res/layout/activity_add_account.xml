@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".addMemberActivity">
+    tools:context=".AddAccountActivity">
 
     <TextView
         android:id="@+id/textView5"
@@ -79,7 +79,7 @@
         app:layout_constraintVertical_bias="0.088" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkBoxA"
         android:layout_width="74dp"
         android:layout_height="35dp"
         android:layout_marginStart="48dp"
@@ -91,14 +91,14 @@
         app:layout_constraintVertical_bias="0.135" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/checkBoxB"
         android:layout_width="78dp"
         android:layout_height="34dp"
         android:text="收入"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxA"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.139" />
 

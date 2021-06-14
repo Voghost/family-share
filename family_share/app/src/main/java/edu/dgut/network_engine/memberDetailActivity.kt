@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Switch
-import androidx.appcompat.app.AppCompatActivity
+
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -109,6 +109,8 @@ class memberDetailActivity : AppCompatActivity() {
                 graph.addSeries(seriesD)
             } else {
                 graph.removeAllSeries()
+            }
+        }
         recyclerView = findViewById(R.id.recyclerView)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         val temp =
@@ -138,9 +140,6 @@ class memberDetailActivity : AppCompatActivity() {
         button4.setOnClickListener {
             var intent = Intent("android.intent.action.AddAccountActivity")
             startActivity(intent)
-        }
-
-            }
         }
     }
 }
