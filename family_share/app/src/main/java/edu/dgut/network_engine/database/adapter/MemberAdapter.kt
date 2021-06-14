@@ -1,10 +1,7 @@
 package edu.dgut.network_engine.database.adapter
 
 import android.app.AlertDialog
-import android.app.Application
-import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,27 +9,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import edu.dgut.network_engine.AddMemberActivity
-import edu.dgut.network_engine.MainActivity
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.entity.UserWithAccountList
-import edu.dgut.network_engine.fragment.WalletFragment
 import edu.dgut.network_engine.memberDetailActivity
 import edu.dgut.network_engine.view_model.UserViewModel
-import edu.dgut.network_engine.view_model.WalletViewModel
 import kotlinx.android.synthetic.main.member_item.view.*
 import java.text.SimpleDateFormat
-import java.time.ZoneId
-import java.time.ZoneOffset
 
 
 //data class MemberItem(val imageResuorce: Int, val text1: String, val text2: String,val text3: String,val text4: String)
@@ -92,7 +78,7 @@ class MemberAdapter(
                 }
             }
             holder.imageView.setImageResource(R.mipmap.ic_launcher)
-            holder.textView1.text = currentItem.user?.userName
+            holder.textView1.text = currentItem.user?.username
 //            var time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 //            time.timeZone =
 //            holder.textView2.text
@@ -104,13 +90,13 @@ class MemberAdapter(
             holder.textView4.text = "总收入:"+income.toString()
         } else {
             holder.imageView.setImageResource(R.mipmap.ic_launcher)
-            holder.textView1.text = currentItem.user?.userName
+            holder.textView1.text = currentItem.user?.username
             holder.textView2.text = "暂无数据"
             holder.textView3.text = "暂无数据"
             holder.textView4.text = "暂无数据"
         }
         holder.itemView.setOnClickListener {
-            var temp = currentItem.user?.userName
+            var temp = currentItem.user?.username
 
             val bundle = Bundle()
             bundle.putLong("userId", currentItem.user!!.userId)
@@ -127,7 +113,7 @@ class MemberAdapter(
             builder.setTitle("提示")
             builder.setPositiveButton("确定"
             ) { dialog, which ->
-                var temp = currentItem.user?.userName
+                var temp = currentItem.user?.username
                 userViewModel.deleteUser(exampleList[position].user!!.userId)
 //            exampleList -= exampleList[position]
                 notifyItemRemoved(position)

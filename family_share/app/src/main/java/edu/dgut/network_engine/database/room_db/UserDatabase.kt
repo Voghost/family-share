@@ -47,7 +47,8 @@ abstract class UserDatabase : RoomDatabase() {
                         Date().time,
                         Date().time,
                         null,
-                        true
+                        true,
+                        1
                     )
                     userDao.insert(user)
                 }
