@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.dgut.network_engine" >
-
-    <uses-permission android:name="android.permission.INTERNET" />
+    package="edu.dgut.network_engine">
 
     <application
         android:allowBackup="true"
@@ -25,21 +23,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" >
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".memberDetailActivity" >
+        <activity android:name=".memberDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.memberDetailActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddAccountActivity" >
+        <activity android:name=".AddAccountActivity">
             <intent-filter>
                 <action android:name="android.intent.action.AddAccountActivity" />
 

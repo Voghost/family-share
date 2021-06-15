@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Switch
-
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -33,6 +32,7 @@ class memberDetailActivity : AppCompatActivity() {
         title = "个人账单详情"
 
         var bundle = this.intent.extras
+        var userid = bundle?.get("userId")
         textView13.text = "你已成功跳转到账单详情,当前界面用户Id:" + bundle?.get("userId").toString()
         textView14.text = ""
 
@@ -132,13 +132,16 @@ class memberDetailActivity : AppCompatActivity() {
                         }
                         textView13.text = "支出:" + cost.toString()
                         textView14.text = "收入:" + income.toString()
-                        recyclerView.adapter = DetailAdapter(userList, userViewModel)
+                        recyclerView.adapter = DetailAdapter(this,userList, userViewModel)
                     }
                     recyclerView.layoutManager = LinearLayoutManager(this)
                 })
 
         button4.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putLong("userId", userid.toString().toLong())
             var intent = Intent("android.intent.action.AddAccountActivity")
+            intent.putExtras(bundle)
             startActivity(intent)
         }
     }

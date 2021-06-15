@@ -5,7 +5,7 @@ import androidx.room.Relation
 import java.lang.reflect.Constructor
 
 /**
- * @author Edgar Liu
+ * @author Edgar Li
  * user 关联表  一个主用户有多个子用户
  */
 data class UserWithUserList(

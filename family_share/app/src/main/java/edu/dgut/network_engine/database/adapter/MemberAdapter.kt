@@ -1,10 +1,7 @@
 package edu.dgut.network_engine.database.adapter
 
 import android.app.AlertDialog
-import android.app.Application
-import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,27 +9,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import edu.dgut.network_engine.AddMemberActivity
-import edu.dgut.network_engine.MainActivity
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.entity.UserWithAccountList
-import edu.dgut.network_engine.fragment.WalletFragment
 import edu.dgut.network_engine.memberDetailActivity
 import edu.dgut.network_engine.view_model.UserViewModel
-import edu.dgut.network_engine.view_model.WalletViewModel
 import kotlinx.android.synthetic.main.member_item.view.*
 import java.text.SimpleDateFormat
-import java.time.ZoneId
-import java.time.ZoneOffset
 
 
 //data class MemberItem(val imageResuorce: Int, val text1: String, val text2: String,val text3: String,val text4: String)
@@ -84,36 +70,36 @@ class MemberAdapter(
         if (currentItem.accountList != null && currentItem.accountList!!.isNotEmpty()) {
             var cost = 0.0
             var income = 0.0
-            for(i in 0..currentItem.accountList!!.size-1){
-                if(currentItem.accountList!![i].price!!.signum() == 1){
+            for (i in 0..currentItem.accountList!!.size - 1) {
+                if (currentItem.accountList!![i].price!!.signum() == 1) {
                     cost += currentItem.accountList!![i].price!!.toDouble()
-                }else{
+                } else {
                     income += currentItem.accountList!![i].price!!.abs().toDouble()
                 }
             }
             holder.imageView.setImageResource(R.mipmap.ic_launcher)
-            holder.textView1.text = currentItem.user?.userName
+            holder.textView1.text = currentItem.user?.username
 //            var time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 //            time.timeZone =
 //            holder.textView2.text
 //                .format(currentItem.accountList!![0].createTime)
             holder.textView2.text = "最近一次账单录入时间:" +
-                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.accountList!![currentItem.accountList!!.size-1].createTime + 8 * 60 * 60 * 1000)
-                    .toString()
-            holder.textView3.text = "总支出:"+cost.toString()
-            holder.textView4.text = "总收入:"+income.toString()
+                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.accountList!![currentItem.accountList!!.size - 1].createTime!! + 8 * 60 * 60 * 1000)
+                        .toString()
+            holder.textView3.text = "总支出:" + cost.toString()
+            holder.textView4.text = "总收入:" + income.toString()
         } else {
             holder.imageView.setImageResource(R.mipmap.ic_launcher)
-            holder.textView1.text = currentItem.user?.userName
+            holder.textView1.text = currentItem.user?.username
             holder.textView2.text = "暂无数据"
             holder.textView3.text = "暂无数据"
             holder.textView4.text = "暂无数据"
         }
         holder.itemView.setOnClickListener {
-            var temp = currentItem.user?.userName
+            var temp = currentItem.user?.username
 
             val bundle = Bundle()
-            bundle.putLong("userId", currentItem.user!!.userId)
+            currentItem.user!!.userId?.let { it1 -> bundle.putLong("userId", it1) }
             val intent = Intent(context, memberDetailActivity::class.java)
             intent.putExtras(bundle)
             context.startActivity(intent)
@@ -122,18 +108,20 @@ class MemberAdapter(
             false
         }
         holder.itemView.setOnLongClickListener {
-            var builder:AlertDialog.Builder=AlertDialog.Builder(context)
+            var builder: AlertDialog.Builder = AlertDialog.Builder(context)
             builder.setMessage("确定删除?")
             builder.setTitle("提示")
-            builder.setPositiveButton("确定"
+            builder.setPositiveButton(
+                "确定"
             ) { dialog, which ->
-                var temp = currentItem.user?.userName
-                userViewModel.deleteUser(exampleList[position].user!!.userId)
+                var temp = currentItem.user?.username
+                exampleList[position].user!!.userId?.let { it1 -> userViewModel.deleteUser(it1) }
 //            exampleList -= exampleList[position]
                 notifyItemRemoved(position)
                 Log.v("长按了", temp.toString())
-                 }
-            builder.setNegativeButton("取消"
+            }
+            builder.setNegativeButton(
+                "取消"
             ) { dialog, which ->
             }
             builder.create().show()

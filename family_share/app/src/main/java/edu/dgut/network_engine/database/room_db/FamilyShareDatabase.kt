@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import edu.dgut.network_engine.database.dao.AccountDao
 import edu.dgut.network_engine.database.dao.UserDao
 import edu.dgut.network_engine.database.entity.Account
 import edu.dgut.network_engine.database.entity.User
@@ -20,8 +21,10 @@ import java.util.*
  * 单例模式， 保证内存中只有一个实例
  */
 @Database(entities = [User::class, Account::class], version = 1)
-abstract class UserDatabase : RoomDatabase() {
+abstract class FamilyShareDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao
+    abstract fun getAccountDao(): AccountDao
+
 
     /**
      * 数据库初始化
@@ -33,7 +36,10 @@ abstract class UserDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    var userDao = database.getUserDao()
+                    /**
+                     * 数据库初始化操作
+                     */
+                  /*  var userDao = database.getUserDao()
                     // 先删除所有用户
                     userDao.deleteAll()
 
@@ -47,9 +53,10 @@ abstract class UserDatabase : RoomDatabase() {
                         Date().time,
                         Date().time,
                         null,
-                        true
+                        true,
+                        1
                     )
-                    userDao.insert(user)
+                    userDao.insert(user)*/
                 }
             }
         }
@@ -60,19 +67,19 @@ abstract class UserDatabase : RoomDatabase() {
      */
     companion object {
         @Volatile
-        private var INSTANCE: UserDatabase? = null
-        val applicationScope = CoroutineScope(SupervisorJob())
+        private var INSTANCE: FamilyShareDatabase? = null
+        private val applicationScope = CoroutineScope(SupervisorJob())
 
 
-        fun getInstance(context: Context): UserDatabase = INSTANCE ?: synchronized(this) {
+        fun getInstance(context: Context): FamilyShareDatabase = INSTANCE ?: synchronized(this) {
             INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
         }
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
-                UserDatabase::class.java,
-                "user_db"
+                FamilyShareDatabase::class.java,
+                "family_share_db"
             ).addCallback(UserDatabaseCallback(applicationScope)) // 加入callback
                 .build()
     }
