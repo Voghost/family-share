@@ -43,7 +43,7 @@ interface UserDao {
      * 查询用户的所有account数据
      */
     @Transaction
-    @Query("SELECT * FROM user_table WHERE userId = :id")
+    @Query("SELECT * FROM user_table INNER JOIN account_table WHERE userId = :id AND isDeleted = 0")
     fun getUsersWithAccountListByUserId(id: Long): LiveData<UserWithAccountList>
 
     /**
@@ -51,7 +51,7 @@ interface UserDao {
      */
     @Transaction
     @Query("SELECT * FROM user_table")
-    fun getAllUserWithAccountList() : LiveData<List<UserWithAccountList>>
+    fun getAllUserWithAccountList(): LiveData<List<UserWithAccountList>>
 
     /**
      * 更新数据

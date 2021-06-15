@@ -15,7 +15,7 @@ interface AccountDao {
      * 获取所有数据的列表
      * @return LiveData  实时数据 不用在新的线程执行
      */
-    @Query("SELECT * FROM account_table")
+    @Query("SELECT * FROM account_table WHERE isDeleted=0")
     fun getAll(): LiveData<List<Account>>
 
     /**
@@ -24,10 +24,11 @@ interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(account: Account)
 
+
     /**
      *通过id删除一条数据
      */
-    @Query("DELETE FROM account_table WHERE  accountId = :id")
+    @Query("UPDATE account_table SET isDeleted= 1 WHERE accountId = :id")
     suspend fun deleteById(id: Long)
 
     /**

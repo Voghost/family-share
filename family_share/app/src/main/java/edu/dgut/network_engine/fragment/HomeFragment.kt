@@ -62,10 +62,10 @@ class HomeFragment : Fragment() {
 
         }
         */
-        //buttonTest = requireView().findViewById(R.id.btTest)
+        buttonTest = requireView().findViewById(R.id.btTest)
         var res: BaseResponse<Token>? = null
         var act = this.activity
-/*        buttonTest.setOnClickListener {
+        buttonTest.setOnClickListener {
             var a = lifecycleScope.launch {
                 var newUser: NewUser = NewUser()
                 newUser.username = "sss"
@@ -89,7 +89,7 @@ class HomeFragment : Fragment() {
 //            var token = sharedPreferences.getString("token", "")
 //            Toast.makeText(act, token, Toast.LENGTH_SHORT).show()
 
-        }*/
+        }
     }
 
 }

@@ -25,5 +25,5 @@ data class Account(
     var hidden: Boolean = false,        // 是否对他人隐藏
 
     var isDeleted: Boolean = false,     // 是否删除(逻辑删除)
-    var version: Long = 0               // 数据库版本号(后端同步使用)
+    var version: Long = 0               // 当前数据版本号(后端同步使用)
 )
