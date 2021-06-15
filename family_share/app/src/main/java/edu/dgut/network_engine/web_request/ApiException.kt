@@ -10,6 +10,7 @@ import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
 import retrofit2.HttpException
 import java.io.IOException
+import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
@@ -52,7 +53,7 @@ class ApiException(
         fun build(e: Throwable): ApiException {
             return if (e is HttpException) {
                 ApiException(CODE_NET_ERROR, "网络异常(${e.code()},${e.message()})")
-            } else if (e is UnknownHostException) {
+            } else if (e is UnknownHostException || e is ConnectException) {
                 ApiException(CODE_NET_ERROR, "网络连接失败，请检查后再试")
             } else if (e is ConnectTimeoutException || e is SocketTimeoutException) {
                 ApiException(CODE_TIMEOUT, "请求超时，请稍后再试")

@@ -24,5 +24,5 @@ data class User(
     var isMe: Boolean? = null,       // 是否为当前用户
     var familyCode: Long? = null,    // 家庭code
 
-    var version: Long = 0            // 数据版本号
+    var version: Long = 0            // 当前数据版本号
 )

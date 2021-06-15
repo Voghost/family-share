@@ -1,6 +1,8 @@
 package edu.dgut.network_engine.view_model
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -94,6 +96,14 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             Toast.makeText(getApplication(), res.toString(), Toast.LENGTH_SHORT).show()
             null
         } else {
+            // 保存token 到sharedPreferences
+            val sharedPreferences: SharedPreferences =
+                getApplication<Application>()
+                    .applicationContext
+                    .getSharedPreferences("data", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("token", res?.data?.token)
+            editor.apply()
             res
         }
     }
@@ -115,15 +125,34 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             user.avatarUrl = res.data?.avatarUrl
             user.familyCode = res.data?.familyCode
             println(res)
+
+            // 保存token 到sharedPreferences
+            val sharedPreferences: SharedPreferences =
+                getApplication<Application>()
+                    .applicationContext
+                    .getSharedPreferences("data", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("token", res?.data?.token)
+            editor.apply()
+
+            // 插入这个user
             insertUser(user)
             true;
         } else {
+            Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
             false
         }
+    }
+
+
+    suspend fun isUsernameExist(userName: String) {
+        val res = apiCall { UserApi.get().isUsernameExist(userName) }
+        println(res)
     }
 
     /**
      * 同步family
      */
+
 }
 
