@@ -21,7 +21,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        //jcenter()
+        jcenter()
         mavenCentral()
         //jcenter() // Warning: this repository is刚刚  going to shut down soon
     }
