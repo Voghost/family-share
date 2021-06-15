@@ -40,8 +40,7 @@ class PersonFragment : Fragment() {
         Glide.with(this.activity).load(R.drawable.text2).skipMemoryCache(false).bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
         var relativeLayout:RelativeLayout=root.findViewById(R.id.about)
         relativeLayout.setOnClickListener{
-            var intent=Intent("android.intent.action.AddMemorandumActivity")
-            startActivity(intent)
+
         }
         return root
     }

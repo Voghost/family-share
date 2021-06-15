@@ -27,12 +27,18 @@ class HomeFragment : Fragment() {
     //      private lateinit var viewModel: HomeViewModel
     private lateinit var userViewModel: UserViewModel
     private lateinit var buttonTest: Button
+    private lateinit var listView: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.home_fragment, container, false)
+        var root= inflater.inflate(R.layout.home_fragment, container, false)
+
+        listView=root.findViewById(R.id.home_listview)
+
+
+        return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -56,10 +62,10 @@ class HomeFragment : Fragment() {
 
         }
         */
-        buttonTest = requireView().findViewById(R.id.btTest)
+        //buttonTest = requireView().findViewById(R.id.btTest)
         var res: BaseResponse<Token>? = null
         var act = this.activity
-        buttonTest.setOnClickListener {
+/*        buttonTest.setOnClickListener {
             var a = lifecycleScope.launch {
                 var newUser: NewUser = NewUser()
                 newUser.username = "sss"
@@ -83,7 +89,7 @@ class HomeFragment : Fragment() {
 //            var token = sharedPreferences.getString("token", "")
 //            Toast.makeText(act, token, Toast.LENGTH_SHORT).show()
 
-        }
+        }*/
     }
 
 }
