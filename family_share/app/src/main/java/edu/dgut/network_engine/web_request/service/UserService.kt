@@ -18,5 +18,7 @@ interface UserService {
         @Body newUser: NewUser
     ): BaseResponse<NewUser>
 
+    @GET("user/is_username_exist")
+    suspend fun isUsernameExist(@Query("username") username: String): BaseResponse<Boolean>
 
 }
