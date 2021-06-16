@@ -1,5 +1,6 @@
 package edu.dgut.network_engine.database.adapter
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -17,6 +18,7 @@ import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.memberDetailActivity
 import edu.dgut.network_engine.view_model.UserViewModel
+import edu.dgut.network_engine.view_model.WalletViewModel
 import kotlinx.android.synthetic.main.detail_item.view.*
 import java.text.SimpleDateFormat
 
@@ -26,7 +28,8 @@ import java.text.SimpleDateFormat
 class DetailAdapter(
     private var context: Context,
     private var exampleList: UserWithAccountList,
-    private var userViewModel: UserViewModel
+    private var userViewModel: UserViewModel,
+    private var walletViewModel: WalletViewModel
 ) :
 
     RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
@@ -100,21 +103,29 @@ class DetailAdapter(
 //            startActivity(context,intent,bundle)
             val bundle = Bundle()
             exampleList.user!!.userId?.let { it1 -> bundle.putLong("userId", it1) }
+            bundle.putLong("accountId", currentItem!!.accountId!!)
+            bundle.putDouble("price",currentItem.price!!.toDouble())
+            bundle.putString("introduce",currentItem.reason)
+            currentItem.createTime?.let { it1 -> bundle.putLong("createTime", it1) }
             val intent = Intent(context, AddAccountActivity::class.java)
             intent.putExtras(bundle)
             context.startActivity(intent)
             false
         }
         holder.itemView.setOnLongClickListener {
-            var temp = currentItem?.accountId
-
-//            userViewModel.deleteUser(exampleList.user!!.userId)
-
+            var builder: AlertDialog.Builder= AlertDialog.Builder(context)
+            builder.setMessage("确定删除?")
+            builder.setTitle("提示")
+            builder.setPositiveButton("确定"
+            ) { dialog, which ->
+                currentItem!!.accountId?.let { it1 -> walletViewModel.deleteUser(it1) }
 //            exampleList -= exampleList[position]
-
-//            notifyItemRemoved(position)
-
-            Log.v("长按了", temp.toString())
+                notifyItemRemoved(position)
+            }
+            builder.setNegativeButton("取消"
+            ) { dialog, which ->
+            }
+            builder.create().show()
             false
         }
 

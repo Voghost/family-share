@@ -12,19 +12,23 @@ import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter
 import edu.dgut.network_engine.database.adapter.DetailAdapter
 import edu.dgut.network_engine.database.adapter.EmptyAdapter
+import edu.dgut.network_engine.database.entity.DateWithAccount
 import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.view_model.UserViewModel
+import edu.dgut.network_engine.view_model.WalletViewModel
 import kotlinx.android.synthetic.main.activity_detail_member.*
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class memberDetailActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var userViewModel: UserViewModel
-
+    private lateinit var walletViewModel: WalletViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +40,65 @@ class memberDetailActivity : AppCompatActivity() {
         textView13.text = "你已成功跳转到账单详情,当前界面用户Id:" + bundle?.get("userId").toString()
         textView14.text = ""
 
+        val datelist1 = mutableListOf<Long>()
+        var currentdate1 = System.currentTimeMillis()
+        for(i in 0..29){
+            datelist1.add(currentdate1)
+            currentdate1 -= 1000 * 60 * 60 * 24
+        }
+
+        val datelist = mutableListOf<String>()
+        var currentdate = System.currentTimeMillis()
+        for(i in 0..29){
+            datelist.add(SimpleDateFormat("yy-MM-dd").format(currentdate))
+            currentdate -= 1000 * 60 * 60 * 24
+        }
+
+        val dateList2 = mutableListOf<DateWithAccount>()
+        for(i in 0..29){
+            var dateWithAccount = DateWithAccount(
+                datelist[i],0.0,0.0
+            )
+            dateList2.add(dateWithAccount)
+        }
+
+        val dataPoint = Array<DataPoint>(dateList2.size) {
+            DataPoint(0.0, 0.0)
+        }
+
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        userViewModel.getUserWithAccountListByUserId(bundle?.get("userId") as Long)
+            ?.observe(this, { userList: UserWithAccountList ->
+                for(j in 0..userList.accountList!!.size-1){
+                    var temp = SimpleDateFormat("yy-MM-dd").format(userList.accountList!![j].createTime)
+                    for (k in 0..dateList2.size-1){
+                        if(temp == dateList2[k].date){
+                            if(userList.accountList!![j].price!!.signum() == 1){
+                                dateList2[k].cost = dateList2[k].cost?.plus(userList.accountList!![j].price!!.toDouble())
+                            }else{
+                                dateList2[k].income = dateList2[k].income?.plus(userList.accountList!![j].price!!.abs().toDouble())
+                            }
+                            break
+                        }
+                    }
+                }
+                val dataPoint = Array<DataPoint>(3) {
+                    DataPoint(0.0, 0.0)
+                }
+
+                var count = 1000.0
+                for (d in 0..2) {
+                    val date: Date =SimpleDateFormat("yyyy-MM-dd").parse(dateList2[d].date)
+                    dataPoint[d] = DataPoint(date,count)
+                    count += 1000
+                    Log.d("dataPoint is",dataPoint[d].toString())
+                }
+                val series = LineGraphSeries<DataPoint>(dataPoint)
+
+                val graph = findViewById<GraphView>(R.id.graph)
+                graph.removeAllSeries()
+                graph.addSeries(series)
+            })
 
         //开关控制曲线图
         var switchA:Switch = findViewById(R.id.switch1)
@@ -113,6 +176,7 @@ class memberDetailActivity : AppCompatActivity() {
         }
         recyclerView = findViewById(R.id.recyclerView)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        walletViewModel = ViewModelProvider(this).get(WalletViewModel::class.java)
         val temp =
             userViewModel.getUserWithAccountListByUserId(bundle?.get("userId") as Long)
                 ?.observe(this, { userList: UserWithAccountList ->
@@ -132,7 +196,7 @@ class memberDetailActivity : AppCompatActivity() {
                         }
                         textView13.text = "支出:" + cost.toString()
                         textView14.text = "收入:" + income.toString()
-                        recyclerView.adapter = DetailAdapter(this,userList, userViewModel)
+                        recyclerView.adapter = DetailAdapter(this,userList, userViewModel,walletViewModel)
                     }
                     recyclerView.layoutManager = LinearLayoutManager(this)
                 })
