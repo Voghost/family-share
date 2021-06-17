@@ -40,6 +40,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
+     * 获取自己的账户
+     */
+    suspend fun getMe(): User? = withContext(viewModelScope.coroutineContext) {
+        userDao?.getMe()
+    }
+
+    /**
      * 获取所有用户 (非livedata)
      */
     suspend fun getAllUserListNotLiveData(): List<User>? =
@@ -102,12 +109,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 登录
      */
-    suspend fun login(userName: String, password: String): BaseResponse<TokenTdo>? {
+    suspend fun login(userName: String, password: String): Boolean {
         var loginMap = mapOf<String, String>("username" to userName, "password" to password)
         val res = apiCall { UserApi.get().login(loginMap) }
         return if (res.code != 200 || res.data == null) {
             Toast.makeText(getApplication(), res.toString(), Toast.LENGTH_SHORT).show()
-            null
+            false
         } else {
             // 保存token 到sharedPreferences
             val sharedPreferences: SharedPreferences =
@@ -117,7 +124,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             val editor = sharedPreferences.edit()
             editor.putString("token", res?.data?.token)
             editor.apply()
-            res
+            Toast.makeText(getApplication(), "登录成功", Toast.LENGTH_SHORT).show()
+            true
         }
     }
 
