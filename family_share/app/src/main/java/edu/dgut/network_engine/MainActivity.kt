@@ -21,6 +21,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var navHostFragment:NavHostFragment
     lateinit var navController: NavController
     lateinit var configuration:AppBarConfiguration
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

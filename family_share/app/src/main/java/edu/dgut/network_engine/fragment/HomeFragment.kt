@@ -62,7 +62,7 @@ class HomeFragment : Fragment() {
 
         }
         */
-        buttonTest = requireView().findViewById(R.id.btTest)
+       /* buttonTest = requireView().findViewById(R.id.btTest)
         var res: BaseResponse<Token>? = null
         var act = this.activity
         buttonTest.setOnClickListener {
@@ -72,7 +72,7 @@ class HomeFragment : Fragment() {
                 newUser.nickname = "nick"
                 newUser.password = "admin7788"
 
-                userViewModel.register(newUser)
+                userViewModel.register(newUser)*/
 
 //                res = userViewModel.login("test", "admin7788")
 //
@@ -82,14 +82,14 @@ class HomeFragment : Fragment() {
 //                val editor = sharedPreferences.edit()
 //                editor.putString("token", res?.data?.token)
 //                editor.apply()
-            }
+       //     }
 
 //            val sharedPreferences: SharedPreferences =
 //                act!!.getSharedPreferences("data", Context.MODE_PRIVATE)
 //            var token = sharedPreferences.getString("token", "")
 //            Toast.makeText(act, token, Toast.LENGTH_SHORT).show()
 
-        }
+      //  }
     }
 
 }

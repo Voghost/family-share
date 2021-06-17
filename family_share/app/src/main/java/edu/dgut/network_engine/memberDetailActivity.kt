@@ -40,7 +40,7 @@ class memberDetailActivity : AppCompatActivity() {
         textView13.text = "你已成功跳转到账单详情,当前界面用户Id:" + bundle?.get("userId").toString()
         textView14.text = ""
 
-        val datelist1 = mutableListOf<Long>()
+     /*   val datelist1 = mutableListOf<Long>()
         var currentdate1 = System.currentTimeMillis()
         for(i in 0..29){
             datelist1.add(currentdate1)
@@ -66,7 +66,7 @@ class memberDetailActivity : AppCompatActivity() {
             DataPoint(0.0, 0.0)
         }
 
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+    userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         userViewModel.getUserWithAccountListByUserId(bundle?.get("userId") as Long)
             ?.observe(this, { userList: UserWithAccountList ->
                 for(j in 0..userList.accountList!!.size-1){
@@ -98,7 +98,7 @@ class memberDetailActivity : AppCompatActivity() {
                 val graph = findViewById<GraphView>(R.id.graph)
                 graph.removeAllSeries()
                 graph.addSeries(series)
-            })
+            })*/
 
         //开关控制曲线图
         var switchA:Switch = findViewById(R.id.switch1)

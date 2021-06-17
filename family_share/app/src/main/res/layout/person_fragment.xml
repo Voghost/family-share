@@ -1,93 +1,318 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".fragment.PersonFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/h_back"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
-
-        <ImageView
-            android:id="@+id/h_head"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerInParent="true" />
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/h_back"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/user_line"
-                android:layout_width="1dp"
-                android:layout_height="25dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="15dp"
-                android:background="@color/white" />
+                android:id="@+id/h_back"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
 
-            <TextView
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/user_line"
-                android:text="张三"
-                android:textColor="@color/white"
-                android:textSize="17sp" />
+            <ImageView
+                android:id="@+id/h_head"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true" />
 
-            <TextView
-                android:id="@+id/user_val"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@id/user_line"
-                android:text="182****5882"
-                android:textColor="@color/white"
-                android:textSize="17sp" />
+                android:layout_alignBottom="@id/h_back"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/user_line"
+                    android:layout_width="1dp"
+                    android:layout_height="25dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/user_line"
+                    android:text="张三"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/user_val"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/user_line"
+                    android:text="182****5882"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true">
 
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/about_icon" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@id/icon"
+                android:layout_toRightOf="@id/icon"
+                android:text="关于"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/data"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="14dp"
+                android:layout_toStartOf="@+id/more"
+                android:layout_toLeftOf="@+id/more"
+                android:text="关于" />
+
+            <ImageView
+                android:id="@+id/more"
+                android:layout_width="29dp"
+                android:layout_height="28dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="11dp"
+                android:src="@drawable/more" />
+
+            <ImageView
+                android:id="@+id/line"
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="49dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="-1dp"
+                android:background="#c2c2c2" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/add_member"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true">
+
+            <ImageView
+                android:id="@+id/icon2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/family_icon" />
+
+            <TextView
+                android:id="@+id/name2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@id/icon2"
+                android:layout_toRightOf="@id/icon2"
+                android:text="邀请加入家庭"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/data2"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="14dp"
+                android:layout_toStartOf="@+id/more2"
+                android:layout_toLeftOf="@+id/more2"
+                android:text="二维码" />
+
+            <ImageView
+                android:id="@+id/more2"
+                android:layout_width="29dp"
+                android:layout_height="28dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="11dp"
+                android:src="@drawable/more" />
+
+            <ImageView
+                android:id="@+id/line2"
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="49dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="-1dp"
+                android:background="#c2c2c2" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/modify_info"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true">
+
+            <ImageView
+                android:id="@+id/icon3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/info_icon" />
+
+            <TextView
+                android:id="@+id/name3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@id/icon3"
+                android:layout_toRightOf="@id/icon3"
+                android:text="修改个人信息"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/data3"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="14dp"
+                android:layout_toStartOf="@+id/more3"
+                android:layout_toLeftOf="@+id/more3"
+                android:text="个人信息" />
+
+            <ImageView
+                android:id="@+id/more3"
+                android:layout_width="29dp"
+                android:layout_height="28dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="11dp"
+                android:src="@drawable/more" />
+
+            <ImageView
+                android:id="@+id/line3"
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="49dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="-1dp"
+                android:background="#c2c2c2" />
+        </RelativeLayout>
     <RelativeLayout
-        android:id="@+id/about"
+        android:id="@+id/modify_password"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/back_down"
+        android:background="?android:attr/selectableItemBackground"
         android:clickable="true">
 
         <ImageView
-            android:id="@+id/icon"
+            android:id="@+id/icon4"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/about" />
+            android:src="@drawable/password_icon" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/name4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@id/icon"
-            android:layout_toRightOf="@id/icon"
-            android:text="关于"
+            android:layout_toEndOf="@id/icon4"
+            android:layout_toRightOf="@id/icon4"
+            android:text="修改密码"
             android:textColor="#000" />
 
         <TextView
-            android:id="@+id/data"
+            android:id="@+id/data4"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:layout_alignParentTop="true"
@@ -96,12 +321,12 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="14dp"
-            android:layout_toStartOf="@+id/more"
-            android:layout_toLeftOf="@+id/more"
-            android:text="关于" />
+            android:layout_toStartOf="@+id/more4"
+            android:layout_toLeftOf="@+id/more4"
+            android:text="密码" />
 
         <ImageView
-            android:id="@+id/more"
+            android:id="@+id/more4"
             android:layout_width="29dp"
             android:layout_height="28dp"
             android:layout_alignParentTop="true"
@@ -115,7 +340,135 @@
             android:src="@drawable/more" />
 
         <ImageView
-            android:id="@+id/line"
+            android:id="@+id/line4"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="49dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="-1dp"
+            android:background="#c2c2c2" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/exit_family"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/icon5"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/exit_icon" />
+
+        <TextView
+            android:id="@+id/name5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@id/icon5"
+            android:layout_toRightOf="@id/icon5"
+            android:text="退出家庭"
+            android:textColor="#000" />
+
+        <TextView
+            android:id="@+id/data5"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="14dp"
+            android:layout_toStartOf="@+id/more5"
+            android:layout_toLeftOf="@+id/more5"
+            android:text="退出" />
+
+        <ImageView
+            android:id="@+id/more5"
+            android:layout_width="29dp"
+            android:layout_height="28dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="11dp"
+            android:src="@drawable/more" />
+
+        <ImageView
+            android:id="@+id/line5"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="49dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="-1dp"
+            android:background="#c2c2c2" />
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#f5f5f5"/>
+    <RelativeLayout
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="48dp"
+            android:background="#c2c2c2" />
+        <TextView
+            android:layout_width="185dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="113dp"
+            android:layout_marginLeft="113dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="112dp"
+            android:layout_marginRight="112dp"
+            android:layout_marginBottom="8dp"
+            android:text="退出登录"
+            android:textSize="20dp"
+            android:textColor="#FF4500"
+           android:gravity="center"/>
+        <ImageView
+            android:id="@+id/line6"
             android:layout_width="wrap_content"
             android:layout_height="2dp"
             android:layout_alignParentStart="true"
@@ -133,6 +486,7 @@
             android:background="#c2c2c2" />
     </RelativeLayout>
 
+    </LinearLayout>
 
 
-</LinearLayout>
+
