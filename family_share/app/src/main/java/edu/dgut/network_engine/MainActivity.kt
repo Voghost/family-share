@@ -20,29 +20,41 @@ import edu.dgut.network_engine.fragment.WalletFragment
 class MainActivity : AppCompatActivity() {
 
     lateinit var bottomNavigationView: BottomNavigationView
-    lateinit var navHostFragment:NavHostFragment
+    lateinit var navHostFragment: NavHostFragment
     lateinit var navController: NavController
-    lateinit var configuration:AppBarConfiguration
+    lateinit var configuration: AppBarConfiguration
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val sharedPreferences: SharedPreferences =
+        var sharedPreferences: SharedPreferences =
             MyApplication.getContext()!!.getSharedPreferences("data", Context.MODE_PRIVATE)
         var token = sharedPreferences.getString("token", "")
-        if(token.isNullOrEmpty()){
-            var intent= Intent("android.intent.action.LoginActivity")
+        if (token.isNullOrEmpty()) {
+            var intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
-        //底部导航栏绑定
-        bottomNavigationView=findViewById(R.id.bottomNavigationView)
-        navHostFragment=supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
-        navController= navHostFragment.navController
-        configuration= AppBarConfiguration.Builder(bottomNavigationView.menu).build()
-        NavigationUI.setupActionBarWithNavController(this,navController,configuration)
-        NavigationUI.setupWithNavController(bottomNavigationView,navController)
 
+        //底部导航栏绑定
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        configuration = AppBarConfiguration.Builder(bottomNavigationView.menu).build()
+        NavigationUI.setupActionBarWithNavController(this, navController, configuration)
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var sharedPreferences: SharedPreferences =
+            MyApplication.getContext()!!.getSharedPreferences("data", Context.MODE_PRIVATE)
+        var token = sharedPreferences.getString("token", "")
+        if (token.isNullOrEmpty()) {
+            var intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }

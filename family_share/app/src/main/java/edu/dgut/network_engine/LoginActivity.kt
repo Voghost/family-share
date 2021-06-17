@@ -27,8 +27,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
         RegisterButton.setOnClickListener {
-            var intent = Intent("android.intent.action.RegisterActivity")
+            var intent = Intent(this,RegisterActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

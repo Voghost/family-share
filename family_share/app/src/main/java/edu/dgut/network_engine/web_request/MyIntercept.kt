@@ -10,6 +10,10 @@ import android.app.Application
 import edu.dgut.network_engine.MyApplication
 
 
+/**
+ * @author Edgar Liu
+ * 拦截器 head添加token字段， 用于鉴权
+ */
 class MyIntercept : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var original = chain.request()
@@ -17,6 +21,12 @@ class MyIntercept : Interceptor {
         val sharedPreferences: SharedPreferences =
             MyApplication.getContext()!!.getSharedPreferences("data", Context.MODE_PRIVATE)
         var token = sharedPreferences.getString("token", "")
+
+
+        // 如果token是空的或者为 "" 不作处理
+        if (token.isNullOrEmpty()) {
+            return chain.proceed(original)
+        }
 
         var request: Request = original.newBuilder()
             .addHeader("token", token!!)

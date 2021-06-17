@@ -2,12 +2,13 @@ package edu.dgut.network_engine.web_request.api
 
 import com.google.gson.GsonBuilder
 import edu.dgut.network_engine.web_request.MyIntercept
-import edu.dgut.network_engine.web_request.service.UserService
+import edu.dgut.network_engine.web_request.service.MemorandumService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object UserApi {
+
+object MemorandumApi {
     private val gsonFormat = GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create()
 
     private val api by lazy {
@@ -22,10 +23,10 @@ object UserApi {
                     .build()
             )
             .build()
-        retrofit.create(UserService::class.java)
+        retrofit.create(MemorandumService::class.java)
     }
 
-    fun get(): UserService {
+    fun get(): MemorandumService{
         return api
     }
 }

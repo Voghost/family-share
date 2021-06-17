@@ -27,11 +27,12 @@ class RegisterActivity : AppCompatActivity() {
         var repassword = PassWordAgainEdit.text.toString()
         var phone = PhoneEdit.text.toString()
 
-        if(password != repassword){
-            var builder: AlertDialog.Builder= AlertDialog.Builder(this)
+        if (password != repassword) {
+            var builder: AlertDialog.Builder = AlertDialog.Builder(this)
             builder.setMessage("两次密码输入不同")
             builder.setTitle("提示")
-            builder.setPositiveButton("确定"
+            builder.setPositiveButton(
+                "确定"
             ) { dialog, which ->
             }
         }
@@ -41,8 +42,9 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         BackLoginButton.setOnClickListener {
-            var intent = Intent("android.intent.action.LoginActivity")
+            var intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

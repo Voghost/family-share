@@ -23,7 +23,11 @@ data class Account(
     var user: Long? = null,             // 用户id
     var reason: String? = null,         // 帐目原因
     var hidden: Boolean = false,        // 是否对他人隐藏
-
     var isDeleted: Boolean = false,     // 是否删除(逻辑删除)
+
+    /**
+     * 下方数据用于同步， 与android运行逻辑关系不大
+     */
+    var synId: Long? = null,            // 线上同步id
     var version: Long = 0               // 当前数据版本号(后端同步使用)
 )
