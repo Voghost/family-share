@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="edu.dgut.network_engine">
 
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
-        android:name="MyApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Family_share" >
-        <activity android:name=".AddMemorandumActivity" >
+        android:theme="@style/Theme.Family_share">
+        <activity android:name=".AddMemorandumActivity">
             <intent-filter>
                 <action android:name="android.intent.action.AddMemorandumActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddMemberActivity" >
+        <activity android:name=".AddMemberActivity">
             <intent-filter>
                 <action android:name="android.intent.action.addMemberActivity" />
 
@@ -41,6 +46,13 @@
         <activity android:name=".AddAccountActivity">
             <intent-filter>
                 <action android:name="android.intent.action.AddAccountActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.LoginAccountActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

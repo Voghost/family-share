@@ -20,7 +20,6 @@ class AddMemorandumActivity : AppCompatActivity() {
         reset = findViewById(R.id.btn_reset)
         //清空
 
-        var memorandumMessage = edit.text.toString()
         var content = getNow()
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             if ((month + 1) / 10 < 1) {
@@ -36,6 +35,8 @@ class AddMemorandumActivity : AppCompatActivity() {
                     content = year.toString() + "-" + (month + 1) + "-" + dayOfMonth
                 }
             }
+
+            var memorandumMessage = edit.text.toString()
 
             reset.setOnClickListener {
                 edit.setText("")

@@ -1,7 +1,9 @@
 package edu.dgut.network_engine
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -24,6 +26,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val sharedPreferences: SharedPreferences =
+            MyApplication.getContext()!!.getSharedPreferences("data", Context.MODE_PRIVATE)
+        var token = sharedPreferences.getString("token", "")
+        if(token.isNullOrEmpty()){
+            var intent= Intent("android.intent.action.LoginActivity")
+            startActivity(intent)
+        }
+
         //底部导航栏绑定
         bottomNavigationView=findViewById(R.id.bottomNavigationView)
         navHostFragment=supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
