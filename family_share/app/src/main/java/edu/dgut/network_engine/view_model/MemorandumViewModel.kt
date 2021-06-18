@@ -11,12 +11,14 @@ import edu.dgut.network_engine.web_request.apiCall
 import kotlinx.coroutines.launch
 
 class MemorandumViewModel(application: Application) : AndroidViewModel(application) {
-    private val allMemorandums = MutableLiveData<List<Memorandum>>()
+    private val allMemorandums = MutableLiveData<ArrayList<Memorandum>>()
+    private val memorandumList: ArrayList<Memorandum> = ArrayList<Memorandum>()
 
     /**
      * 获取livedata
      */
-    fun getLiveData(): MutableLiveData<List<Memorandum>> {
+    fun getLiveData(): MutableLiveData<ArrayList<Memorandum>> {
+        memorandumList.clear()
         getAllMemorandum()
         return allMemorandums
     }
@@ -24,11 +26,12 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
     /**
      * 获取所有数据
      */
-    fun getAllMemorandum(){
+    fun getAllMemorandum() {
         viewModelScope.launch {
             var res = apiCall { MemorandumApi.get().all() }
             if (res.code == 200 && res.data != null) {
-                allMemorandums.postValue(res.data)
+                memorandumList.addAll(res.data!!)
+                allMemorandums.postValue(memorandumList)
             } else {
                 Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
             }
@@ -62,7 +65,6 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
             } else {
                 Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 
@@ -77,7 +79,6 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
             } else {
                 Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 

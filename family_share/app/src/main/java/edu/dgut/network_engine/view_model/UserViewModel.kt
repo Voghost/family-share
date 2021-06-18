@@ -3,8 +3,8 @@ package edu.dgut.network_engine.view_model
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.widget.Toast
-import androidx.core.graphics.translationMatrix
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -12,15 +12,16 @@ import edu.dgut.network_engine.database.dao.UserDao
 import edu.dgut.network_engine.database.entity.User
 import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.database.room_db.FamilyShareDatabase
-import edu.dgut.network_engine.web_request.BaseResponse
 import edu.dgut.network_engine.web_request.api.UserApi
 import edu.dgut.network_engine.web_request.apiCall
 import edu.dgut.network_engine.web_request.tdo.NewUserTdo
-import edu.dgut.network_engine.web_request.tdo.TokenTdo
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.internal.notifyAll
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.*
+
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
     private var userDao: UserDao? = null
@@ -249,6 +250,28 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     }
                 }
             }
+        }
+    }
+
+    // 文件上传
+    suspend fun upload(bitmap: Bitmap) {
+
+        var bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos)
+        var bitmapData: ByteArray = bos.toByteArray()
+
+        val fileRQ: RequestBody = RequestBody.create("image/JPEG".toMediaTypeOrNull(), bitmapData)
+        var part: MultipartBody.Part =
+            MultipartBody.Part.Companion.createFormData("file", "file", fileRQ)
+        viewModelScope.launch {
+            var res = apiCall { UserApi.get().upload(part) }
+            if (res.code == 200 && res.data != null) {
+                var me = userDao?.getMe()
+                me?.avatarUrl = res.data
+            } else {
+                Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 

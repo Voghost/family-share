@@ -22,15 +22,15 @@ class MemorandumFragment : Fragment() {
     }
 
     private lateinit var viewModel: MemorandumViewModel
-    private lateinit var addMemorandum:ImageView
+    private lateinit var addMemorandum: ImageView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       var root=inflater.inflate(R.layout.memorandum_fragment, container, false)
-        addMemorandum=root.findViewById(R.id.btn_add)
-        addMemorandum.setOnClickListener{
-            var intent= Intent("android.intent.action.AddMemorandumActivity")
+        var root = inflater.inflate(R.layout.memorandum_fragment, container, false)
+        addMemorandum = root.findViewById(R.id.btn_add)
+        addMemorandum.setOnClickListener {
+            var intent = Intent("android.intent.action.AddMemorandumActivity")
             startActivity(intent)
         }
         return root
@@ -40,10 +40,10 @@ class MemorandumFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MemorandumViewModel::class.java)
         viewModel.getLiveData()
-            ?.observe(viewLifecycleOwner, { memorandumList: List<Memorandum> ->
-                println("test 备忘录")
+            ?.observe(viewLifecycleOwner, { memorandumList: MutableList<Memorandum> ->
+                println(memorandumList)
                 memorandum_recycle_view.adapter =
-                    MemorandumAdapter(this.requireContext(),memorandumList,viewModel)
+                    MemorandumAdapter(this.requireContext(), memorandumList, viewModel)
                 memorandum_recycle_view.layoutManager = LinearLayoutManager(activity)
             })
 
