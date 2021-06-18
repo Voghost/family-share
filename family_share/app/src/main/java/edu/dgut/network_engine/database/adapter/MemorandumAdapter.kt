@@ -79,6 +79,11 @@ class MemorandumAdapter(
             holder.textView1.text = currentItem.content
         }
 
+        if(currentItem.endTime == null) {
+            holder.textView2.text = "By" + currentItem.username + "      一直有效"
+        }else {
+            holder.textView2.text = "By" + currentItem.username + "      截止日期:" + currentItem.endTime.toString()
+        }
 
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
@@ -97,6 +102,7 @@ class MemorandumAdapter(
                 "确定"
             ) { dialog, which ->
                 currentItem.id?.let { it1 -> memorandumViewModel.deleteMemorandum(it1) }
+//            exampleList -= exampleList[position]
                 notifyItemRemoved(position)
 
             }

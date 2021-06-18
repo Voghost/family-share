@@ -22,7 +22,7 @@
     <EditText
         android:id="@+id/inputintroduce"
         android:layout_width="180dp"
-        android:layout_height="37dp"
+        android:layout_height="50dp"
         android:hint="简述此账单信息"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
@@ -35,7 +35,7 @@
     <EditText
         android:id="@+id/inputprice"
         android:layout_width="180dp"
-        android:layout_height="37dp"
+        android:layout_height="50dp"
         android:hint="请输入金额"
         android:inputType="numberDecimal"
         android:textSize="20sp"

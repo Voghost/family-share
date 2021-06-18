@@ -111,6 +111,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         userDao?.getAllCount()
     }
 
+    /**
+     * 获取用户信息
+     */
+    suspend fun getUserByUserId(id: Long): User?{
+        var user = userDao?.getUserById(id)
+        return user
+    }
 
     /**
      * 登录
