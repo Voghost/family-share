@@ -8,8 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
 import edu.dgut.network_engine.view_model.MemorandumViewModel
 import edu.dgut.network_engine.R
+import edu.dgut.network_engine.database.adapter.MemorandumAdapter
+import edu.dgut.network_engine.database.entity.Memorandum
+import kotlinx.android.synthetic.main.memorandum_fragment.*
 
 class MemorandumFragment : Fragment() {
 
@@ -35,7 +39,13 @@ class MemorandumFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MemorandumViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel.getAllMemorandum()
+            ?.observe(viewLifecycleOwner, { memorandumList: List<Memorandum> ->
+                memorandum_recycle_view.adapter =
+                    MemorandumAdapter(this.requireContext(),memorandumList,viewModel)
+                memorandum_recycle_view.layoutManager = LinearLayoutManager(activity)
+            })
+
     }
 
 }

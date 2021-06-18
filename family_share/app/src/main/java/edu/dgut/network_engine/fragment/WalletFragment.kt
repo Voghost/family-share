@@ -60,7 +60,6 @@ class WalletFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(WalletViewModel::class.java)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        // TODO: Use the ViewModel
         recyclerView = requireView().findViewById(R.id.recycler_view)
         val allList =
             userViewModel.getAllUserWithUserList()

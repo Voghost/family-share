@@ -11,6 +11,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.view_model.ShareViewModel
 
@@ -23,7 +24,7 @@ class ShareFragment : Fragment() {
 
     private lateinit var viewModel: ShareViewModel
     private lateinit var webView: WebView
-
+    private lateinit var refreshView: SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
