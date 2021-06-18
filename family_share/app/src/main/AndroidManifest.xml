@@ -21,70 +21,70 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Family_share">
-        <activity android:name=".ModifyInfoActivity">
+        <activity android:name=".ModifyInfoActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.ModifyInfoActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddMemberByCodeActivity">
+        <activity android:name=".AddMemberByCodeActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.AddMemberByCodeActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".AboutActivity">
+        <activity android:name=".AboutActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.AboutActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddMemorandumActivity">
+        <activity android:name=".AddMemorandumActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.AddMemorandumActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddMemberActivity">
+        <activity android:name=".AddMemberActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.addMemberActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".memberDetailActivity">
+        <activity android:name=".memberDetailActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.memberDetailActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddAccountActivity">
+        <activity android:name=".AddAccountActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.AddAccountActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.LoginAccountActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".RegisterActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.RegistAccountActivity" />
 
