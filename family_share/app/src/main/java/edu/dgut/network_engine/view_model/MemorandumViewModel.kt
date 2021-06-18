@@ -14,9 +14,17 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
     private val allMemorandums = MutableLiveData<List<Memorandum>>()
 
     /**
+     * 获取livedata
+     */
+    fun getLiveData(): MutableLiveData<List<Memorandum>> {
+        getAllMemorandum()
+        return allMemorandums
+    }
+
+    /**
      * 获取所有数据
      */
-    fun getAllMemorandum(): MutableLiveData<List<Memorandum>> {
+    fun getAllMemorandum(){
         viewModelScope.launch {
             var res = apiCall { MemorandumApi.get().all() }
             if (res.code == 200 && res.data != null) {
@@ -26,7 +34,6 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
             }
 
         }
-        return allMemorandums
     }
 
     /**
@@ -40,8 +47,8 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
             } else {
                 Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
             }
-
         }
+        getAllMemorandum()
     }
 
     /**

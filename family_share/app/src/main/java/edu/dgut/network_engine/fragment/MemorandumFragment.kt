@@ -39,8 +39,9 @@ class MemorandumFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MemorandumViewModel::class.java)
-        viewModel.getAllMemorandum()
+        viewModel.getLiveData()
             ?.observe(viewLifecycleOwner, { memorandumList: List<Memorandum> ->
+                println("test 备忘录")
                 memorandum_recycle_view.adapter =
                     MemorandumAdapter(this.requireContext(),memorandumList,viewModel)
                 memorandum_recycle_view.layoutManager = LinearLayoutManager(activity)

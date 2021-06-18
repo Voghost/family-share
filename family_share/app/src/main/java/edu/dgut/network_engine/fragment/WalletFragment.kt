@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -20,6 +21,7 @@ import edu.dgut.network_engine.database.adapter.MemberAdapter
 import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.view_model.UserViewModel
 import edu.dgut.network_engine.view_model.WalletViewModel
+import kotlinx.coroutines.launch
 import okhttp3.internal.notifyAll
 import java.lang.Exception
 import java.lang.Thread.sleep
@@ -70,6 +72,10 @@ class WalletFragment : Fragment() {
                 })
         refreshView.setOnRefreshListener {
 
+            // 从云端同步数据
+            lifecycleScope.launch {
+                userViewModel.synFamily()
+            }
             Toast.makeText(this.context, "刷新成功",Toast.LENGTH_LONG).show()
             recyclerView.adapter?.notifyDataSetChanged()
             refreshView.isRefreshing=false

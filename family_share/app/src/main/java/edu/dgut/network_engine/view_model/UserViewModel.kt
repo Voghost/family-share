@@ -145,6 +145,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             user.updateTime = res.data?.updateTime
             user.avatarUrl = res.data?.avatarUrl
             user.familyCode = res.data?.familyCode
+            user.isMe = true // 注册的是当前用户
             println(res)
 
             // 保存token 到sharedPreferences
@@ -166,7 +167,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-
     /**
      * 判断用户名是否已存在
      */
@@ -180,8 +180,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * @param inviterToken 邀请者token
      * @param familyCode 家庭id
      */
-    suspend fun joinFamily(inviterToken: String, familyCode: Long) {
-        val res = apiCall { UserApi.get().joinFamily(inviterToken, familyCode) }
+    suspend fun joinFamily(inviterToken: String) {
+        val res = apiCall { UserApi.get().joinFamily(inviterToken) }
         if (res.code == 200 && res.data != null) {
             var userList: List<NewUserTdo>? = res.data
             /**
@@ -219,15 +219,20 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 for (user in res.data!!) {
                     var tempUser = userDao?.getUserById(user.userId!!)
                     if (tempUser != null) {
-                        tempUser.username = user.username
-                        tempUser.nickname = user.nickname
-                        tempUser.familyCode = user.familyCode
-                        tempUser.avatarUrl = user.avatarUrl
-                        tempUser.updateTime = user.updateTime
-                        tempUser.primaryUser = user.primaryUser
-                        tempUser.phone = user.phone
-                        tempUser.version = user.version
-                        userDao?.update(tempUser)
+                        if (tempUser.familyCode == tempUser.userId && tempUser.isMe == false) {
+                            // 如果family code 指向自己 且 不为当前用户, 则删除
+                            userDao?.delete(tempUser.userId!!)
+                        } else {
+                            tempUser.username = user.username
+                            tempUser.nickname = user.nickname
+                            tempUser.familyCode = user.familyCode
+                            tempUser.avatarUrl = user.avatarUrl
+                            tempUser.updateTime = user.updateTime
+                            tempUser.primaryUser = user.primaryUser
+                            tempUser.phone = user.phone
+                            tempUser.version = user.version
+                            userDao?.update(tempUser)
+                        }
                     } else {
                         var tempUser: User = User()
                         tempUser.userId = user.userId

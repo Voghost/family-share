@@ -8,13 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import edu.dgut.network_engine.database.entity.User
 import edu.dgut.network_engine.view_model.UserViewModel
-import kotlinx.android.synthetic.main.activity_add_member.*
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_register.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlin.properties.Delegates
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var userViewModel: UserViewModel;
@@ -43,8 +39,8 @@ class LoginActivity : AppCompatActivity() {
         RegisterButton.setOnClickListener {
             lifecycleScope.async {
                 var user: User? = userViewModel.getMe()
-                if (user == null) {
-                    Toast.makeText(applicationContext, "本机已存在用户，无需登录", Toast.LENGTH_SHORT).show()
+                if (user != null) {
+                    Toast.makeText(applicationContext, "本机已存在用户，无需注册", Toast.LENGTH_SHORT).show()
                 } else {
                     userViewModel.getAllUserList()
                     var intent = Intent(applicationContext, RegisterActivity::class.java)

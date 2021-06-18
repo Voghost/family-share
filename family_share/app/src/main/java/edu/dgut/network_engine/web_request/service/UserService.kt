@@ -25,8 +25,7 @@ interface UserService {
     @POST("user/join_family")
     @FormUrlEncoded
     suspend fun joinFamily(
-        @Field("token") token: String,
-        @Field("familyId") id: Long
+        @Field("token") token: String
     ): BaseResponse<List<NewUserTdo>>
 
     @POST("user/syn_family")
