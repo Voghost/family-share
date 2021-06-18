@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.widget.Toast
+import androidx.core.graphics.translationMatrix
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -14,10 +15,12 @@ import edu.dgut.network_engine.database.room_db.FamilyShareDatabase
 import edu.dgut.network_engine.web_request.BaseResponse
 import edu.dgut.network_engine.web_request.api.UserApi
 import edu.dgut.network_engine.web_request.apiCall
-import edu.dgut.network_engine.web_request.tdo.NewUser
-import edu.dgut.network_engine.web_request.tdo.Token
+import edu.dgut.network_engine.web_request.tdo.NewUserTdo
+import edu.dgut.network_engine.web_request.tdo.TokenTdo
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.internal.notifyAll
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
     private var userDao: UserDao? = null
@@ -37,6 +40,21 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
+     * 获取自己的账户
+     */
+    suspend fun getMe(): User? = withContext(viewModelScope.coroutineContext) {
+        userDao?.getMe()
+    }
+
+    /**
+     * 获取所有用户 (非livedata)
+     */
+    suspend fun getAllUserListNotLiveData(): List<User>? =
+        withContext(viewModelScope.coroutineContext) {
+            userDao?.getAllNotLiveData()
+        }
+
+    /**
      * 插入一条数据, 在新的线程中执行
      */
     fun insertUser(user: User) = viewModelScope.launch {
@@ -54,6 +72,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      *更新一条数据，在新的线程中
      */
     fun updateUser(user: User) = viewModelScope.launch {
+        user.version = user.version?.plus(1L) //更新版本
         userDao?.update(user)
     }
 
@@ -75,7 +94,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * 通过id获取某个用户的所有账单信息
      */
     fun getUserWithAccountListByUserId(id: Long): LiveData<UserWithAccountList>? {
-        return userDao?.getUsersWithAccountListByUserId(id)
+        var usersWithAccountListByUserId = userDao?.getUsersWithAccountListByUserId(id)
+        return usersWithAccountListByUserId
     }
 
     /**
@@ -89,12 +109,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 登录
      */
-    suspend fun login(userName: String, password: String): BaseResponse<Token>? {
+    suspend fun login(userName: String, password: String): Boolean {
         var loginMap = mapOf<String, String>("username" to userName, "password" to password)
         val res = apiCall { UserApi.get().login(loginMap) }
         return if (res.code != 200 || res.data == null) {
             Toast.makeText(getApplication(), res.toString(), Toast.LENGTH_SHORT).show()
-            null
+            false
         } else {
             // 保存token 到sharedPreferences
             val sharedPreferences: SharedPreferences =
@@ -104,15 +124,16 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             val editor = sharedPreferences.edit()
             editor.putString("token", res?.data?.token)
             editor.apply()
-            res
+            Toast.makeText(getApplication(), "登录成功", Toast.LENGTH_SHORT).show()
+            true
         }
     }
 
     /**
      * 注册
      */
-    suspend fun register(newUser: NewUser): Boolean {
-        val res = apiCall { UserApi.get().register(newUser) }
+    suspend fun register(newUserTdo: NewUserTdo): Boolean {
+        val res = apiCall { UserApi.get().register(newUserTdo) }
         return if (res.code == 200 && res.data != null) {
             var user: User = User()
             user.userId = res.data?.userId
@@ -145,14 +166,86 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
+
+    /**
+     * 判断用户名是否已存在
+     */
     suspend fun isUsernameExist(userName: String) {
         val res = apiCall { UserApi.get().isUsernameExist(userName) }
         println(res)
     }
 
     /**
-     * 同步family
+     * 加入家庭
+     * @param inviterToken 邀请者token
+     * @param familyCode 家庭id
      */
+    suspend fun joinFamily(inviterToken: String, familyCode: Long) {
+        val res = apiCall { UserApi.get().joinFamily(inviterToken, familyCode) }
+        if (res.code == 200 && res.data != null) {
+            var userList: List<NewUserTdo>? = res.data
+            /**
+             * 批量添加用户
+             */
+            for (user in userList!!) {
+                var tempUser: User = User()
+                tempUser.userId = user.userId
+                tempUser.username = user.username
+                tempUser.nickname = user.nickname
+                tempUser.primaryUser = user.primaryUser
+                tempUser.avatarUrl = user.avatarUrl
+                tempUser.phone = user.phone
+                tempUser.updateTime = user.updateTime
+                tempUser.createTime = user.createTime
+                tempUser.familyCode = user.familyCode
+
+                tempUser.version = user.version
+
+                insertUser(tempUser)
+            }
+        } else {
+            Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * 同步家庭
+     */
+    suspend fun synFamily() {
+        var allUsers: List<User>? = userDao?.getAllNotLiveData()
+        if (allUsers != null) {
+            var res = apiCall { UserApi.get().synFamily(allUsers) }
+            if (res.code == 200 && res.data != null) {
+                for (user in res.data!!) {
+                    var tempUser = userDao?.getUserById(user.userId!!)
+                    if (tempUser != null) {
+                        tempUser.username = user.username
+                        tempUser.nickname = user.nickname
+                        tempUser.familyCode = user.familyCode
+                        tempUser.avatarUrl = user.avatarUrl
+                        tempUser.updateTime = user.updateTime
+                        tempUser.primaryUser = user.primaryUser
+                        tempUser.phone = user.phone
+                        tempUser.version = user.version
+                        userDao?.update(tempUser)
+                    } else {
+                        var tempUser: User = User()
+                        tempUser.userId = user.userId
+                        tempUser.username = user.username
+                        tempUser.nickname = user.nickname
+                        tempUser.phone = user.phone
+                        tempUser.primaryUser = user.primaryUser
+                        tempUser.createTime = user.createTime
+                        tempUser.updateTime = user.updateTime
+                        tempUser.avatarUrl = user.avatarUrl
+                        tempUser.familyCode = user.familyCode
+                        tempUser.version = user.version
+                        userDao?.insert(tempUser)
+                    }
+                }
+            }
+        }
+    }
 
 }
 

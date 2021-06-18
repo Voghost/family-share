@@ -5,7 +5,7 @@ import edu.dgut.network_engine.database.entity.User
 /**
  * 传值的user
  */
-class NewUser {
+class NewUserTdo {
     var userId: Long? = null        // 用户id
     var username: String? = null    // 用户名称 唯一
     var nickname: String? = null    // 用户昵称
@@ -18,4 +18,6 @@ class NewUser {
     var familyCode: Long? = null    // 家庭code
     var password: String? = null    // 密码
     var token: String? = null       // token
+
+    var version: Long? = null       //数据库版本
 }

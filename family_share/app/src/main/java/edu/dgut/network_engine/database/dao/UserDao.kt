@@ -19,6 +19,12 @@ interface UserDao {
     suspend fun insert(user: User)
 
     /**
+     * 通过id寻找用户
+     */
+    @Query("SELECT * FROM user_table WHERE userId = :id")
+    suspend fun getUserById(id: Long): User?
+
+    /**
      * 删除通过id删除一条数据
      */
     @Query("DELETE FROM user_table WHERE userId = :id")
@@ -29,6 +35,12 @@ interface UserDao {
      */
     @Query("SELECT * FROM user_table")
     fun getAll(): LiveData<List<User>>
+
+    /**
+     * 获取所有数据
+     */
+    @Query("SELECT * FROM user_table")
+    suspend fun getAllNotLiveData(): List<User>
 
     /**
      * 通过家庭主成员
@@ -43,7 +55,8 @@ interface UserDao {
      * 查询用户的所有account数据
      */
     @Transaction
-    @Query("SELECT * FROM user_table where userId=:id")
+    //    @Query("SELECT * FROM user_table INNER JOIN  (SELECT * FROM account_table WHERE isDeleted = 0 ) WHERE user_table.userId=:id")
+    @Query("SELECT * FROM user_table WHERE userId = :id")
     fun getUsersWithAccountListByUserId(id: Long): LiveData<UserWithAccountList>
 
     /**
@@ -70,4 +83,8 @@ interface UserDao {
      */
     @Query("DELETE FROM user_table")
     suspend fun deleteAll()
+
+
+    @Query("SELECT * FROM user_table WHERE isMe = 1")
+    suspend fun getMe(): User
 }

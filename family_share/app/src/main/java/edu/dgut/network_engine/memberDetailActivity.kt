@@ -101,11 +101,11 @@ class memberDetailActivity : AppCompatActivity() {
             })*/
 
         //开关控制曲线图
-        var switchA:Switch = findViewById(R.id.switch1)
-        var switchB:Switch = findViewById(R.id.switch2)
-        var switchC:Switch = findViewById(R.id.switch3)
-        var switchD:Switch = findViewById(R.id.switch4)
-        var graph: GraphView =findViewById(R.id.graph)
+        var switchA: Switch = findViewById(R.id.switch1)
+        var switchB: Switch = findViewById(R.id.switch2)
+        var switchC: Switch = findViewById(R.id.switch3)
+        var switchD: Switch = findViewById(R.id.switch4)
+        var graph: GraphView = findViewById(R.id.graph)
         //最近一周收入测试数据
         var seriesA: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
         seriesA.appendData(DataPoint(1.0, 1.0), false, 3)
@@ -115,9 +115,9 @@ class memberDetailActivity : AppCompatActivity() {
         //
         switchA.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                switchB.isChecked=false
-                switchC.isChecked=false
-                switchD.isChecked=false
+                switchB.isChecked = false
+                switchC.isChecked = false
+                switchD.isChecked = false
                 graph.addSeries(seriesA)
             } else {
                 graph.removeAllSeries()
@@ -125,16 +125,16 @@ class memberDetailActivity : AppCompatActivity() {
             }
         }
         //最近一周支出测试数据
-        var seriesC:LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
+        var seriesC: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
         seriesC.appendData(DataPoint(1.0, 1.0), false, 3)
         seriesC.appendData(DataPoint(2.0, 1.0), false, 3)
         seriesC.appendData(DataPoint(3.0, 3.0), false, 3)
         //
         switchC.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                switchA.isChecked=false
-                switchB.isChecked=false
-                switchD.isChecked=false
+                switchA.isChecked = false
+                switchB.isChecked = false
+                switchD.isChecked = false
                 graph.addSeries(seriesC)
             } else {
                 graph.removeAllSeries()
@@ -143,32 +143,32 @@ class memberDetailActivity : AppCompatActivity() {
         }
 
         //最近一月测试数据
-        var seriesB:LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
+        var seriesB: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
         seriesB.appendData(DataPoint(1.0, 6.0), false, 3)
         seriesB.appendData(DataPoint(2.0, 3.0), false, 3)
         seriesB.appendData(DataPoint(3.0, 1.0), false, 3)
         //
         switchB.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                switchA.isChecked=false
-                switchC.isChecked=false
-                switchD.isChecked=false
+                switchA.isChecked = false
+                switchC.isChecked = false
+                switchD.isChecked = false
                 graph.addSeries(seriesB)
             } else {
                 graph.removeAllSeries()
 
             }
         }
-        var seriesD:LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
+        var seriesD: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
         seriesD.appendData(DataPoint(1.0, 6.0), false, 3)
         seriesD.appendData(DataPoint(2.0, 3.0), false, 3)
         seriesD.appendData(DataPoint(3.0, 1.0), false, 3)
         //
         switchD.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                switchA.isChecked=false
-                switchB.isChecked=false
-                switchC.isChecked=false
+                switchA.isChecked = false
+                switchB.isChecked = false
+                switchC.isChecked = false
                 graph.addSeries(seriesD)
             } else {
                 graph.removeAllSeries()
