@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat
 class MemorandumAdapter(
     private var context: Context,
     private var exampleList: List<Memorandum>,
-    private var memorandumViewModel: MemorandumViewModel
+    private var memorandumViewModel: MemorandumViewModel,
 ) :
 
     RecyclerView.Adapter<MemorandumAdapter.MemorandumViewHolder>() {
@@ -69,12 +69,16 @@ class MemorandumAdapter(
     override fun onBindViewHolder(holder: MemorandumViewHolder, position: Int) {
         val currentItem = exampleList[position]
 
-        holder.textView1.text = currentItem.createTime.toString()
-        if(currentItem.content?.length!! > 10){
-            holder.textView2.text = currentItem.content?.substring(0,9) + "....."
-        }else{
-            holder.textView2.text = currentItem.content
+
+        //        holder.textView2.text = currentItem.createTime.toString()
+        holder.textView2.text = currentItem.username
+
+        if (currentItem.content?.length!! > 10) {
+            holder.textView1.text = currentItem.content?.substring(0, 9) + "....."
+        } else {
+            holder.textView1.text = currentItem.content
         }
+
 
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
@@ -93,7 +97,6 @@ class MemorandumAdapter(
                 "确定"
             ) { dialog, which ->
                 currentItem.id?.let { it1 -> memorandumViewModel.deleteMemorandum(it1) }
-//            exampleList -= exampleList[position]
                 notifyItemRemoved(position)
 
             }

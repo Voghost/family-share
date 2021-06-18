@@ -47,7 +47,6 @@ class AddMemorandumActivity : AppCompatActivity() {
         save = findViewById(R.id.btn_save)
         reset = findViewById(R.id.btn_reset)
         //清空
-        var memorandumMessage = edit.text.toString()
         reset.setOnClickListener {
             edit.setText("")
         }
@@ -59,6 +58,7 @@ class AddMemorandumActivity : AppCompatActivity() {
             lifecycleScope.async {
                 var user: User? = userViewModel.getMe()
                 var userid = user?.userId
+                var memorandumMessage = edit.text.toString()
                 var temp = Memorandum(
                     null, memorandumMessage, createtime, null, null, null, userid
                 )
