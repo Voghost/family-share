@@ -1,7 +1,10 @@
 package edu.dgut.network_engine.fragment
 
+import android.app.Application
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
@@ -12,6 +15,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import edu.dgut.network_engine.DensityUtil
+import edu.dgut.network_engine.MyApplication
 import edu.dgut.network_engine.view_model.PersonViewModel
 import edu.dgut.network_engine.R
 import jp.wasabeef.glide.transformations.BlurTransformation
@@ -92,8 +96,16 @@ class PersonFragment : Fragment() {
         //监听确定退出按钮
         dialog.findViewById<TextView>(R.id.tv_logout).setOnClickListener{
             //处理登出
-
+            val sharedPreferences: SharedPreferences =
+                MyApplication.getContext()!!.getSharedPreferences("data", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.clear()
+            editor.apply()
             dialog.dismiss()
+            var intent=Intent("android.intent.LoginAccountActivity")
+            startActivity(intent)
+            requireActivity().finish()
+
         }
         //监听取消按钮
         dialog.findViewById<TextView>(R.id.tv_cancel).setOnClickListener { dialog.dismiss() }
