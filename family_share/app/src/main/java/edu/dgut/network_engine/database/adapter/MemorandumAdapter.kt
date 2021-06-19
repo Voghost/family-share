@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat
 class MemorandumAdapter(
     private var context: Context,
     private var exampleList: List<Memorandum>,
-    private var memorandumViewModel: MemorandumViewModel
+    private var memorandumViewModel: MemorandumViewModel,
 ) :
 
     RecyclerView.Adapter<MemorandumAdapter.MemorandumViewHolder>() {
@@ -69,16 +69,35 @@ class MemorandumAdapter(
     override fun onBindViewHolder(holder: MemorandumViewHolder, position: Int) {
         val currentItem = exampleList[position]
 
-        holder.textView1.text = currentItem.createTime.toString()
-        if(currentItem.content?.length!! > 10){
-            holder.textView2.text = currentItem.content?.substring(0,9) + "....."
-        }else{
-            holder.textView2.text = currentItem.content
+
+        //        holder.textView2.text = currentItem.createTime.toString()
+        holder.textView2.text = currentItem.username
+
+        if (currentItem.content?.length!! > 10) {
+            holder.textView1.text = currentItem.content?.substring(0, 9) + "....."
+        } else {
+            holder.textView1.text = currentItem.content
+        }
+
+        if(currentItem.endTime == null) {
+            holder.textView2.text = "By" + currentItem.username + "      一直有效"
+        }else {
+            val dateStr: String =
+                android.icu.text.SimpleDateFormat("yyyy 年 MM 月 dd 日").format(currentItem.endTime)
+            holder.textView2.text = "By: " + currentItem.username  + "      截止日期:"+ dateStr /*+ currentItem.endTime.toString()*/
         }
 
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
             currentItem.content?.let { it1 -> bundle.putString("Content", it1) }
+            bundle.putLong("Id",currentItem.id!!)
+            if(currentItem.endTime == null){
+                bundle.putString("EndTime","一直有效")
+            }else {
+                var endTime =
+                    android.icu.text.SimpleDateFormat("yyyy-MM-dd").format(currentItem.endTime)
+                bundle.putString("EndTime",endTime)
+            }
             val intent = Intent(context, AddMemorandumActivity::class.java)
             intent.putExtras(bundle)
             context.startActivity(intent)

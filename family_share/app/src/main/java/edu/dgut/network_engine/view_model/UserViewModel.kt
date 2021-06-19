@@ -40,6 +40,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         return allUserList
     }
 
+    suspend fun getUserById(id: Long) = withContext(viewModelScope.coroutineContext) {
+        userDao?.getUserById(id)
+    }
+
     /**
      * 获取自己的账户
      */
@@ -61,6 +65,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun insertUser(user: User) = viewModelScope.launch {
         userDao?.insert(user)
     }
+
 
     /**
      * 删除一条数据, 在新的线程中执行
@@ -106,6 +111,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         userDao?.getAllCount()
     }
 
+    /**
+     * 获取用户信息
+     */
+    suspend fun getUserByUserId(id: Long): User?{
+        var user = userDao?.getUserById(id)
+        return user
+    }
 
     /**
      * 登录
