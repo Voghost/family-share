@@ -36,7 +36,7 @@ interface MemorandumDao {
     /**
      * 获取全部
      */
-    @Query("SELECT * FROM memorandum_table")
+    @Query("SELECT * FROM memorandum_table ORDER BY createTime DESC")
     fun getAll(): LiveData<List<Memorandum>>
 
     /**

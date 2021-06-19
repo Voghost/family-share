@@ -36,6 +36,8 @@ interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(account: Account)
 
+    @Query("DELETE FROM account_table")
+    suspend fun deleteAll()
 
     /**
      *通过id删除一条数据

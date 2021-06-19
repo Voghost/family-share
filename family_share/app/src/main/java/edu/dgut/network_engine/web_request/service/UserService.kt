@@ -15,7 +15,7 @@ interface UserService {
     @POST("user/login")
     suspend fun login(
         @Body map: Map<String, String>,
-    ): BaseResponse<TokenTdo>
+    ): BaseResponse<NewUserTdo>
 
     @POST("user/register")
     suspend fun register(
@@ -38,7 +38,10 @@ interface UserService {
     @POST("upload/file")
     suspend fun upload(@Part part: MultipartBody.Part): BaseResponse<UrlTdo>
 
-    @GET("user")
+    @GET("user/quit_family")
     suspend fun quitFamily(): BaseResponse<String>
+
+    @GET("/user/logout")
+    suspend fun logout()
 
 }

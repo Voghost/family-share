@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import edu.dgut.network_engine.database.dao.AccountDao
 import edu.dgut.network_engine.database.dao.UserDao
 import edu.dgut.network_engine.database.entity.User
 import edu.dgut.network_engine.database.entity.UserWithAccountList
@@ -25,11 +26,13 @@ import java.io.*
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
     private var userDao: UserDao? = null
+    private var accountDao: AccountDao? = null
     private lateinit var allUserList: LiveData<List<User>>
 
     init {
         val familyShareDatabase: FamilyShareDatabase = FamilyShareDatabase.getInstance(application)
         userDao = familyShareDatabase.getUserDao()
+        accountDao = familyShareDatabase.getAccountDao()
         allUserList = userDao!!.getAll()
     }
 
@@ -119,6 +122,15 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         return user
     }
 
+
+    fun logout() {
+        viewModelScope.launch {
+            // apiCall { UserApi.get().}
+            accountDao?.deleteAll()
+            userDao?.deleteAll()
+        }
+    }
+
     /**
      * 退出家庭
      */
@@ -156,7 +168,20 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             val editor = sharedPreferences.edit()
             editor.putString("token", res?.data?.token)
             editor.apply()
+            var user: User = User()
+            user.userId = res.data?.userId
+            user.username = res.data?.username
+            user.nickname = res.data?.nickname
+            user.phone = res.data?.phone
+            user.primaryUser = res.data?.primaryUser
+            user.createTime = res.data?.createTime
+            user.updateTime = res.data?.updateTime
+            user.avatarUrl = res.data?.avatarUrl
+            user.familyCode = res.data?.familyCode
+            user.isMe = true
+            userDao?.insert(user)
             Toast.makeText(getApplication(), "登录成功", Toast.LENGTH_SHORT).show()
+
             true
         }
     }
@@ -190,7 +215,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             editor.apply()
 
             // 插入这个user
-            insertUser(user)
+            userDao?.insert(user)
             true;
         } else {
             Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
@@ -277,9 +302,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         tempUser.avatarUrl = user.avatarUrl
                         tempUser.familyCode = user.familyCode
                         tempUser.version = user.version
-                        if (user.familyCode == user.userId) {
-                            tempUser.isMe = true
-                        }
                         userDao?.insert(tempUser)
                     }
                 }
@@ -312,8 +334,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
         }
     }
+
     //删除全部
-    suspend fun deleteAll(){
+    suspend fun deleteAll() {
         userDao?.deleteAll()
     }
 

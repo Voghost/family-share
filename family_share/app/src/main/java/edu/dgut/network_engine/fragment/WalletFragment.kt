@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -44,6 +45,7 @@ class WalletFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var btn: FloatingActionButton
     private lateinit var refreshView:SwipeRefreshLayout
+    private lateinit var imageView:ImageView
 
 //    private lateinit var memberlist: List<MemberItem>
 

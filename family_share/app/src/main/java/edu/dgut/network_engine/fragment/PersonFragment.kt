@@ -129,7 +129,7 @@ class PersonFragment : Fragment() {
                         "确定"
                     ) { dialog, which ->
                         lifecycleScope.launch {
-                            userViewModel.deleteAll()
+                            userViewModel.quitFamily()
                         }
                     }
                     builder.setNegativeButton(
@@ -191,6 +191,7 @@ class PersonFragment : Fragment() {
             val editor = sharedPreferences.edit()
             editor.clear()
             editor.apply()
+            userViewModel.logout()
             dialog.dismiss()
             var intent = Intent("android.intent.LoginAccountActivity")
             startActivity(intent)
