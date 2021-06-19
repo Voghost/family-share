@@ -74,7 +74,7 @@ class MemorandumAdapter(
         holder.textView2.text = currentItem.username
 
         if (currentItem.content?.length!! > 10) {
-            holder.textView1.text = currentItem.content?.substring(0, 9) + "....."
+            holder.textView1.text = currentItem.content?.substring(0, 8) + ".."
         } else {
             holder.textView1.text = currentItem.content
         }

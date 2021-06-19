@@ -65,35 +65,41 @@ class HomeFragment : Fragment() {
                     Log.v("执行了","空判断")
                     listView.adapter = ListViewEmptyAdapter(this.requireContext(),memorandumList,Color.WHITE)
                 }else{
-//                    var templist = arrayListOf<Memorandum>()
-//                    for(i in 0..3){
-//                        Log.v("测试",memorandumList[i].toString())
-//                        if(memorandumList[i] != null){
-//                            templist.add(memorandumList[i])
-//                        }
-//                    }
-                    listView.adapter = ListViewAdapter(this.requireContext(),memorandumList, Color.WHITE)
+                    var templist = arrayListOf<Memorandum>()
+                    for(i in memorandumList.indices){
+                        templist.add(memorandumList[i])
+                        Log.v("测试",i.toString())
+                        if(i > 3){
+                            break;
+                        }
+                    }
+                    listView.adapter = ListViewAdapter(this.requireContext(),templist, Color.WHITE)
                 }
             })
 
         accountViewModel.getAll()
             ?.observe(viewLifecycleOwner, { accountList: List<Account> ->
-                var total = 0.0
+                var totalCost = 0.0
+                var totalIncome = 0.0
                 for(current in accountList){
                     if(current.price!!.signum() == 1){
-                        total += current.price!!.toDouble()
+                        totalCost += current.price!!.toDouble()
+                    }else{
+                        totalIncome += current.price!!.abs().toDouble()
                     }
                 }
-                familyTotal.text = total.toString()
+                if(totalCost/10000000 > 0){
+                    familyTotalCost.text = (totalCost/10000000).toString() + "千" + (totalCost-(totalCost/10000000)*10000000).toString() + "百万"
+                }else{
+                    familyTotalCost.text = totalCost.toString()
+                }
+                if(totalIncome/10000000 > 0){
+                    familyTotalIncome.text = (totalIncome/10000000).toString() + "千" + (totalIncome-(totalIncome/10000000)*10000000).toString() + "百万"
+                }else{
+                    familyTotalIncome.text = totalIncome.toString()
+                }
             })
-        buttonTest = requireView().findViewById(R.id.btTest)
-        var res: BaseResponse<TokenTdo>? = null
-        var act = this.activity
-        buttonTest.setOnClickListener {
-            var memorandum: Memorandum = Memorandum()
 
-            memorandumViewModel.deleteMemorandum(1)
-        }
     }
 
 }
