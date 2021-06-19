@@ -3,6 +3,7 @@ package edu.dgut.network_engine.database.adapter
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,11 +14,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.memberDetailActivity
 import edu.dgut.network_engine.view_model.UserViewModel
 import kotlinx.android.synthetic.main.member_item.view.*
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.SimpleDateFormat
 
 
@@ -77,7 +81,13 @@ class MemberAdapter(
                     income += currentItem.accountList!![i].price!!.abs().toDouble()
                 }
             }
-            holder.imageView.setImageResource(R.mipmap.ic_launcher)
+            if(currentItem.user!!.avatarUrl == null){
+                Log.v("执行了默认","图片")
+                holder.imageView.setImageResource(R.mipmap.ic_launcher)
+            }else{
+                Log.v("执行了替换","图片")
+                Glide.with(context).load(currentItem!!.user!!.avatarUrl).into(holder.imageView)
+            }
             holder.textView1.text = currentItem.user?.username
 //            var time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 //            time.timeZone =
