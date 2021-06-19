@@ -19,6 +19,18 @@ interface AccountDao {
     fun getAll(): LiveData<List<Account>>
 
     /**
+     * 非livedata 获取所有
+     */
+    @Query("SELECT * FROM account_table WHERE isDeleted=0")
+    suspend fun getAllNoLiveData(): List<Account>
+
+    @Query("SELECT * FROM account_table WHERE synId=:id")
+    suspend fun getBySynId(id: Long): Account
+
+    @Query("SELECT * FROM account_table WHERE accountId=:id")
+    suspend fun getById(id: Long): Account
+
+    /**
      * 插入一条数据
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -28,8 +40,15 @@ interface AccountDao {
     /**
      *通过id删除一条数据
      */
-    @Query("UPDATE account_table SET isDeleted= 1 WHERE accountId = :id")
+    //    @Query("UPDATE account_table SET isDeleted= 1 WHERE accountId = :id")
+    @Query("DELETE FROM account_table WHERE accountId= :id")
     suspend fun deleteById(id: Long)
+
+    /**
+     * 删除
+     */
+    @Query("DELETE FROM account_table WHERE synId= :id")
+    suspend fun deleteBySynId(id: Long)
 
     /**
      * 更新数据

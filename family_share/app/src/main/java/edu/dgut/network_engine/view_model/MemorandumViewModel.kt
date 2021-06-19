@@ -39,13 +39,13 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
     /**
      * 获取所有数据
      */
-    private fun getAllMemorandum() {
+    fun getAllMemorandum() {
         viewModelScope.launch {
             var res = apiCall { MemorandumApi.get().all() }
             if (res.code == 200 && res.data != null) {
 
                 for (memorandum in res.data!!) {
-                    memorandum.username = userDao?.getUserById(memorandum.id!!)?.username
+                    memorandum.username = userDao.getUserById(memorandum.userId!!)?.username
                 }
                 memorandumDao.deleteAll() // 先删除全部
                 memorandumDao.insertAll(res.data!!) //保存到数据库
@@ -61,6 +61,8 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
      */
     fun insertMemorandum(memorandum: Memorandum) {
         viewModelScope.launch {
+            var user = userDao.getMe()
+            memorandum.userId = user.userId
             var res = apiCall { MemorandumApi.get().insert(memorandum) }
             if (res.code == 200 && res.data != null) {
                 res.data!!.username = userDao.getUserById(res.data!!.userId!!)!!.username
@@ -79,10 +81,11 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
         viewModelScope.launch {
             var res = apiCall { MemorandumApi.get().update(memorandum) }
             if (res.code == 200 && res.data != null) {
+                res.data!!.username = userDao.getUserById(res.data!!.userId!!)!!.username
                 memorandumDao.update(res.data!!) //保存到数据库
                 Toast.makeText(getApplication(), "修改成功", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(getApplication(), res.message.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }

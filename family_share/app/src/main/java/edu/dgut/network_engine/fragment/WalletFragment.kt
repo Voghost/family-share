@@ -22,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.adapter.MemberAdapter
 import edu.dgut.network_engine.database.entity.UserWithAccountList
+import edu.dgut.network_engine.view_model.AccountViewModel
 import edu.dgut.network_engine.view_model.UserViewModel
 import edu.dgut.network_engine.view_model.WalletViewModel
 import kotlinx.coroutines.launch
@@ -39,6 +40,7 @@ class WalletFragment : Fragment() {
 
     private lateinit var viewModel: WalletViewModel
     private lateinit var userViewModel: UserViewModel
+    private lateinit var accountViewModel: AccountViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var btn: FloatingActionButton
     private lateinit var refreshView:SwipeRefreshLayout
@@ -67,6 +69,7 @@ class WalletFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(WalletViewModel::class.java)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
         recyclerView = requireView().findViewById(R.id.recycler_view)
         val allList =
             userViewModel.getAllUserWithUserList()
@@ -80,6 +83,8 @@ class WalletFragment : Fragment() {
             // 从云端同步数据
             lifecycleScope.launch {
                 userViewModel.synFamily()
+                accountViewModel.syn()
+
             }
             recyclerView.adapter?.notifyDataSetChanged()
             Toast.makeText(this.context, "刷新成功",Toast.LENGTH_LONG).show()

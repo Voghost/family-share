@@ -35,6 +35,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.member_item.*
 import kotlinx.android.synthetic.main.person_fragment.*
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.net.URI
@@ -52,46 +53,75 @@ class PersonFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var root= inflater.inflate(R.layout.person_fragment, container, false)
-        var imageViewA:ImageView =root.findViewById(R.id.h_back)
-        var imageViewB:ImageView=root.findViewById(R.id.h_head)
-        var url:String?="https://cn.bing.com/sa/simg/hpb/LaDigue_EN-CA1115245085_1920x1080.jpg"
+        var root = inflater.inflate(R.layout.person_fragment, container, false)
+        var imageViewA: ImageView = root.findViewById(R.id.h_back)
+        var imageViewB: ImageView = root.findViewById(R.id.h_head)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        var act = this.activity
+        lifecycleScope.async {
+            var user = userViewModel.getMe()
+            if (user?.username != null && user!!.avatarUrl != null) {
+                var url = user.avatarUrl
+                Glide.with(act).load(url).skipMemoryCache(false)
+                    .bitmapTransform(BlurTransformation(context, 25), CenterCrop(context))
+                    .into(imageViewA)
+                Glide.with(act).load(url).skipMemoryCache(false)
+                    .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
+                var usernameTextView = requireView().findViewById<TextView>(R.id.user_name)
+                var userValTextView = requireView().findViewById<TextView>(R.id.user_val)
+                usernameTextView.text = user.username
+                userValTextView.text = user.phone
+            } else {
+                //设置背景图像
+                Glide.with(act).load(R.drawable.text2).skipMemoryCache(false)
+                    .bitmapTransform(BlurTransformation(context, 25), CenterCrop(context))
+                    .into(imageViewA)
+                //设置头像图像
+                Glide.with(act).load(R.drawable.text2).skipMemoryCache(false)
+                    .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
+            }
+        }
+
+
+        var url: String? = "https://cn.bing.com/sa/simg/hpb/LaDigue_EN-CA1115245085_1920x1080.jpg"
         //设置背景图像
-        Glide.with(this.activity).load(R.drawable.text2).skipMemoryCache(false).bitmapTransform(BlurTransformation(context,25),CenterCrop(context)).into(imageViewA)
+        Glide.with(this.activity).load(R.drawable.text2).skipMemoryCache(false)
+            .bitmapTransform(BlurTransformation(context, 25), CenterCrop(context)).into(imageViewA)
         //设置头像图像
-        Glide.with(this.activity).load(R.drawable.text2).skipMemoryCache(false).bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
-       //关于选项
-        var about:RelativeLayout=root.findViewById(R.id.about)
-        about.setOnClickListener{
-            var intent=Intent("android.intent.action.AboutActivity")
+        Glide.with(this.activity).load(R.drawable.text2).skipMemoryCache(false)
+            .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
+        //关于选项
+        var about: RelativeLayout = root.findViewById(R.id.about)
+        about.setOnClickListener {
+            var intent = Intent("android.intent.action.AboutActivity")
             startActivity(intent)
         }
         //加入家庭选项
-        var addMember:RelativeLayout=root.findViewById(R.id.add_member)
-        addMember.setOnClickListener{
-            var intent= Intent("android.intent.action.AddMemberByCodeActivity")
+        var addMember: RelativeLayout = root.findViewById(R.id.add_member)
+        addMember.setOnClickListener {
+            var intent = Intent("android.intent.action.AddMemberByCodeActivity")
             startActivity(intent)
         }
         //修改个人信息
-        var modifyInfo:RelativeLayout=root.findViewById(R.id.modify_info)
-        modifyInfo.setOnClickListener{
-            var intent= Intent("android.intent.action.ModifyInfoActivity")
+        var modifyInfo: RelativeLayout = root.findViewById(R.id.modify_info)
+        modifyInfo.setOnClickListener {
+            var intent = Intent("android.intent.action.ModifyInfoActivity")
             startActivity(intent)
         }
         //修改密码
-        var modifyPassword:RelativeLayout=root.findViewById(R.id.modify_password)
+        var modifyPassword: RelativeLayout = root.findViewById(R.id.modify_password)
         modifyPassword.setOnClickListener {
-            var intent=Intent("android.intent.action.ModifyPasswordActivity")
+            var intent = Intent("android.intent.action.ModifyPasswordActivity")
             startActivity(intent)
         }
         //登出
-        var logout:RelativeLayout=root.findViewById(R.id.logout)
-        logout.setOnClickListener{
+        var logout: RelativeLayout = root.findViewById(R.id.logout)
+        logout.setOnClickListener {
             showBottomDialog()
         }
         //更换头像
-        var headPicture:ImageView=root.findViewById(R.id.h_head)
-        headPicture.setOnClickListener{
+        var headPicture: ImageView = root.findViewById(R.id.h_head)
+        headPicture.setOnClickListener {
             showImageBottomDialog()
 
         }
@@ -102,29 +132,30 @@ class PersonFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
     }
+
     //退出登录底部dialog
-    private fun showBottomDialog(){
+    private fun showBottomDialog() {
         //使用Dialog,设置style
-        val dialog: Dialog? = context?.let { Dialog(it,R.style.DialogTheme) }
+        val dialog: Dialog? = context?.let { Dialog(it, R.style.DialogTheme) }
         //设置布局
-        var view:View=View.inflate(context,R.layout.dialog_custom_layout,null)
+        var view: View = View.inflate(context, R.layout.dialog_custom_layout, null)
         dialog!!.setContentView(view)
-        var window: Window? =dialog!!.window
+        var window: Window? = dialog!!.window
         //设置弹出位置
         window!!.setGravity(Gravity.BOTTOM)
         //设置弹出动画
         window!!.setWindowAnimations(R.style.main_menu_animStyle)
         //设置对话框大小
-        var params:ViewGroup.MarginLayoutParams  = view.layoutParams as ViewGroup.MarginLayoutParams
-        params.width = resources.displayMetrics.widthPixels - DensityUtil.dip2pxRatio(this.context, 16f)
+        var params: ViewGroup.MarginLayoutParams = view.layoutParams as ViewGroup.MarginLayoutParams
+        params.width =
+            resources.displayMetrics.widthPixels - DensityUtil.dip2pxRatio(this.context, 16f)
         params.bottomMargin = DensityUtil.dip2pxRatio(this.context, 8f)
         view.layoutParams = params
         dialog.show()
         //监听确定退出按钮
-        dialog.findViewById<TextView>(R.id.tv_logout).setOnClickListener{
+        dialog.findViewById<TextView>(R.id.tv_logout).setOnClickListener {
             //处理登出
             val sharedPreferences: SharedPreferences =
                 MyApplication.getContext()!!.getSharedPreferences("data", Context.MODE_PRIVATE)
@@ -132,7 +163,7 @@ class PersonFragment : Fragment() {
             editor.clear()
             editor.apply()
             dialog.dismiss()
-            var intent=Intent("android.intent.LoginAccountActivity")
+            var intent = Intent("android.intent.LoginAccountActivity")
             startActivity(intent)
             requireActivity().finish()
 
@@ -140,69 +171,77 @@ class PersonFragment : Fragment() {
         //监听取消按钮
         dialog.findViewById<TextView>(R.id.tv_cancel).setOnClickListener { dialog.dismiss() }
     }
+
     //选择头像底部Dialog
-    private fun showImageBottomDialog(){
+    private fun showImageBottomDialog() {
         //使用Dialog,设置style
-        val dialog: Dialog? = context?.let { Dialog(it,R.style.DialogTheme) }
+        val dialog: Dialog? = context?.let { Dialog(it, R.style.DialogTheme) }
         //设置布局
-        var view:View=View.inflate(context,R.layout.dialog_headpicture_layout,null)
+        var view: View = View.inflate(context, R.layout.dialog_headpicture_layout, null)
         dialog!!.setContentView(view)
-        var window: Window? =dialog!!.window
+        var window: Window? = dialog!!.window
         //设置弹出位置
         window!!.setGravity(Gravity.BOTTOM)
         //设置弹出动画
         window!!.setWindowAnimations(R.style.main_menu_animStyle)
         //设置对话框大小
-        var params:ViewGroup.MarginLayoutParams  = view.layoutParams as ViewGroup.MarginLayoutParams
-        params.width = resources.displayMetrics.widthPixels - DensityUtil.dip2pxRatio(this.context, 16f)
+        var params: ViewGroup.MarginLayoutParams = view.layoutParams as ViewGroup.MarginLayoutParams
+        params.width =
+            resources.displayMetrics.widthPixels - DensityUtil.dip2pxRatio(this.context, 16f)
         params.bottomMargin = DensityUtil.dip2pxRatio(this.context, 8f)
         view.layoutParams = params
         dialog.show()
 
         dialog.findViewById<TextView>(R.id.tv_album).setOnClickListener {
             //后续操作
-            var intent=Intent(Intent.ACTION_PICK,null)
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*")
-            startActivityForResult(intent,100)
+            var intent = Intent(Intent.ACTION_PICK, null)
+            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+            startActivityForResult(intent, 100)
             dialog.dismiss()
         }
         dialog.findViewById<TextView>(R.id.tv_remove).setOnClickListener { dialog.dismiss() }
     }
+
     //对图片进行裁剪
-    private fun cutImage(uri: Uri){
-        if(uri==null){
-            Log.i("alarm","the uri is not exist")
+    private fun cutImage(uri: Uri) {
+        if (uri == null) {
+            Log.i("alarm", "the uri is not exist")
         }
-        var intent=Intent("com.android.camera.action.CROP")
-        intent.setDataAndType(uri,"image/*")
-        intent.putExtra("crop,","true")
-        intent.putExtra("aspectX",1)
-        intent.putExtra("aspectY",1)
-        intent.putExtra("outputX",300)
-        intent.putExtra("outputY",300)
-        intent.putExtra("return-data",true)
-        startActivityForResult(intent,101)
+        var intent = Intent("com.android.camera.action.CROP")
+        intent.setDataAndType(uri, "image/*")
+        intent.putExtra("crop,", "true")
+        intent.putExtra("aspectX", 1)
+        intent.putExtra("aspectY", 1)
+        intent.putExtra("outputX", 4000)
+        intent.putExtra("outputY", 4000)
+        intent.putExtra("return-data", true)
+        startActivityForResult(intent, 101)
     }
-    private fun setImageToView(data:Intent){
-        var extras: Bundle? =data.extras
-        if(extras!=null){
-            var imageViewA:ImageView =requireActivity().findViewById(R.id.h_back)
-            var imageViewB:ImageView=requireActivity().findViewById(R.id.h_head)
-            var mBitmap=extras.getParcelable<Bitmap>("data")
-            var result=bmpToByteArray(mBitmap!!)
+
+    private fun setImageToView(data: Intent) {
+        var extras: Bundle? = data.extras
+        if (extras != null) {
+            var imageViewA: ImageView = requireActivity().findViewById(R.id.h_back)
+            var imageViewB: ImageView = requireActivity().findViewById(R.id.h_head)
+            var mBitmap = extras.getParcelable<Bitmap>("data")
+            var result = bmpToByteArray(mBitmap!!)
             //上传至服务器代码在此写
-            lifecycleScope.launch{
+            lifecycleScope.launch {
                 userViewModel.upload(mBitmap)
             }
 
             //设置背景图像
-            Glide.with(this.activity).load(result).skipMemoryCache(false).bitmapTransform(BlurTransformation(context,25),CenterCrop(context)).into(imageViewA)
+            Glide.with(this.activity).load(result).skipMemoryCache(false)
+                .bitmapTransform(BlurTransformation(context, 25), CenterCrop(context))
+                .into(imageViewA)
             //设置头像图像
-           Glide.with(this.activity).load(result).skipMemoryCache(false).bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
+            Glide.with(this.activity).load(result).skipMemoryCache(false)
+                .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
 
 
         }
     }
+
     //Bitmap转二进制
     private fun bmpToByteArray(bmp: Bitmap): ByteArray {
         val output = ByteArrayOutputStream()
@@ -220,27 +259,21 @@ class PersonFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode== RESULT_OK){
-            when(requestCode){
-                100->{
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                100 -> {
                     if (data != null) {
                         data.data?.let { cutImage(it) }
                     }
                 }
-                101->{
-                    if(data !=null){
+                101 -> {
+                    if (data != null) {
                         setImageToView(data)
                     }
                 }
             }
         }
     }
-
-
-
-
-
-
 
 
 }

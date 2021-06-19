@@ -114,9 +114,28 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 获取用户信息
      */
-    suspend fun getUserByUserId(id: Long): User?{
+    suspend fun getUserByUserId(id: Long): User? {
         var user = userDao?.getUserById(id)
         return user
+    }
+
+    /**
+     * 退出家庭
+     */
+    fun quitFamily() {
+        viewModelScope.launch {
+            var me = userDao?.getMe()
+            var res = apiCall { UserApi.get().quitFamily() }
+            if (res.code == 200) {
+                Toast.makeText(getApplication(), "退出成功", Toast.LENGTH_SHORT).show()
+                if (me != null) {
+                    userDao?.deleteNotEqual(me.userId!!)
+                }
+
+            } else {
+                Toast.makeText(getApplication(), "退出失败", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     /**
@@ -258,6 +277,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         tempUser.avatarUrl = user.avatarUrl
                         tempUser.familyCode = user.familyCode
                         tempUser.version = user.version
+                        if (user.familyCode == user.userId) {
+                            tempUser.isMe = true
+                        }
                         userDao?.insert(tempUser)
                     }
                 }
@@ -269,18 +291,22 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun upload(bitmap: Bitmap) {
 
         var bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
         var bitmapData: ByteArray = bos.toByteArray()
 
         val fileRQ: RequestBody = RequestBody.create("image/JPEG".toMediaTypeOrNull(), bitmapData)
         var part: MultipartBody.Part =
-            MultipartBody.Part.Companion.createFormData("file", "file", fileRQ)
+            MultipartBody.Part.Companion.createFormData("file", "file.jpg", fileRQ)
         viewModelScope.launch {
             var res = apiCall { UserApi.get().upload(part) }
             if (res.code == 200 && res.data != null) {
                 var me = userDao?.getMe()
-                me?.avatarUrl = res.data
+                me?.avatarUrl = res.data!!.url
+                me?.version = me?.version?.plus(1)
+                userDao?.update(me!!)
+
             } else {
+                println(res)
                 Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
             }
 

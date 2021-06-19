@@ -5,6 +5,7 @@ import edu.dgut.network_engine.database.entity.User
 import edu.dgut.network_engine.web_request.BaseResponse
 import edu.dgut.network_engine.web_request.tdo.NewUserTdo
 import edu.dgut.network_engine.web_request.tdo.TokenTdo
+import edu.dgut.network_engine.web_request.tdo.UrlTdo
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
@@ -31,10 +32,13 @@ interface UserService {
     ): BaseResponse<List<NewUserTdo>>
 
     @POST("user/syn_family")
-    suspend fun synFamily(@Body userList: List<User>) :BaseResponse<List<NewUserTdo>>
+    suspend fun synFamily(@Body userList: List<User>): BaseResponse<List<NewUserTdo>>
 
     @Multipart
     @POST("upload/file")
-    fun upload(@Part part: MultipartBody.Part): BaseResponse<String>
+    suspend fun upload(@Part part: MultipartBody.Part): BaseResponse<UrlTdo>
+
+    @GET("user")
+    suspend fun quitFamily(): BaseResponse<String>
 
 }

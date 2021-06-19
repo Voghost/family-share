@@ -17,10 +17,12 @@ import edu.dgut.network_engine.view_model.MemorandumViewModel
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.adapter.MemorandumAdapter
 import edu.dgut.network_engine.database.entity.Memorandum
+import edu.dgut.network_engine.view_model.AccountViewModel
 import edu.dgut.network_engine.view_model.UserViewModel
 import kotlinx.android.synthetic.main.memorandum_fragment.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 
 class MemorandumFragment : Fragment() {
 
@@ -30,7 +32,6 @@ class MemorandumFragment : Fragment() {
 
     private lateinit var viewModel: MemorandumViewModel
     private lateinit var addMemorandum: ImageView
-    private lateinit var userViewModel: UserViewModel
     private lateinit var refreshView: SwipeRefreshLayout
 
     override fun onCreateView(
@@ -49,7 +50,6 @@ class MemorandumFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MemorandumViewModel::class.java)
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         var ctx = this.requireContext()
         viewModel.getLiveData()
             ?.observe(viewLifecycleOwner, { memorandumList: List<Memorandum> ->
@@ -61,15 +61,16 @@ class MemorandumFragment : Fragment() {
                     )
                 memorandum_recycle_view.layoutManager = LinearLayoutManager(activity)
             })
-        refreshView=requireActivity().findViewById(R.id.refreshMemorandum)
+        refreshView = requireActivity().findViewById(R.id.refreshMemorandum)
         refreshView.setOnRefreshListener {
             //云端传输数据
             lifecycleScope.launch {
-
+                viewModel.getAllMemorandum()
             }
+
             memorandum_recycle_view.adapter?.notifyDataSetChanged()
             Toast.makeText(this.context, "刷新成功", Toast.LENGTH_LONG).show()
-            refreshView.isRefreshing=false
+            refreshView.isRefreshing = false
         }
 
     }

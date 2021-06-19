@@ -7,7 +7,8 @@ import android.content.Context
 /**
  * @author Edgar Liu
  *
- * 非必要不要使用  容易造成内存泄漏
+ * 整个应用程序的 contex
+ * 非必要不要使用  可能会造成内存泄漏
  */
 class MyApplication : Application() {
     override fun onCreate() {

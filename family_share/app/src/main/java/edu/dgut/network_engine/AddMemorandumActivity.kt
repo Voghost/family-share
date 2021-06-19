@@ -75,6 +75,7 @@ class AddMemorandumActivity : AppCompatActivity() {
             Log.v("执行了", "点击操作")
             lifecycleScope.async {
                 var user: User? = userViewModel.getMe()
+                println(user)
                 var userid = user?.userId
                 var memorandumMessage = edit.text.toString()
                 var temp = Memorandum()
