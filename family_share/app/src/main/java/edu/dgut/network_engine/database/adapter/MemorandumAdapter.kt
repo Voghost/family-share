@@ -82,7 +82,9 @@ class MemorandumAdapter(
         if(currentItem.endTime == null) {
             holder.textView2.text = "By" + currentItem.username + "      一直有效"
         }else {
-            holder.textView2.text = "By" + currentItem.username + "      截止日期:" + currentItem.endTime.toString()
+            val dateStr: String =
+                android.icu.text.SimpleDateFormat("yyyy 年 MM 月 dd 日").format(currentItem.endTime)
+            holder.textView2.text = "By: " + currentItem.username  + "      截止日期:"+ dateStr /*+ currentItem.endTime.toString()*/
         }
 
         holder.itemView.setOnClickListener {

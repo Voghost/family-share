@@ -29,11 +29,12 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class AddMemorandumActivity : AppCompatActivity() {
-    private lateinit var save:Button
-    private lateinit var reset:Button
-    private lateinit var choice:Button
+    private lateinit var save: Button
+    private lateinit var reset: Button
+    private lateinit var choice: Button
     private lateinit var userViewModel: UserViewModel
     private lateinit var memorandumViewModel: MemorandumViewModel
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,27 +65,27 @@ class AddMemorandumActivity : AppCompatActivity() {
         //保存
         save.setOnClickListener {
             var createtime = Date()
-            Log.v("执行了","点击操作")
+            Log.v("执行了", "点击操作")
             lifecycleScope.async {
                 var user: User? = userViewModel.getMe()
                 var userid = user?.userId
                 var memorandumMessage = edit.text.toString()
                 var temp = Memorandum()
                 var mDate = EndDate.text.toString()
-                if(mDate == "截止日期"){
+                if (mDate == "截止日期") {
                     temp = Memorandum(
-                        null,memorandumMessage,createtime,null,null,null,userid
+                        null, memorandumMessage, createtime, null, null, null, userid
                     )
-                }else{
+                } else {
                     val parsedDate = SimpleDateFormat("yyyy-MM-dd").parse(mDate)
                     temp = Memorandum(
-                        null,memorandumMessage,createtime,null,parsedDate,null,userid
+                        null, memorandumMessage, createtime, null, parsedDate, null, userid
                     )
                 }
 
-                Log.v("查看新建内容",temp.toString())
-                if(flag == 1){
-                    Log.v("执行了","更新操作")
+                Log.v("查看新建内容", temp.toString())
+                if (flag == 1) {
+                    Log.v("执行了", "更新操作")
                     memorandumViewModel.updateMemorandum(temp)
                 } else {
                     Log.v("执行了", "添加操作")

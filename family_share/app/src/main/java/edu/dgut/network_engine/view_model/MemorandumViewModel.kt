@@ -63,6 +63,7 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
         viewModelScope.launch {
             var res = apiCall { MemorandumApi.get().insert(memorandum) }
             if (res.code == 200 && res.data != null) {
+                res.data!!.username = userDao.getUserById(res.data!!.userId!!)!!.username
                 memorandumDao.insert(res.data!!) // 保存到数据库
                 Toast.makeText(getApplication(), "添加成功", Toast.LENGTH_SHORT).show()
             } else {
@@ -92,7 +93,7 @@ class MemorandumViewModel(application: Application) : AndroidViewModel(applicati
     fun deleteMemorandum(id: Long) {
         viewModelScope.launch {
             var res = apiCall { MemorandumApi.get().delete(id) }
-            if (res.code == 200 && res.data != null) {
+            if (res.code == 200) {
                 memorandumDao.deleteById(id)
                 Toast.makeText(getApplication(), "删除成功", Toast.LENGTH_SHORT).show()
             } else {
