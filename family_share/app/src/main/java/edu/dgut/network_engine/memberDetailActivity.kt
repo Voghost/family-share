@@ -40,6 +40,32 @@ class memberDetailActivity : AppCompatActivity() {
         textView13.text = "你已成功跳转到账单详情,当前界面用户Id:" + bundle?.get("userId").toString()
         textView14.text = ""
 
+        val datelist1 = mutableListOf<Long>()
+        var currentdate1 = System.currentTimeMillis()
+        for(i in 0..29){
+            datelist1.add(currentdate1)
+            currentdate1 -= 1000 * 60 * 60 * 24
+        }
+
+        val datelist = mutableListOf<String>()
+        var currentdate = System.currentTimeMillis()
+        for(i in 0..29){
+            datelist.add(SimpleDateFormat("yy-MM-dd").format(currentdate))
+            currentdate -= 1000 * 60 * 60 * 24
+        }
+
+        val dateList2 = mutableListOf<DateWithAccount>()
+        for(i in 0..29){
+            var dateWithAccount = DateWithAccount(
+                datelist[i],0.0,0.0
+            )
+            dateList2.add(dateWithAccount)
+        }
+
+        val dataPoint = Array<DataPoint>(dateList2.size) {
+            DataPoint(0.0, 0.0)
+        }
+
         //开关控制曲线图
         var switchA: Switch = findViewById(R.id.switch1)
         var switchB: Switch = findViewById(R.id.switch2)

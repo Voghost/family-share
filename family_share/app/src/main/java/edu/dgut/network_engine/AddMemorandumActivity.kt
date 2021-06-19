@@ -48,6 +48,12 @@ class AddMemorandumActivity : AppCompatActivity() {
             title = "修改备忘录"
             var introduceTemp = SpannableStringBuilder(content.toString())
             edit.text = introduceTemp
+            if(bundle?.get("EndTime") == "一直有效"){
+                EndDate.text = "一直有效(可修改)"
+            }else{
+                var endTime = SpannableStringBuilder(bundle?.get("EndTime").toString())
+                EndDate.text = SpannableStringBuilder(endTime)
+            }
         } else {
             title = "添加备忘录"
         }
@@ -59,6 +65,7 @@ class AddMemorandumActivity : AppCompatActivity() {
         var memorandumMessage = edit.text.toString()
         reset.setOnClickListener {
             edit.setText("")
+            EndDate.text = ""
         }
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         memorandumViewModel = ViewModelProvider(this).get(MemorandumViewModel::class.java)
@@ -83,9 +90,10 @@ class AddMemorandumActivity : AppCompatActivity() {
                     )
                 }
 
-                Log.v("查看新建内容", temp.toString())
-                if (flag == 1) {
-                    Log.v("执行了", "更新操作")
+                Log.v("查看新建内容",temp.toString())
+                if(flag == 1){
+                    Log.v("执行了","更新操作")
+                    temp.id = bundle?.getLong("Id")
                     memorandumViewModel.updateMemorandum(temp)
                 } else {
                     Log.v("执行了", "添加操作")

@@ -90,6 +90,14 @@ class MemorandumAdapter(
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
             currentItem.content?.let { it1 -> bundle.putString("Content", it1) }
+            bundle.putLong("Id",currentItem.id!!)
+            if(currentItem.endTime == null){
+                bundle.putString("EndTime","一直有效")
+            }else {
+                var endTime =
+                    android.icu.text.SimpleDateFormat("yyyy-MM-dd").format(currentItem.endTime)
+                bundle.putString("EndTime",endTime)
+            }
             val intent = Intent(context, AddMemorandumActivity::class.java)
             intent.putExtras(bundle)
             context.startActivity(intent)
