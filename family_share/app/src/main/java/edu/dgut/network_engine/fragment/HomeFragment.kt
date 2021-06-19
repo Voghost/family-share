@@ -88,15 +88,17 @@ class HomeFragment : Fragment() {
                         totalIncome += current.price!!.abs().toDouble()
                     }
                 }
+                var cost = Math.round(totalCost*100)/100
+                var income = Math.round(totalIncome*100)/100
                 if(totalCost/10000000 > 0){
-                    familyTotalCost.text = (totalCost/10000000).toString() + "千" + (totalCost-(totalCost/10000000)*10000000).toString() + "百万"
+                    familyTotalCost.text = (cost/10000000).toInt().toString() + "千" + (cost-(cost/10000000)*10000000).toInt().toString() + "百万"
                 }else{
-                    familyTotalCost.text = totalCost.toString()
+                    familyTotalCost.text = cost.toString()
                 }
                 if(totalIncome/10000000 > 0){
-                    familyTotalIncome.text = (totalIncome/10000000).toString() + "千" + (totalIncome-(totalIncome/10000000)*10000000).toString() + "百万"
+                    familyTotalIncome.text = (income/10000000).toInt().toString() + "千" + (income-(income/10000000)*10000000).toInt().toString() + "百万"
                 }else{
-                    familyTotalIncome.text = totalIncome.toString()
+                    familyTotalIncome.text = income.toString()
                 }
             })
 
