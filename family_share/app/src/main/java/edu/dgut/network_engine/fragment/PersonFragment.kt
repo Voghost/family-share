@@ -1,6 +1,7 @@
 package edu.dgut.network_engine.fragment
 
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.app.Application
 import android.app.Dialog
 import android.content.Context
@@ -113,6 +114,34 @@ class PersonFragment : Fragment() {
         modifyPassword.setOnClickListener {
             var intent = Intent("android.intent.action.ModifyPasswordActivity")
             startActivity(intent)
+        }
+        //退出家庭
+        var exitFamily:RelativeLayout=root.findViewById(R.id.exit_family)
+        exitFamily.setOnClickListener {
+            var ctx=this.context
+            lifecycleScope.async {
+              var me=userViewModel.getMe()
+                if(me!!.userId!=me!!.familyCode) {
+                    var builder: AlertDialog.Builder = AlertDialog.Builder(context)
+                    builder.setMessage("确定退出家庭?")
+                    builder.setTitle("提示")
+                    builder.setPositiveButton(
+                        "确定"
+                    ) { dialog, which ->
+                        lifecycleScope.launch {
+                            userViewModel.deleteAll()
+                        }
+                    }
+                    builder.setNegativeButton(
+                        "取消"
+                    ) { dialog, which ->
+                    }
+                    builder.create().show()
+                }
+                else{
+                    Toast.makeText(ctx,"你没有家",Toast.LENGTH_LONG).show()
+                }
+            }
         }
         //登出
         var logout: RelativeLayout = root.findViewById(R.id.logout)

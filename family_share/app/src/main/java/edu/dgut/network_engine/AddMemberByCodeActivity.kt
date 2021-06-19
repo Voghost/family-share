@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.Nullable
@@ -16,6 +17,7 @@ import com.google.zxing.integration.android.IntentIntegrator.REQUEST_CODE
 import com.google.zxing.integration.android.IntentResult
 import com.journeyapps.barcodescanner.CaptureActivity
 import edu.dgut.network_engine.view_model.UserViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class AddMemberByCodeActivity : AppCompatActivity() {
@@ -40,8 +42,22 @@ class AddMemberByCodeActivity : AppCompatActivity() {
             code.setImageBitmap(bitmap)
             //监听
             code.setOnClickListener {
-                val intent = Intent(this@AddMemberByCodeActivity, CaptureActivity::class.java)
-                startActivityForResult(intent, REQUEST_CODE)
+                var ctx=this.applicationContext
+                lifecycleScope.async {
+                    Log.v("t1","text")
+                    var user=userViewModel.getMe()
+                    if(user!!.familyCode!=user.userId){
+
+                        Toast.makeText(ctx,"您已经加入家庭",Toast.LENGTH_LONG).show()
+                    }
+                    else
+                    {
+                        Log.v("t1","text11")
+                        val intent = Intent(this@AddMemberByCodeActivity, CaptureActivity::class.java)
+                        startActivityForResult(intent, REQUEST_CODE)
+                    }
+
+                }
             }
         }
     }

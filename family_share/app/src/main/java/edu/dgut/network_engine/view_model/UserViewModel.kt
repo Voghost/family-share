@@ -312,6 +312,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
         }
     }
+    //删除全部
+    suspend fun deleteAll(){
+        userDao?.deleteAll()
+    }
+
 
 }
 
