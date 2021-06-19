@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
                 }else{
                     var templist = arrayListOf<Memorandum>()
                     for(i in memorandumList.indices){
-                        templist.add(memorandumList[i])
+                        templist.add(memorandumList[memorandumList.size -1 - i])
                         Log.v("测试",i.toString())
                         if(i > 3){
                             break;
