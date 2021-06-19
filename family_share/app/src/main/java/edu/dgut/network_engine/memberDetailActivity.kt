@@ -2,6 +2,7 @@ package edu.dgut.network_engine
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Switch
@@ -9,6 +10,7 @@ import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +32,7 @@ class memberDetailActivity : AppCompatActivity() {
     private lateinit var userViewModel: UserViewModel
     private lateinit var walletViewModel: WalletViewModel
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_member)
@@ -61,9 +64,10 @@ class memberDetailActivity : AppCompatActivity() {
             )
             dateList2.add(dateWithAccount)
         }
-
-        val dataPoint = Array<DataPoint>(dateList2.size) {
-            DataPoint(0.0, 0.0)
+        for(i in 0..29){
+            Log.v("日期",dateList2[i].date.toString())
+            Log.v("收入",dateList2[i].income.toString())
+            Log.v("支出",dateList2[i].cost.toString())
         }
 
         //开关控制曲线图
@@ -72,70 +76,137 @@ class memberDetailActivity : AppCompatActivity() {
         var switchC: Switch = findViewById(R.id.switch3)
         var switchD: Switch = findViewById(R.id.switch4)
         var graph: GraphView = findViewById(R.id.graph)
-        //最近一周收入测试数据
-        var seriesA: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
-        seriesA.appendData(DataPoint(1.0, 1.0), false, 3)
-        seriesA.appendData(DataPoint(2.0, 2.0), false, 3)
-        seriesA.appendData(DataPoint(3.0, 3.0), false, 3)
-        graph.addSeries(seriesA)
-        //
+
+
+        graph.removeAllSeries()
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        userViewModel.getUserWithAccountListByUserId(bundle?.get("userId") as Long)
+            ?.observe(this, { userList: UserWithAccountList ->
+                for(j in 0..userList.accountList!!.size-1){
+                    var temp = SimpleDateFormat("yy-MM-dd").format(userList.accountList!![j].createTime)
+                    for (k in 0..dateList2.size-1){
+                        if(temp == dateList2[k].date){
+                            if(userList.accountList!![j].price!!.signum() == 1){
+                                dateList2[k].cost = dateList2[k].cost?.plus(userList.accountList!![j].price!!.toDouble())
+                            }else{
+                                dateList2[k].income = dateList2[k].income?.plus(userList.accountList!![j].price!!.abs().toDouble())
+                            }
+                            break
+                        }
+                    }
+                }
+                var seriesA: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
+                for(i in 0..6){
+                    seriesA.appendData(DataPoint((i+1).toDouble(), dateList2[i].income!!), false, 7)
+                }
+                graph.addSeries(seriesA)
+                graph.viewport.isScalable = true
+
+                graph.title = "单位:元"
+                graph.gridLabelRenderer.horizontalAxisTitle ="最近第几天"
+
+                graph.viewport.setMinX(1.0)
+                graph.viewport.setMaxX(7.0)
+                graph.gridLabelRenderer.numHorizontalLabels = 7
+                graph.viewport.isXAxisBoundsManual = false
+            })
         switchA.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 switchB.isChecked = false
                 switchC.isChecked = false
                 switchD.isChecked = false
+                graph.removeAllSeries()
+                var seriesA: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
+                for(i in 0..6){
+                    seriesA.appendData(DataPoint((i+1).toDouble(), dateList2[i].income!!), false, 7)
+                }
                 graph.addSeries(seriesA)
+                graph.viewport.isScalable = true
+
+                graph.title = "单位:元"
+                graph.gridLabelRenderer.horizontalAxisTitle ="最近第几天"
+
+                graph.viewport.setMinX(1.0)
+                graph.viewport.setMaxX(7.0)
+                graph.gridLabelRenderer.numHorizontalLabels = 7
+                graph.viewport.isXAxisBoundsManual = false
             } else {
                 graph.removeAllSeries()
 
             }
         }
-        //最近一周支出测试数据
-        var seriesC: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
-        seriesC.appendData(DataPoint(1.0, 1.0), false, 3)
-        seriesC.appendData(DataPoint(2.0, 1.0), false, 3)
-        seriesC.appendData(DataPoint(3.0, 3.0), false, 3)
-        //
         switchC.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 switchA.isChecked = false
                 switchB.isChecked = false
                 switchD.isChecked = false
+                graph.removeAllSeries()
+                var seriesC: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
+                for(i in 0..6){
+                    seriesC.appendData(DataPoint((i+1).toDouble(), dateList2[i].cost!!), false, 7)
+                }
                 graph.addSeries(seriesC)
+                graph.viewport.isScalable = true
+
+                graph.title = "单位:元"
+                graph.gridLabelRenderer.horizontalAxisTitle ="最近第几天"
+
+                graph.viewport.setMinX(1.0)
+                graph.viewport.setMaxX(7.0)
+                graph.gridLabelRenderer.numHorizontalLabels = 7
+                graph.viewport.isXAxisBoundsManual = false
             } else {
                 graph.removeAllSeries()
 
             }
         }
 
-        //最近一月测试数据
-        var seriesB: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
-        seriesB.appendData(DataPoint(1.0, 6.0), false, 3)
-        seriesB.appendData(DataPoint(2.0, 3.0), false, 3)
-        seriesB.appendData(DataPoint(3.0, 1.0), false, 3)
-        //
         switchB.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 switchA.isChecked = false
                 switchC.isChecked = false
                 switchD.isChecked = false
+                graph.removeAllSeries()
+                var seriesB: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
+                for(i in 0..29){
+                    seriesB.appendData(DataPoint((i+1).toDouble(), dateList2[i].income!!), false, 30)
+                }
                 graph.addSeries(seriesB)
+                graph.viewport.isScalable = true
+
+                graph.title = "单位:元"
+                graph.gridLabelRenderer.horizontalAxisTitle ="最近第几天"
+
+                graph.viewport.setMinX(1.0)
+                graph.viewport.setMaxX(30.0)
+                graph.gridLabelRenderer.numHorizontalLabels = 30
+                graph.viewport.isXAxisBoundsManual = false
             } else {
                 graph.removeAllSeries()
 
             }
         }
-        var seriesD: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
-        seriesD.appendData(DataPoint(1.0, 6.0), false, 3)
-        seriesD.appendData(DataPoint(2.0, 3.0), false, 3)
-        seriesD.appendData(DataPoint(3.0, 1.0), false, 3)
-        //
+
         switchD.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 switchA.isChecked = false
                 switchB.isChecked = false
                 switchC.isChecked = false
+                graph.removeAllSeries()
+                var seriesD: LineGraphSeries<DataPoint> = LineGraphSeries<DataPoint>()
+                for(i in 0..29){
+                    seriesD.appendData(DataPoint((i+1).toDouble(), dateList2[i].cost!!), false, 30)
+                }
                 graph.addSeries(seriesD)
+                graph.viewport.isScalable = true
+
+                graph.title = "单位:元"
+                graph.gridLabelRenderer.horizontalAxisTitle ="最近第几天"
+
+                graph.viewport.setMinX(1.0)
+                graph.viewport.setMaxX(30.0)
+                graph.gridLabelRenderer.numHorizontalLabels = 30
+                graph.viewport.isXAxisBoundsManual = false
             } else {
                 graph.removeAllSeries()
             }
