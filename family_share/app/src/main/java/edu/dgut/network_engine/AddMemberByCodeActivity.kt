@@ -42,19 +42,26 @@ class AddMemberByCodeActivity : AppCompatActivity() {
             code.setImageBitmap(bitmap)
             //监听
             code.setOnClickListener {
-                var ctx=this.applicationContext
+                var ctx = this.applicationContext
                 lifecycleScope.async {
-                    Log.v("t1","text")
-                    var user=userViewModel.getMe()
-                    if(user!!.familyCode!=user.userId){
-
-                        Toast.makeText(ctx,"您已经加入家庭",Toast.LENGTH_LONG).show()
-                    }
-                    else
-                    {
-                        Log.v("t1","text11")
-                        val intent = Intent(this@AddMemberByCodeActivity, CaptureActivity::class.java)
-                        startActivityForResult(intent, REQUEST_CODE)
+                    Log.v("t1", "text")
+                    var user = userViewModel.getMe()
+                    if (user!!.familyCode != user.userId) {
+                        Toast.makeText(ctx, "您已经加入家庭", Toast.LENGTH_LONG).show()
+                    } else {
+                        var count = userViewModel.getAllCount()
+                        if (count != null) {
+                            if (count > 1) {
+                                Toast.makeText(ctx, "您的家庭还有成员", Toast.LENGTH_LONG).show()
+                            } else {
+                                val intent =
+                                    Intent(
+                                        this@AddMemberByCodeActivity,
+                                        CaptureActivity::class.java
+                                    )
+                                startActivityForResult(intent, REQUEST_CODE)
+                            }
+                        }
                     }
 
                 }

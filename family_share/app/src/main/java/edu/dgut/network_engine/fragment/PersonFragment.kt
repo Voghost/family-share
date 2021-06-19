@@ -84,13 +84,13 @@ class PersonFragment : Fragment() {
         }
 
 
-        var url: String? = "https://cn.bing.com/sa/simg/hpb/LaDigue_EN-CA1115245085_1920x1080.jpg"
-        //设置背景图像
-        Glide.with(this.activity).load(R.drawable.text2).skipMemoryCache(false)
-            .bitmapTransform(BlurTransformation(context, 25), CenterCrop(context)).into(imageViewA)
-        //设置头像图像
-        Glide.with(this.activity).load(R.drawable.text2).skipMemoryCache(false)
-            .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
+//        var url: String? = "https://cn.bing.com/sa/simg/hpb/LaDigue_EN-CA1115245085_1920x1080.jpg"
+//        //设置背景图像
+//        Glide.with(this.activity).load(R.drawable.text2).skipMemoryCache(false)
+//            .bitmapTransform(BlurTransformation(context, 25), CenterCrop(context)).into(imageViewA)
+//        //设置头像图像
+//        Glide.with(this.activity).load(R.drawable.text2).skipMemoryCache(false)
+//            .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
         //关于选项
         var about: RelativeLayout = root.findViewById(R.id.about)
         about.setOnClickListener {
@@ -116,12 +116,12 @@ class PersonFragment : Fragment() {
             startActivity(intent)
         }
         //退出家庭
-        var exitFamily:RelativeLayout=root.findViewById(R.id.exit_family)
+        var exitFamily: RelativeLayout = root.findViewById(R.id.exit_family)
         exitFamily.setOnClickListener {
-            var ctx=this.context
+            var ctx = this.context
             lifecycleScope.async {
-              var me=userViewModel.getMe()
-                if(me!!.userId!=me!!.familyCode) {
+                var me = userViewModel.getMe()
+                if (me!!.userId != me!!.familyCode) {
                     var builder: AlertDialog.Builder = AlertDialog.Builder(context)
                     builder.setMessage("确定退出家庭?")
                     builder.setTitle("提示")
@@ -137,9 +137,8 @@ class PersonFragment : Fragment() {
                     ) { dialog, which ->
                     }
                     builder.create().show()
-                }
-                else{
-                    Toast.makeText(ctx,"你没有家",Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(ctx, "你是家庭主人或未加入家庭", Toast.LENGTH_LONG).show()
                 }
             }
         }

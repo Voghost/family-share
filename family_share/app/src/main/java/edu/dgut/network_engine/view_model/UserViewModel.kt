@@ -122,10 +122,39 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         return user
     }
 
+    fun changePass(lastPass: String, newPass: String) {
+        viewModelScope.launch {
+            var user = userDao?.getMe()
+            var res = apiCall { UserApi.get().changePassword(user?.userId!!, lastPass, newPass) }
+            if (res.code == 200) {
+                Toast.makeText(getApplication(), "修改成功", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(getApplication(), "修改失败", Toast.LENGTH_SHORT).show()
+            }
 
+        }
+    }
+
+    fun changInfo(nickName: String, phoneNum: String) {
+        viewModelScope.launch {
+            var user = userDao?.getMe()
+            var res = apiCall { UserApi.get().updateInfo(user?.userId!!, nickName, phoneNum) }
+            if (res.code == 200) {
+                Toast.makeText(getApplication(), "修改成功", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(getApplication(), "修改失败", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
+
+
+    /**
+     * 退出登陆
+     */
     fun logout() {
         viewModelScope.launch {
-            // apiCall { UserApi.get().}
+            apiCall { UserApi.get().logout() }
             accountDao?.deleteAll()
             userDao?.deleteAll()
         }

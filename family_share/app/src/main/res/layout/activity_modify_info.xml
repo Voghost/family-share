@@ -75,7 +75,7 @@
                     android:textSize="24dp"
                     android:maxLength="16"
                     android:singleLine="true"
-                    android:inputType="textPassword" />
+                    android:inputType="text" />
 
             </LinearLayout>
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import edu.dgut.network_engine.database.dao.AccountDao
+import edu.dgut.network_engine.database.dao.UserDao
 import edu.dgut.network_engine.database.entity.Account
 import edu.dgut.network_engine.database.room_db.FamilyShareDatabase
 import edu.dgut.network_engine.web_request.api.AccountApi
@@ -17,12 +18,15 @@ import kotlin.collections.ArrayList
 
 class AccountViewModel : AndroidViewModel {
     private var accountDao: AccountDao? = null
+    private var userDao: UserDao? = null
     private var allAccountList: LiveData<List<Account>>
 
     constructor(application: Application) : super(application) {
         val familyShareDatabase: FamilyShareDatabase = FamilyShareDatabase.getInstance(application)
         accountDao = familyShareDatabase.getAccountDao()
+        userDao = familyShareDatabase.getUserDao()
         allAccountList = accountDao!!.getAll()
+
     }
 
     /**
@@ -36,25 +40,35 @@ class AccountViewModel : AndroidViewModel {
      * 插入帐目
      */
     fun insert(account: Account) = viewModelScope.launch {
-        account.version = 0
-        accountDao?.insert(account)
+        var user = userDao?.getMe()
+        if (account!!.user != user!!.userId) {
+            Toast.makeText(getApplication(), "只能新增当前用户的信息", Toast.LENGTH_SHORT).show()
+        } else {
+            account.version = 0
+            accountDao?.insert(account)
+        }
     }
 
     /**
      * 通过id删除帐目
      */
     fun delete(id: Long) = viewModelScope.launch {
+        var user = userDao?.getMe()
         var acc = accountDao?.getById(id)
-        if (acc?.synId != null) {
-            var res = apiCall { AccountApi.get().delete(acc?.synId!!) }
-            if (res.code == 200) {
-                accountDao?.deleteById(id)
-                Toast.makeText(getApplication(), "删除成功", Toast.LENGTH_SHORT).show()
+        if (acc!!.user != user!!.userId) {
+            Toast.makeText(getApplication(), "只能删除当前用户的信息", Toast.LENGTH_SHORT).show()
+        } else {
+            if (acc?.synId != null) {
+                var res = apiCall { AccountApi.get().delete(acc?.synId!!) }
+                if (res.code == 200) {
+                    accountDao?.deleteById(id)
+                    Toast.makeText(getApplication(), "删除成功", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
+                }
             } else {
-                Toast.makeText(getApplication(), res.message, Toast.LENGTH_SHORT).show()
+                accountDao?.deleteById(id)
             }
-        }else{
-            accountDao?.deleteById(id)
         }
     }
 
@@ -63,11 +77,17 @@ class AccountViewModel : AndroidViewModel {
      */
     fun update(account: Account) = viewModelScope.launch {
         var updateAccount = accountDao?.getById(account.accountId!!)
-        updateAccount!!.version = updateAccount.version + 1
-        updateAccount.price = account.price
-        updateAccount.reason = account.reason
-        updateAccount.updateTime = Date().time
-        accountDao?.update(updateAccount)
+
+        var user = userDao?.getMe()
+        if (updateAccount!!.user != user!!.userId) {
+            Toast.makeText(getApplication(), "只能修改当前用户的信息", Toast.LENGTH_SHORT).show()
+        }else{
+            updateAccount!!.version = updateAccount.version + 1
+            updateAccount.price = account.price
+            updateAccount.reason = account.reason
+            updateAccount.updateTime = Date().time
+            accountDao?.update(updateAccount)
+        }
     }
 
     /**
@@ -115,7 +135,7 @@ class AccountViewModel : AndroidViewModel {
                             localAccount.synId = accountTdo.accountId
                             accountDao?.update(localAccount)
                         } else {
-                            if(!accountTdo.isDeleted){
+                            if (!accountTdo.isDeleted) {
                                 var tempAccount: Account = Account()
                                 tempAccount.createTime = accountTdo.createTime
                                 tempAccount.hidden = accountTdo.hidden
