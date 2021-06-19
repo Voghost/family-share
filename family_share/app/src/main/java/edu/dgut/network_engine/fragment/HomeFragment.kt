@@ -90,12 +90,12 @@ class HomeFragment : Fragment() {
                 }
                 var cost = Math.round(totalCost*100)/100
                 var income = Math.round(totalIncome*100)/100
-                if(totalCost/10000000 > 0){
+                if(totalCost/10000000 > 1){
                     familyTotalCost.text = (cost/10000000).toInt().toString() + "千" + (cost-(cost/10000000)*10000000).toInt().toString() + "百万"
                 }else{
                     familyTotalCost.text = cost.toString()
                 }
-                if(totalIncome/10000000 > 0){
+                if(totalIncome/10000000 > 1){
                     familyTotalIncome.text = (income/10000000).toInt().toString() + "千" + (income-(income/10000000)*10000000).toInt().toString() + "百万"
                 }else{
                     familyTotalIncome.text = income.toString()
