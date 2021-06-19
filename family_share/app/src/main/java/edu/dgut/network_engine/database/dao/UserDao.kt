@@ -87,4 +87,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user_table WHERE isMe = 1")
     suspend fun getMe(): User
+
+    @Query("DELETE FROM user_table WHERE userId <> :id")
+    suspend fun deleteNotEqual(id: Long)
 }
