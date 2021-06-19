@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import edu.dgut.network_engine.view_model.MemorandumViewModel
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.adapter.MemorandumAdapter
@@ -18,6 +20,7 @@ import edu.dgut.network_engine.database.entity.Memorandum
 import edu.dgut.network_engine.view_model.UserViewModel
 import kotlinx.android.synthetic.main.memorandum_fragment.*
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class MemorandumFragment : Fragment() {
 
@@ -28,7 +31,7 @@ class MemorandumFragment : Fragment() {
     private lateinit var viewModel: MemorandumViewModel
     private lateinit var addMemorandum: ImageView
     private lateinit var userViewModel: UserViewModel
-
+    private lateinit var refreshView: SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +61,16 @@ class MemorandumFragment : Fragment() {
                     )
                 memorandum_recycle_view.layoutManager = LinearLayoutManager(activity)
             })
+        refreshView=requireActivity().findViewById(R.id.refreshMemorandum)
+        refreshView.setOnRefreshListener {
+            //云端传输数据
+            lifecycleScope.launch {
+
+            }
+            memorandum_recycle_view.adapter?.notifyDataSetChanged()
+            Toast.makeText(this.context, "刷新成功", Toast.LENGTH_LONG).show()
+            refreshView.isRefreshing=false
+        }
 
     }
 

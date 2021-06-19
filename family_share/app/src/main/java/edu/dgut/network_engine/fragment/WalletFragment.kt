@@ -81,8 +81,8 @@ class WalletFragment : Fragment() {
             lifecycleScope.launch {
                 userViewModel.synFamily()
             }
-            Toast.makeText(this.context, "刷新成功",Toast.LENGTH_LONG).show()
             recyclerView.adapter?.notifyDataSetChanged()
+            Toast.makeText(this.context, "刷新成功",Toast.LENGTH_LONG).show()
             refreshView.isRefreshing=false
         }
 
