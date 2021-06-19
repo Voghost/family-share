@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import edu.dgut.network_engine.view_model.MemorandumViewModel
 import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.adapter.MemorandumAdapter

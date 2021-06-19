@@ -2,12 +2,15 @@ package edu.dgut.network_engine.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -25,6 +28,7 @@ import kotlinx.coroutines.launch
 import okhttp3.internal.notifyAll
 import java.lang.Exception
 import java.lang.Thread.sleep
+import java.util.jar.Manifest
 
 
 class WalletFragment : Fragment() {
@@ -38,6 +42,7 @@ class WalletFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var btn: FloatingActionButton
     private lateinit var refreshView:SwipeRefreshLayout
+
 //    private lateinit var memberlist: List<MemberItem>
 
     override fun onCreateView(
