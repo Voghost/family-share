@@ -93,8 +93,10 @@ class DetailAdapter(
             }
             holder.textView3.text = currentItem.reason
             holder.textView4.text =
-                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.createTime!! + 8 * 60 * 60 * 1000)
-                    .toString()
+//                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.createTime!! + 8 * 60 * 60 * 1000)
+//                    .toString()
+            SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentItem.createTime!!)
+                .toString()
         }
         holder.itemView.setOnClickListener {
             Log.v("测试点击事件", exampleList.user!!.userId.toString())
