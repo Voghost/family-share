@@ -41,7 +41,24 @@ interface UserService {
     @GET("user/quit_family")
     suspend fun quitFamily(): BaseResponse<String>
 
-    @GET("/user/logout")
-    suspend fun logout()
+    @GET("user/logout")
+    suspend fun logout(): BaseResponse<String>
+
+    @POST("user/updateInfo")
+    @FormUrlEncoded
+    suspend fun updateInfo(
+        @Field("userId") id: Long,
+        @Field("nickName") nickName: String,
+        @Field("phoneNum") phoneNum: String
+
+    ): BaseResponse<String>
+
+    @POST("user/changePassword")
+    @FormUrlEncoded
+    suspend fun changePassword(
+        @Field("userId") id: Long,
+        @Field("lastPass") lastPass: String,
+        @Field("newPass") newPass: String
+    ): BaseResponse<String>
 
 }

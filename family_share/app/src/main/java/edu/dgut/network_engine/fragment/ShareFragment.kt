@@ -49,7 +49,7 @@ class ShareFragment : Fragment() {
         webView.settings.javaScriptEnabled = true //设置WebView属性,运行执行js脚本
         webView.settings.domStorageEnabled = true
 
-        webView.loadUrl("https://waline-api.ghovos.top/") //调用loadUrl方法为WebView加入链接
+        webView.loadUrl("https://android-share.ghovos.top/") //调用loadUrl方法为WebView加入链接
 
 
 
