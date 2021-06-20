@@ -270,6 +270,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         val res = apiCall { UserApi.get().joinFamily(inviterToken) }
         if (res.code == 200 && res.data != null) {
             var userList: List<NewUserTdo>? = res.data
+            var me = userDao?.getMe()
             /**
              * 批量添加用户
              */
@@ -284,9 +285,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 tempUser.updateTime = user.updateTime
                 tempUser.createTime = user.createTime
                 tempUser.familyCode = user.familyCode
-
                 tempUser.version = user.version
-
+                if (user.userId == me?.userId) {
+                    tempUser.isMe = true
+                }
                 insertUser(tempUser)
             }
         } else {

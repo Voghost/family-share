@@ -63,42 +63,36 @@
         android:id="@+id/switch2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="212dp"
-        android:layout_marginLeft="212dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
         android:checked="false"
         android:text="一月收入"
         android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/graph"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintVertical_bias="0.521" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/switch3"
+        app:layout_constraintStart_toEndOf="@+id/switch3" />
 
     <Switch
         android:id="@+id/switch3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="104dp"
-        android:layout_marginLeft="104dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:text="一周支出"
         android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/graph"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintVertical_bias="0.521" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/switch1"
+        app:layout_constraintStart_toEndOf="@+id/switch1" />
 
     <Switch
         android:id="@+id/switch4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="308dp"
-        android:layout_marginLeft="308dp"
         android:text="一月支出"
         android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/graph"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintVertical_bias="0.521" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/switch2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintHorizontal_bias="0.72"
+        app:layout_constraintStart_toEndOf="@+id/switch2" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier2"

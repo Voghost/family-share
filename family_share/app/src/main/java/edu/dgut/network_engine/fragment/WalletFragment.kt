@@ -43,11 +43,8 @@ class WalletFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
     private lateinit var accountViewModel: AccountViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var btn: FloatingActionButton
     private lateinit var refreshView:SwipeRefreshLayout
-    private lateinit var imageView:ImageView
 
-//    private lateinit var memberlist: List<MemberItem>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,13 +52,8 @@ class WalletFragment : Fragment() {
     ): View? {
 
         var root = inflater.inflate(R.layout.wallet_fragment, container, false)
-        btn = root.findViewById(R.id.addMemberFragment)
         refreshView=root.findViewById(R.id.refresh)
-        btn.setOnClickListener {
-            Log.v("tag", "test");
-            var intent = Intent("android.intent.action.addMemberActivity")
-            startActivity(intent)
-        }
+
 
         return root
     }

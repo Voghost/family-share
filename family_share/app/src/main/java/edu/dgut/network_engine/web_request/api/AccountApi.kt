@@ -15,7 +15,8 @@ object AccountApi {
         val retrofit = Retrofit.Builder()
 //            .baseUrl("http://81.71.17.83/")
 //            .baseUrl("http://192.168.123.45:8080/")
-            .baseUrl("http://10.62.98.193:8080/")
+//            .baseUrl("http://10.62.98.193:8080/")
+            .baseUrl("https://api-android.ghovos.top/")
 
 //            .baseUrl("http://192.168.1.122:8080/")
             .addConverterFactory(GsonConverterFactory.create(gsonFormat))

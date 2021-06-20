@@ -110,6 +110,7 @@ class AccountViewModel : AndroidViewModel {
                 temp.userId = account.user
                 temp.typeId = account.typeId
                 temp.androidId = account.accountId
+                temp.version = account.version
                 tdoList.add(temp)
             }
             var res = apiCall { AccountApi.get().syn(tdoList) }

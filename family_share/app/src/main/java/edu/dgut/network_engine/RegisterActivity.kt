@@ -49,6 +49,7 @@ class RegisterActivity : AppCompatActivity() {
                 newUserTdo.createTime = Date().time
                 newUserTdo.username = userName
                 newUserTdo.password = password
+                newUserTdo.phone = phone
                 if (userViewModel.register(newUserTdo)) {
                     var intent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(intent)
