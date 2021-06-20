@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import edu.dgut.network_engine.database.dao.AccountDao
+import edu.dgut.network_engine.database.dao.MemorandumDao
 import edu.dgut.network_engine.database.dao.UserDao
 import edu.dgut.network_engine.database.entity.User
 import edu.dgut.network_engine.database.entity.UserWithAccountList
@@ -27,12 +28,14 @@ import java.io.*
 class UserViewModel(application: Application) : AndroidViewModel(application) {
     private var userDao: UserDao? = null
     private var accountDao: AccountDao? = null
+    private var memorandumDao: MemorandumDao? = null
     private lateinit var allUserList: LiveData<List<User>>
 
     init {
         val familyShareDatabase: FamilyShareDatabase = FamilyShareDatabase.getInstance(application)
         userDao = familyShareDatabase.getUserDao()
         accountDao = familyShareDatabase.getAccountDao()
+        memorandumDao = familyShareDatabase.getMemorandumDao()
         allUserList = userDao!!.getAll()
     }
 
@@ -157,6 +160,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             apiCall { UserApi.get().logout() }
             accountDao?.deleteAll()
             userDao?.deleteAll()
+            memorandumDao?.deleteAll()
         }
     }
 
@@ -170,6 +174,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             if (res.code == 200) {
                 Toast.makeText(getApplication(), "退出成功", Toast.LENGTH_SHORT).show()
                 if (me != null) {
+                    accountDao?.deleteAll()
+                    memorandumDao?.deleteAll()
                     userDao?.deleteNotEqual(me.userId!!)
                 }
 

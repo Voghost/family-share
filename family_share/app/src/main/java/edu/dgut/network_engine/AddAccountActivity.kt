@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.widget.CheckBox
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import edu.dgut.network_engine.database.entity.Account
@@ -80,42 +81,47 @@ class AddAccountActivity : AppCompatActivity() {
         }
 
         button1.setOnClickListener {
-            var price = inputprice.text.toString().toBigDecimal()
-            if (type == 2) {
-                price = price.multiply(BigDecimal(-1))
-            }
-            var introduce = inputintroduce.text.toString()
+            if(inputprice.text.toString().isEmpty() || inputintroduce.text.toString().isEmpty()){
+                Toast.makeText(this, "金额或简介不能未空", Toast.LENGTH_SHORT).show()
+            }else{
+                var price = inputprice.text.toString().toBigDecimal()
+                if (type == 2) {
+                    price = price.multiply(BigDecimal(-1))
+                }
+                var introduce = inputintroduce.text.toString()
 //            walletViewModel = ViewModelProvider(this).get(WalletViewModel::class.java)
-            accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
-            Log.v("测试测试测试", price.toString())
-            if (flag == 1) { //flag为1时是修改操作
-                var account = Account(
-                    accountId,
-                    1,
-                    price,
-                    bundle?.get("createTime").toString().toLong(),
-                    System.currentTimeMillis(),
-                    userid as Long,
-                    introduce,
-                    false
-                )
+                accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
+                Log.v("测试测试测试", price.toString())
+
+                if (flag == 1) { //flag为1时是修改操作
+                    var account = Account(
+                        accountId,
+                        1,
+                        price,
+                        bundle?.get("createTime").toString().toLong(),
+                        System.currentTimeMillis(),
+                        userid as Long,
+                        introduce,
+                        false
+                    )
 //                walletViewModel.updateUser(account)
-                accountViewModel.update(account)
-            } else { //为0时是添加操作
-                var account = Account(
-                    null,
-                    1,
-                    price,
-                    System.currentTimeMillis(),
-                    System.currentTimeMillis(),
-                    userid as Long,
-                    introduce,
-                    false
-                )
-                accountViewModel.insert(account)
+                    accountViewModel.update(account)
+                } else { //为0时是添加操作
+                    var account = Account(
+                        null,
+                        1,
+                        price,
+                        System.currentTimeMillis(),
+                        System.currentTimeMillis(),
+                        userid as Long,
+                        introduce,
+                        false
+                    )
+                    accountViewModel.insert(account)
 //                walletViewModel.insertAccount(account)
+                }
+                finish()
             }
-            finish()
         }
     }
 }

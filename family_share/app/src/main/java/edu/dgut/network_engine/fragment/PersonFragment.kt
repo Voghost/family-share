@@ -55,17 +55,13 @@ class PersonFragment : Fragment() {
         var act = this.activity
         lifecycleScope.async {
             var user = userViewModel.getMe()
-            if (user?.username != null && user!!.avatarUrl != null) {
+            if (user!!.avatarUrl != null) {
                 var url = user.avatarUrl
                 Glide.with(act).load(url).skipMemoryCache(false)
                     .bitmapTransform(BlurTransformation(context, 25), CenterCrop(context))
                     .into(imageViewA)
                 Glide.with(act).load(url).skipMemoryCache(false)
                     .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
-                var usernameTextView = requireView().findViewById<TextView>(R.id.user_name)
-                var userValTextView = requireView().findViewById<TextView>(R.id.user_val)
-                usernameTextView.text = user.username
-                userValTextView.text = user.phone
             } else {
                 //设置背景图像
                 Glide.with(act).load(R.drawable.text2).skipMemoryCache(false)
@@ -74,6 +70,12 @@ class PersonFragment : Fragment() {
                 //设置头像图像
                 Glide.with(act).load(R.drawable.text2).skipMemoryCache(false)
                     .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
+            }
+            if (user.username != null && user.phone != null) {
+                var usernameTextView = requireView().findViewById<TextView>(R.id.user_name)
+                var userValTextView = requireView().findViewById<TextView>(R.id.user_val)
+                usernameTextView.text = user.username
+                userValTextView.text = user.phone
             }
         }
 
@@ -225,13 +227,13 @@ class PersonFragment : Fragment() {
         dialog.findViewById<TextView>(R.id.tv_remove).setOnClickListener { dialog.dismiss() }
     }
 
-    private fun setImageToView(imageUri: Uri){
-        var uri=imageUri
+    private fun setImageToView(imageUri: Uri) {
+        var uri = imageUri
         var bitmap =
             MediaStore.Images.Media.getBitmap(context?.contentResolver, uri)
-        var matrix:Matrix= Matrix()
-        matrix.setScale(0.2f,0.2f)
-        bitmap=Bitmap.createBitmap(bitmap,0,0,bitmap.width,bitmap.height,matrix,true)
+        var matrix: Matrix = Matrix()
+        matrix.setScale(0.2f, 0.2f)
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
         var result = bmpToByteArray(bitmap!!)
 
         var imageViewA: ImageView = requireActivity().findViewById(R.id.h_back)
@@ -247,8 +249,6 @@ class PersonFragment : Fragment() {
         Glide.with(this.activity).load(result).skipMemoryCache(false)
             .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
     }
-
-
 
 
     //Bitmap转二进制

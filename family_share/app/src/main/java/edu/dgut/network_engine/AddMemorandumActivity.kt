@@ -73,6 +73,7 @@ class AddMemorandumActivity : AppCompatActivity() {
         save.setOnClickListener {
             var createtime = Date()
             Log.v("执行了", "点击操作")
+            var ctx = this
             lifecycleScope.async {
                 var user: User? = userViewModel.getMe()
                 println(user)
@@ -80,27 +81,31 @@ class AddMemorandumActivity : AppCompatActivity() {
                 var memorandumMessage = edit.text.toString()
                 var temp = Memorandum()
                 var mDate = EndDate.text.toString()
-                if (mDate == "截止日期") {
-                    temp = Memorandum(
-                        null, memorandumMessage, createtime, null, null, null, userid
-                    )
-                } else {
-                    val parsedDate = SimpleDateFormat("yyyy-MM-dd").parse(mDate)
-                    temp = Memorandum(
-                        null, memorandumMessage, createtime, null, parsedDate, null, userid
-                    )
-                }
+                if(memorandumMessage.isEmpty()){
+                    Toast.makeText(ctx, "金额不能为空", Toast.LENGTH_SHORT).show()
+                }else{
+                    if (mDate == "截止日期") {
+                        temp = Memorandum(
+                            null, memorandumMessage, createtime, null, null, null, userid
+                        )
+                    } else {
+                        val parsedDate = SimpleDateFormat("yyyy-MM-dd").parse(mDate)
+                        temp = Memorandum(
+                            null, memorandumMessage, createtime, null, parsedDate, null, userid
+                        )
+                    }
 
-                Log.v("查看新建内容",temp.toString())
-                if(flag == 1){
-                    Log.v("执行了","更新操作")
-                    temp.id = bundle?.getLong("Id")
-                    memorandumViewModel.updateMemorandum(temp)
-                } else {
-                    Log.v("执行了", "添加操作")
-                    memorandumViewModel.insertMemorandum(temp)
+                    Log.v("查看新建内容",temp.toString())
+                    if(flag == 1){
+                        Log.v("执行了","更新操作")
+                        temp.id = bundle?.getLong("Id")
+                        memorandumViewModel.updateMemorandum(temp)
+                    } else {
+                        Log.v("执行了", "添加操作")
+                        memorandumViewModel.insertMemorandum(temp)
+                    }
+                    finish()
                 }
-                finish()
             }
         }
 
