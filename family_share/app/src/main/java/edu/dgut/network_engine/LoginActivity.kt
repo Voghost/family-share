@@ -1,9 +1,9 @@
 package edu.dgut.network_engine
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import edu.dgut.network_engine.database.entity.User
@@ -50,5 +50,13 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val myIntent = Intent(Intent.ACTION_MAIN)
+        myIntent.addCategory(Intent.CATEGORY_HOME)
+        startActivity(myIntent)
+        finish()
     }
 }
