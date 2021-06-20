@@ -2,34 +2,27 @@ package edu.dgut.network_engine.fragment
 
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
-import android.app.Application
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Path
+import android.graphics.Matrix
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import edu.dgut.network_engine.DensityUtil
-import edu.dgut.network_engine.MainActivity
 import edu.dgut.network_engine.MyApplication
-import edu.dgut.network_engine.view_model.PersonViewModel
 import edu.dgut.network_engine.R
-import edu.dgut.network_engine.database.entity.User
+import edu.dgut.network_engine.view_model.PersonViewModel
 import edu.dgut.network_engine.view_model.UserViewModel
 import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.CropCircleTransformation
@@ -39,7 +32,6 @@ import kotlinx.android.synthetic.main.person_fragment.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
-import java.net.URI
 
 class PersonFragment : Fragment() {
 
@@ -55,6 +47,8 @@ class PersonFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var root = inflater.inflate(R.layout.person_fragment, container, false)
+
+
         var imageViewA: ImageView = root.findViewById(R.id.h_back)
         var imageViewB: ImageView = root.findViewById(R.id.h_head)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
@@ -224,52 +218,38 @@ class PersonFragment : Fragment() {
         dialog.findViewById<TextView>(R.id.tv_album).setOnClickListener {
             //后续操作
             var intent = Intent(Intent.ACTION_PICK, null)
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
-            startActivityForResult(intent, 100)
+            intent.type = "image/*"
+            startActivityForResult(intent, 101)
             dialog.dismiss()
         }
         dialog.findViewById<TextView>(R.id.tv_remove).setOnClickListener { dialog.dismiss() }
     }
 
-    //对图片进行裁剪
-    private fun cutImage(uri: Uri) {
-        if (uri == null) {
-            Log.i("alarm", "the uri is not exist")
+    private fun setImageToView(imageUri: Uri){
+        var uri=imageUri
+        var bitmap =
+            MediaStore.Images.Media.getBitmap(context?.contentResolver, uri)
+        var matrix:Matrix= Matrix()
+        matrix.setScale(0.2f,0.2f)
+        bitmap=Bitmap.createBitmap(bitmap,0,0,bitmap.width,bitmap.height,matrix,true)
+        var result = bmpToByteArray(bitmap!!)
+
+        var imageViewA: ImageView = requireActivity().findViewById(R.id.h_back)
+        var imageViewB: ImageView = requireActivity().findViewById(R.id.h_head)
+        lifecycleScope.launch {
+            userViewModel.upload(bitmap)
         }
-        var intent = Intent("com.android.camera.action.CROP")
-        intent.setDataAndType(uri, "image/*")
-        intent.putExtra("crop,", "true")
-        intent.putExtra("aspectX", 1)
-        intent.putExtra("aspectY", 1)
-        intent.putExtra("outputX", 4000)
-        intent.putExtra("outputY", 4000)
-        intent.putExtra("return-data", true)
-        startActivityForResult(intent, 101)
+        //设置背景图像
+        Glide.with(this.activity).load(result).skipMemoryCache(false)
+            .bitmapTransform(BlurTransformation(context, 25), CenterCrop(context))
+            .into(imageViewA)
+        //设置头像图像
+        Glide.with(this.activity).load(result).skipMemoryCache(false)
+            .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
     }
 
-    private fun setImageToView(data: Intent) {
-        var extras: Bundle? = data.extras
-        if (extras != null) {
-            var imageViewA: ImageView = requireActivity().findViewById(R.id.h_back)
-            var imageViewB: ImageView = requireActivity().findViewById(R.id.h_head)
-            var mBitmap = extras.getParcelable<Bitmap>("data")
-            var result = bmpToByteArray(mBitmap!!)
-            //上传至服务器代码在此写
-            lifecycleScope.launch {
-                userViewModel.upload(mBitmap)
-            }
-
-            //设置背景图像
-            Glide.with(this.activity).load(result).skipMemoryCache(false)
-                .bitmapTransform(BlurTransformation(context, 25), CenterCrop(context))
-                .into(imageViewA)
-            //设置头像图像
-            Glide.with(this.activity).load(result).skipMemoryCache(false)
-                .bitmapTransform(CropCircleTransformation(context)).into(imageViewB)
 
 
-        }
-    }
 
     //Bitmap转二进制
     private fun bmpToByteArray(bmp: Bitmap): ByteArray {
@@ -290,14 +270,11 @@ class PersonFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             when (requestCode) {
-                100 -> {
-                    if (data != null) {
-                        data.data?.let { cutImage(it) }
-                    }
-                }
+
                 101 -> {
+
                     if (data != null) {
-                        setImageToView(data)
+                        data.data?.let { setImageToView(it) }
                     }
                 }
             }

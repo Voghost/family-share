@@ -19,6 +19,7 @@ import edu.dgut.network_engine.R
 import edu.dgut.network_engine.database.entity.UserWithAccountList
 import edu.dgut.network_engine.memberDetailActivity
 import edu.dgut.network_engine.view_model.UserViewModel
+import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.member_item.view.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -104,7 +105,9 @@ class MemberAdapter(
                 holder.imageView.setImageResource(R.mipmap.ic_launcher)
             }else{
                 Log.v("执行了替换","图片")
-                Glide.with(context).load(currentItem!!.user!!.avatarUrl).into(holder.imageView)
+                Glide.with(context).load(currentItem!!.user!!.avatarUrl).bitmapTransform(
+                    CropCircleTransformation(context)
+                ).into(holder.imageView)
             }
             holder.textView1.text = currentItem.user?.username
             holder.textView2.text = "暂无数据"
