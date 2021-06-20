@@ -176,6 +176,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 if (me != null) {
                     accountDao?.deleteAll()
                     memorandumDao?.deleteAll()
+                    me.familyCode = me.userId
+                    userDao?.update(me)
                     userDao?.deleteNotEqual(me.userId!!)
                 }
 
