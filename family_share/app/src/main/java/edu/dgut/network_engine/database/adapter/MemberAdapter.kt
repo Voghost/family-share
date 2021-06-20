@@ -99,7 +99,13 @@ class MemberAdapter(
             holder.textView3.text = "总支出:" + cost.toString()
             holder.textView4.text = "总收入:" + income.toString()
         } else {
-            holder.imageView.setImageResource(R.mipmap.ic_launcher)
+            if(currentItem.user!!.avatarUrl == null){
+                Log.v("执行了默认","图片")
+                holder.imageView.setImageResource(R.mipmap.ic_launcher)
+            }else{
+                Log.v("执行了替换","图片")
+                Glide.with(context).load(currentItem!!.user!!.avatarUrl).into(holder.imageView)
+            }
             holder.textView1.text = currentItem.user?.username
             holder.textView2.text = "暂无数据"
             holder.textView3.text = "暂无数据"
