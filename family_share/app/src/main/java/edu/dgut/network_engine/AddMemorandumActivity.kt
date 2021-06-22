@@ -49,7 +49,7 @@ class AddMemorandumActivity : AppCompatActivity() {
             var introduceTemp = SpannableStringBuilder(content.toString())
             edit.text = introduceTemp
             if(bundle?.get("EndTime") == "一直有效"){
-                EndDate.text = "一直有效(可修改)"
+                EndDate.text = "一直有效"
             }else{
                 var endTime = SpannableStringBuilder(bundle?.get("EndTime").toString())
                 EndDate.text = SpannableStringBuilder(endTime)
@@ -82,9 +82,9 @@ class AddMemorandumActivity : AppCompatActivity() {
                 var temp = Memorandum()
                 var mDate = EndDate.text.toString()
                 if(memorandumMessage.isEmpty()){
-                    Toast.makeText(ctx, "金额不能为空", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(ctx, "内容不能为空", Toast.LENGTH_SHORT).show()
                 }else{
-                    if (mDate == "截止日期") {
+                    if (mDate == "截止日期" || mDate == "一直有效") {
                         temp = Memorandum(
                             null, memorandumMessage, createtime, null, null, null, userid
                         )
